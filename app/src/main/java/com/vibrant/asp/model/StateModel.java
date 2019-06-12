@@ -23,4 +23,9 @@ public class StateModel {
     public void setStateName(String stateName) {
         this.stateName = stateName;
     }
+
+    @Override
+    public String toString() {
+        return stateName;
+    }
 }

@@ -55,44 +55,15 @@
                         android:textSize="@dimen/_14sdp" />
 
 
-                    <AutoCompleteTextView
-                        android:id="@+id/editState"
+                    <android.support.v7.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/autoCompletState"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:background="@android:drawable/edit_text"
                         android:text=""
+                        android:hint="Select State"
                         android:textSize="@dimen/_14sdp" />
-
-
-                    <!--
-
-                                        <EditText
-                                            android:id="@+id/editState"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/_40sdp"
-                                            android:layout_marginTop="@dimen/_8sdp"
-                                            android:background="@android:drawable/edit_text"
-                                            android:hint="@string/state"
-                                            android:inputType="text"
-                                            android:textSize="@dimen/_14sdp" />
-
-                    -->
-
-
-                    <!--  <EditText
-                        android:id="@+id/editState"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_40sdp"
-                        android:layout_marginTop="@dimen/_8sdp"
-                        android:background="@android:drawable/edit_text"
-                        android:hint="@string/state"
-                        android:inputType="text"
-                        android:textSize="@dimen/_14sdp" />
-
-                    -->
-
-
 
                     <com.vibrant.asp.customtext.MyTextLight
                         android:id="@+id/tvDist"
@@ -103,8 +74,8 @@
                         android:textColor="@color/black_txt"
                         android:textSize="@dimen/_14sdp" />
 
-                    <EditText
-                        android:id="@+id/editDist"
+                    <android.support.v7.widget.AppCompatAutoCompleteTextView
+                        android:id="@+id/autoCompletDistrict"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
                         android:layout_marginTop="@dimen/_8sdp"
@@ -112,7 +83,6 @@
                         android:hint="@string/district"
                         android:inputType="text"
                         android:textSize="@dimen/_14sdp" />
-
 
                     <com.vibrant.asp.customtext.MyTextLight
                         android:id="@+id/tvGrowerName"
@@ -169,15 +139,15 @@
                         android:layout_height="@dimen/_100sdp"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:background="@android:drawable/edit_text"
-                        android:hint="@string/address"
+                        android:ems="14"
                         android:gravity="top|left"
+                        android:hint="@string/address"
+                        android:inputType="textMultiLine"
                         android:lines="8"
                         android:maxLines="10"
-                        android:ems="14"
                         android:scrollbars="vertical"
                         android:scrollHorizontally="false"
-                        android:inputType="textMultiLine"
-                        android:textSize="@dimen/_14sdp" >
+                        android:textSize="@dimen/_14sdp">
 
                     </EditText>
 
