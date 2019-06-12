@@ -40,6 +40,12 @@
     <string name="permission_need_allowed">You need to allow access to the permissions</string>
     <string name="permissions_not_granted">Camera Permission Denied, You cannot access camera.</string>
     <string name="permissions_granted">Camera Permission Granted, Now you can access camera.</string>
+    <string name="please_enter_name">Please Enter Grower Name</string>
+    <string name="please_enter_mobile_number">Please Enter Mobile Number</string>
+    <string name="please_enter_address">Please Enter Address</string>
 
+    <string name="permission_read_phone_state_rationale1">Permission previously Denied</string>
+    <string name="permissions_not_granted_read_phone_state1">Permission denied</string>
+    <string name="permision_available_read_phone_state1">Permission granted</string>
 
 </resources>

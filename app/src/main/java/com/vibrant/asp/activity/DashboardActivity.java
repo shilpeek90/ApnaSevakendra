@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.vibrant.asp.constants.Util.hideKeyboard;
+import static com.vibrant.asp.constants.Util.showToast;
 
 public class DashboardActivity extends AppCompatActivity {
     private static final String TAG = "DashboardActivity";
@@ -88,7 +89,7 @@ public class DashboardActivity extends AppCompatActivity {
         lLayRentCatgry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(DashboardActivity.this, "Category Clicked", Toast.LENGTH_SHORT).show();
+                showToast(DashboardActivity.this, "Category Clicked");
             }
         });
 
@@ -98,7 +99,6 @@ public class DashboardActivity extends AppCompatActivity {
                 getBottomSheet();
             }
         });
-
 
         btnChoose2.setOnClickListener(new View.OnClickListener() {
             @Override

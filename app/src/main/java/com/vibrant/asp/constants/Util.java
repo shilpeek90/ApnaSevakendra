@@ -4,10 +4,17 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.vibrant.asp.R;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -58,6 +65,21 @@ public class Util {
         else
             activity.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN );
     }
+
+    public static void showToast(Activity activity,String message){
+        LayoutInflater li = activity.getLayoutInflater();
+        //Getting the View object as defined in the customtoast.xml file
+        View layout = li.inflate(R.layout.custom_toast_layout,(ViewGroup)activity.findViewById(R.id.custom_toast_layout));
+        TextView textView =layout.findViewById(R.id.custom_toast_message);
+        textView.setText(message);
+        Toast toast = new Toast(activity);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER,50, 50);
+        toast.setView(layout);//setting the view of custom toast layout
+        toast.show();
+
+    }
+
 
 }
 
