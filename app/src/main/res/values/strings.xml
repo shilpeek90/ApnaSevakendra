@@ -16,7 +16,6 @@
     <string name="menu_send">Send</string>
 
 
-
     <string name="version">Version</string>
     <string name="registration">Registration</string>
     <string name="state">State</string>
@@ -35,14 +34,12 @@
     <string name="upload_document">Upload document</string>
 
 
-
-   <!-- <string name="permission_read_phone_state_rationale">Permission previously Denied</string>
+    <!-- <string name="permission_read_phone_state_rationale">Permission previously Denied</string>
     -->
 
     <string name="permission_need_allowed">You need to allow access to the permissions</string>
     <string name="permissions_not_granted">Camera Permission Denied, You cannot access camera.</string>
     <string name="permissions_granted">Camera Permission Granted, Now you can access camera.</string>
-
 
 
 </resources>

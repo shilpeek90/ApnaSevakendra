@@ -83,7 +83,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 editState.setText(stateName);
             }
         });
-
         init();
     }
 
