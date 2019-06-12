@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context=".activity.RegistrationActivity">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/header" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
+
+                    <com.vibrant.asp.customtext.MyTextBold
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/registration"
+                        android:textColor="@color/black_txt"
+                        android:textSize="@dimen/_18sdp" />
+
+
+                    <com.vibrant.asp.customtext.MyTextLight
+                        android:id="@+id/tvState"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:text="@string/state"
+                        android:textColor="@color/black_txt"
+                        android:textSize="@dimen/_14sdp" />
+
+
+                    <AutoCompleteTextView
+                        android:id="@+id/editState"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@android:drawable/edit_text"
+                        android:text=""
+                        android:textSize="@dimen/_14sdp" />
+
+
+                    <!--
+
+                                        <EditText
+                                            android:id="@+id/editState"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/_40sdp"
+                                            android:layout_marginTop="@dimen/_8sdp"
+                                            android:background="@android:drawable/edit_text"
+                                            android:hint="@string/state"
+                                            android:inputType="text"
+                                            android:textSize="@dimen/_14sdp" />
+
+                    -->
+
+
+                    <!--  <EditText
+                        android:id="@+id/editState"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@android:drawable/edit_text"
+                        android:hint="@string/state"
+                        android:inputType="text"
+                        android:textSize="@dimen/_14sdp" />
+
+                    -->
+
+
+
+                    <com.vibrant.asp.customtext.MyTextLight
+                        android:id="@+id/tvDist"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="@string/district"
+                        android:textColor="@color/black_txt"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <EditText
+                        android:id="@+id/editDist"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@android:drawable/edit_text"
+                        android:hint="@string/district"
+                        android:inputType="text"
+                        android:textSize="@dimen/_14sdp" />
+
+
+                    <com.vibrant.asp.customtext.MyTextLight
+                        android:id="@+id/tvGrowerName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="@string/grower_name"
+                        android:textColor="@color/black_txt"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <EditText
+                        android:id="@+id/editGrowerName"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@android:drawable/edit_text"
+                        android:hint="@string/grower_name"
+                        android:inputType="text"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <com.vibrant.asp.customtext.MyTextLight
+                        android:id="@+id/tvMobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="@string/mobile_number"
+                        android:textColor="@color/black_txt"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <EditText
+                        android:id="@+id/editMobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@android:drawable/edit_text"
+                        android:hint="@string/mobile_number"
+                        android:inputType="phone"
+                        android:maxLength="10"
+                        android:textSize="@dimen/_14sdp" />
+
+
+                    <com.vibrant.asp.customtext.MyTextLight
+                        android:id="@+id/tvAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="@string/address"
+                        android:textColor="@color/black_txt"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <EditText
+                        android:id="@+id/editAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_100sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@android:drawable/edit_text"
+                        android:hint="@string/address"
+                        android:gravity="top|left"
+                        android:lines="8"
+                        android:maxLines="10"
+                        android:ems="14"
+                        android:scrollbars="vertical"
+                        android:scrollHorizontally="false"
+                        android:inputType="textMultiLine"
+                        android:textSize="@dimen/_14sdp" >
+
+                    </EditText>
+
+
+                    <com.vibrant.asp.customtext.MyButtonBold
+                        android:id="@+id/btnSubmit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:background="@drawable/custom_ripple_button"
+                        android:paddingLeft="30dp"
+                        android:paddingRight="30dp"
+                        android:text="@string/submit"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </LinearLayout>
+
+</RelativeLayout>

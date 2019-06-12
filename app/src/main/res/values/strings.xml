@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Agri Resource </string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+
+
+
+    <string name="version">Version</string>
+    <string name="registration">Registration</string>
+    <string name="state">State</string>
+    <string name="district">District</string>
+    <string name="address">Address</string>
+    <string name="grower_name">Grower name</string>
+    <string name="mobile_number">Mobile number</string>
+    <string name="submit">Submit</string>
+    <string name="check_network">Please check your Network</string>
+
+    <string name="dashboard">Dashboard</string>
+    <string name="resource_name">Resource name</string>
+
+    <string name="rent">Rent</string>
+    <string name="rent_category">Rent Category</string>
+    <string name="upload_document">Upload document</string>
+
+
+
+   <!-- <string name="permission_read_phone_state_rationale">Permission previously Denied</string>
+    -->
+
+    <string name="permission_need_allowed">You need to allow access to the permissions</string>
+    <string name="permissions_not_granted">Camera Permission Denied, You cannot access camera.</string>
+    <string name="permissions_granted">Camera Permission Granted, Now you can access camera.</string>
+
+
+
+</resources>
