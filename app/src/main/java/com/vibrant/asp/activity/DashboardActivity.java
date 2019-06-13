@@ -1,5 +1,4 @@
 package com.vibrant.asp.activity;
-
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,7 +27,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -42,25 +40,17 @@ import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ImageFilePath;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.gps.GPSTracker;
-import com.vibrant.asp.model.StateModel;
 import com.vibrant.asp.model.SubscriptionModel;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.internal.Util;
-
 import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
-import static com.vibrant.asp.constants.Util.setPreference;
 import static com.vibrant.asp.constants.Util.showToast;
 
 public class DashboardActivity extends AppCompatActivity {
@@ -141,17 +131,15 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if (isInternetConnected(getApplicationContext())) {
+                if (isInternetConnected(getApplicationContext())) {
                     if (Validation()) {
                         Location location = gpsTracker.getLocation();
                         if (location != null) {
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
-                            Log.d("Current-----", "Dash " + latitude + ">>>>>>>>>>" + longitude);
                             getUploadProduct();
                         }
                     } else {
@@ -171,17 +159,13 @@ public class DashboardActivity extends AppCompatActivity {
                 if (position > 0) {
                     SubscriptionModel subModel = subAdapter.getItem(position);
                     selectedSubId = subModel.getSubID();
-                    Log.d(TAG, "onItemSelected: " + subModel.getSubID());
-                    Log.d(TAG, "onItemSelected: " + subModel.getSubName());
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
-
     }
 
     private boolean Validation() {
@@ -195,7 +179,6 @@ public class DashboardActivity extends AppCompatActivity {
             return true;
         }
     }
-
 
     private void getUploadProduct() {
         String url = Cons.GET_UPLOAD_PRODUCT;
@@ -413,14 +396,12 @@ public class DashboardActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_GALLERY);
     }
 
-
     private void choosePhotoFromGallary2() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_GALLERY_2);
     }
-
 
     private void getPermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -547,10 +528,12 @@ public class DashboardActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
                 final Uri imageUri = data.getData();
+
                 String path = ImageFilePath.getPath(DashboardActivity.this, imageUri);
                 imgExtension = path.substring(path.lastIndexOf("."));
                 Bitmap bitmap = BitmapFactory.decodeFile(path);
-                mConvertedImg = convertToBase64(bitmap);
+                Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
+                mConvertedImg = convertToBase64(resizedBitmap);
 
                 Log.d(TAG, "onActivityResult" + "imageUri-----" + imageUri);
                 Log.d(TAG, "onActivityResult" + "path---" + path);
@@ -618,8 +601,8 @@ public class DashboardActivity extends AppCompatActivity {
         int quality = 100; //100: compress nothing
         bitmap.compress(Bitmap.CompressFormat.JPEG, quality, bao);
         byte[] ba = bao.toByteArray();
-       // String encodedImage = Base64.encodeToString(ba, Base64.DEFAULT);
-        String encodedImage = Base64.encodeToString(ba,  Base64.NO_WRAP | Base64.URL_SAFE);
+        // String encodedImage = Base64.encodeToString(ba, Base64.DEFAULT);
+        String encodedImage = Base64.encodeToString(ba, Base64.NO_WRAP | Base64.URL_SAFE);
         return encodedImage;
     }
 
