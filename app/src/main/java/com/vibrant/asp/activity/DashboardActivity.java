@@ -17,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -38,6 +39,8 @@ import com.android.volley.toolbox.Volley;
 import com.vibrant.asp.R;
 import com.vibrant.asp.adapter.SubscriptionAdapter;
 import com.vibrant.asp.constants.Cons;
+import com.vibrant.asp.constants.ImageFilePath;
+import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.gps.GPSTracker;
 import com.vibrant.asp.model.StateModel;
 import com.vibrant.asp.model.SubscriptionModel;
@@ -46,10 +49,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.internal.Util;
 
 import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
@@ -59,6 +66,7 @@ import static com.vibrant.asp.constants.Util.showToast;
 public class DashboardActivity extends AppCompatActivity {
     private static final String TAG = "DashboardActivity";
     private boolean doubleBackToExitPressedOnce = false;
+    ProgressDialog pd;
     TextView tvHeader;
     EditText editResName, editRent;
     Button btnChoose1, btnChoose2, btnSubmit, btnCancel, btnCancel2;
@@ -70,7 +78,8 @@ public class DashboardActivity extends AppCompatActivity {
     SubscriptionAdapter subAdapter;
     String selectedSubId = "";
     String error_message = "";
-
+    String mConvertedImg;
+    String imgExtension;
     public static final int PICK_IMAGE_GALLERY = 1;
     public static final int PICK_IMAGE_GALLERY_2 = 2;
     //  private static final int PERMISSION_REQUEST_CODE = 200;
@@ -136,7 +145,7 @@ public class DashboardActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isInternetConnected(getApplicationContext())) {
+               if (isInternetConnected(getApplicationContext())) {
                     if (Validation()) {
                         Location location = gpsTracker.getLocation();
                         if (location != null) {
@@ -190,23 +199,19 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void getUploadProduct() {
         String url = Cons.GET_UPLOAD_PRODUCT;
+        pd = ProgressDialog.show(DashboardActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
-
         try {
             jsonObject.put("UserId", "1");
             jsonObject.put("ProductName", editResName.getText().toString().trim());
-            jsonObject.put("Description", "");
+            jsonObject.put("Description", "descrrt");
             jsonObject.put("Latitude", latitude);
             jsonObject.put("Longitude", longitude);
-            jsonObject.put("ImageBase64String1", "");
-            jsonObject.put("Extension", "");
+            jsonObject.put("ImageBase64String1", mConvertedImg);
+            jsonObject.put("Extension", imgExtension);
             jsonObject.put("SubscriptionId", selectedSubId);
             jsonObject.put("Rate", editRent.getText().toString().trim());
-
-
-            Log.d(TAG, "getState: " + jsonObject);
-
-
+            Log.d(TAG, "getUploadProduct: " + jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -214,6 +219,7 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
+                pd.dismiss();
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     String status = jsonObject.getString("d");
@@ -234,6 +240,7 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Error: " + error.getMessage());
+                pd.dismiss();
                 showToast(DashboardActivity.this, "Something went wrong");
             }
         }) {
@@ -352,7 +359,6 @@ public class DashboardActivity extends AppCompatActivity {
         }
     }
 
-
     private void getBottomSheet() {
         View view = getLayoutInflater().inflate(R.layout.camera_bottom_sheet, null);
         dialog = new BottomSheetDialog(this);
@@ -415,20 +421,6 @@ public class DashboardActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_GALLERY_2);
     }
 
-
-   /* private void takePhotoFromCamera() {
-        File file = new File( Environment.getExternalStorageDirectory()+ "/profileimg.jpg");
-        Log.d ( TAG , "takePhotoFromCamera: "+file );
-        ///Package
-        //uri = FileProvider.getUriForFile(this, "com.demoproject.Custprovider", file );
-        uri = FileProvider.getUriForFile(this, "com.vibrant.asp.Custprovider", file );
-        Intent cameraIntent = new Intent( MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,uri );
-        cameraIntent.setFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-        startActivityForResult(cameraIntent, CAMERA_PIC_REQUEST);
-    }
-
-*/
 
     private void getPermission() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -550,34 +542,106 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
 
-  /*  private boolean checkAndRequestPermissions() {
-        List<String> listPermissionsNeeded = new ArrayList<>();
-        for (String prem : PERMISSIONS) {
-            if (ContextCompat.checkSelfPermission(this, prem) != PackageManager.PERMISSION_GRANTED) {
-                listPermissionsNeeded.add(prem);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK) {
+            if (data != null && data.getData() != null) {
+                final Uri imageUri = data.getData();
+                String path = ImageFilePath.getPath(DashboardActivity.this, imageUri);
+                imgExtension = path.substring(path.lastIndexOf("."));
+                Bitmap bitmap = BitmapFactory.decodeFile(path);
+                mConvertedImg = convertToBase64(bitmap);
+
+                Log.d(TAG, "onActivityResult" + "imageUri-----" + imageUri);
+                Log.d(TAG, "onActivityResult" + "path---" + path);
+                Log.d(TAG, "onActivityResult" + imgExtension);
+                Log.d(TAG, "onActivityResult:" + "base64--" + mConvertedImg);
+
+                ivImage1.setImageBitmap(bitmap);
+                dialog.dismiss();
+                Log.d(TAG, "onActivityResGallary" + bitmap);
+            } else {
+                Toast.makeText(DashboardActivity.this, "You haven't picked Image", Toast.LENGTH_LONG).show();
+            }
+        } else if (requestCode == PERMISSION_REQUEST_CODE && resultCode == RESULT_OK) {
+            if (data != null && data.getExtras() != null) {
+                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+                Log.d(TAG, "onActivityResult: camera" + imageBitmap);
+                ivImage1.setImageBitmap(imageBitmap);
+                dialog.dismiss();
+            }
+        } else if (requestCode == PICK_IMAGE_GALLERY_2 && resultCode == RESULT_OK) {
+            if (data != null && data.getData() != null) {
+                try {
+                    final Uri imageUri = data.getData();
+                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                    Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+                    ivImage2.setImageBitmap(bitmap);
+                    dialog2.dismiss();
+                    Log.d(TAG, "onActivityResult: " + bitmap);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(DashboardActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(DashboardActivity.this, "You haven't picked Image", Toast.LENGTH_LONG).show();
+            }
+        } else if (requestCode == PERMISSION_REQUEST_CODE_2 && resultCode == RESULT_OK) {
+            if (data != null && data.getExtras() != null) {
+                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+                Log.d(TAG, "onActivityResult: camera" + imageBitmap);
+                ivImage2.setImageBitmap(imageBitmap);
+                dialog2.dismiss();
             }
         }
-        if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), PERMISSION_ALL);
-            return false;
-        }
-        return true;
+//        if (requestCode == CAMERA_PIC_REQUEST ) {
+//            try {
+//              Bitmap  bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
+//                ivImage1.setImageBitmap(bitmap);
+//                Log.d ( TAG , "onActivityResult: "+bitmap );
+//                dialog.dismiss ();
+//            } catch ( IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
-    public AlertDialog showDialog(String title, String this_app_needs_permission, String s1, DialogInterface.OnClickListener onClickListener, String s2, DialogInterface.OnClickListener onClickListener1, boolean b) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title);
-        builder.setCancelable(b);
-        builder.setMessage(this_app_needs_permission);
-        builder.setPositiveButton(s1, onClickListener);
-        builder.setNegativeButton(s2, onClickListener1);
-        AlertDialog alert = builder.create();
-        alert.show();
-        return alert;
+
+
+    /*public static Bitmap decodeBase64(String input) {
+        byte[] decodedBytes = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+    }*/
+
+    private String convertToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+        int quality = 100; //100: compress nothing
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, bao);
+        byte[] ba = bao.toByteArray();
+       // String encodedImage = Base64.encodeToString(ba, Base64.DEFAULT);
+        String encodedImage = Base64.encodeToString(ba,  Base64.NO_WRAP | Base64.URL_SAFE);
+        return encodedImage;
     }
-*/
+
 
     @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
+    }
+
+
+    /* @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
@@ -585,9 +649,17 @@ public class DashboardActivity extends AppCompatActivity {
                     final Uri imageUri = data.getData();
                     final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                     Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+                    String base64 = convertToBase64(bitmap);
+                  //  Log.d(TAG, "onActivityResult:-- " + base64);
+                    Log.d(TAG, "onActivityResult:-- " + imageUri);
+                    String path = ImageFilePath.getPath(DashboardActivity.this, imageUri);
+                    String imageExtention = path.substring(path.lastIndexOf("."));
+
+                    Log.d(TAG, "onActivityResultPath---" + path);
+                    Log.d(TAG, "onActivityResultPath---" + imageExtention);
                     ivImage1.setImageBitmap(bitmap);
                     dialog.dismiss();
-                    Log.d(TAG, "onActivityResult: " + bitmap);
+                    Log.d(TAG, "onActivityResGallary" + bitmap);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     Toast.makeText(DashboardActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
@@ -637,32 +709,6 @@ public class DashboardActivity extends AppCompatActivity {
 //            }
 //        }
     }
+*/
 
-
-    @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 2000);
-    }
-
-
-    /*  Uri imageUri = data.getData();
-            Log.d(TAG, "onActivityResult: " + imageUri);
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                ivImage1.setImageBitmap(bitmap);
-                dialog.dismiss();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
 }

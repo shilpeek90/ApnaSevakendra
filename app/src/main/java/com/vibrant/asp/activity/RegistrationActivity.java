@@ -55,7 +55,7 @@ import static com.vibrant.asp.constants.Util.showToast;
 public class RegistrationActivity extends AppCompatActivity {
     private static final String TAG = "RegistrationActivity";
     TextView tvHeader;
-    EditText editGrowerName, editMobile, editAddress;
+    EditText editGrowerName, editMobile, editAddress,editPass;
     AppCompatAutoCompleteTextView autoCompletState, autoCompletDistrict;
     private AutoSuggestStateAdapter autoSuggestAdapter;
     private AutoSuggestDistrictAdapter autoSuggestDistrictAdapter;
@@ -94,6 +94,7 @@ public class RegistrationActivity extends AppCompatActivity {
         editGrowerName = findViewById(R.id.editGrowerName);
         editMobile = findViewById(R.id.editMobile);
         editAddress = findViewById(R.id.editAddress);
+        editPass = findViewById(R.id.editPass);
 
         autoCompletState = findViewById(R.id.autoCompletState);
 
@@ -321,6 +322,7 @@ public class RegistrationActivity extends AppCompatActivity {
             jsonObject.put("DistrictId", mSelectedDistrict);
             jsonObject.put("Name", editGrowerName.getText().toString().trim());
             jsonObject.put("Mobno", editMobile.getText().toString().trim());
+            jsonObject.put("Password", editPass.getText().toString().trim());
             jsonObject.put("Address", editAddress.getText().toString().trim());
             jsonObject.put("Latitude", String.valueOf(latitude));
             jsonObject.put("Longitude", String.valueOf(longitude));
@@ -380,6 +382,9 @@ public class RegistrationActivity extends AppCompatActivity {
             return false;
         } else if (TextUtils.isEmpty(editMobile.getText().toString().trim())) {
             error_message = getString(R.string.please_enter_mobile_number);
+            return false;
+        } else if (TextUtils.isEmpty(editPass.getText().toString().trim())) {
+            error_message = getString(R.string.please_enter_pass);
             return false;
         } else if (TextUtils.isEmpty(editAddress.getText().toString().trim())) {
             error_message = getString(R.string.please_enter_address);

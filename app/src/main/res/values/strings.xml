@@ -43,6 +43,7 @@
     <string name="please_enter_name">Please Enter Grower Name</string>
     <string name="please_enter_re_name">Please Select Resource Name</string>
     <string name="please_enter_mobile_number">Please Enter Mobile Number</string>
+    <string name="please_enter_pass">Please Enter Password</string>
     <string name="please_enter_rate">Please Enter rate</string>
     <string name="please_enter_address">Please Enter Address</string>
 
@@ -50,5 +51,6 @@
     <string name="permissions_not_granted_read_phone_state1">Permission denied</string>
     <string name="permision_available_read_phone_state1">Permission granted</string>
     <string name="rate">Rate</string>
+    <string name="password">Password</string>
 
 </resources>
