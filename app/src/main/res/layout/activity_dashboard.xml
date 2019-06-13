@@ -152,7 +152,18 @@
                         android:textColor="@color/black_txt"
                         android:textSize="@dimen/_14sdp" />
 
+
+                    <Spinner
+                        android:id="@+id/spinnerSub"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:spinnerMode="dropdown"
+                        android:dropDownWidth="fill_parent"
+                        android:background="@android:drawable/btn_dropdown"/>
+
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/lLayRentCatgry"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -165,8 +176,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
+
+
+
                             <com.vibrant.asp.customtext.MyTextLight
                                 android:id="@+id/tvRentCategory"
+                                android:visibility="gone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentLeft="true"
@@ -179,6 +194,7 @@
                             <ImageView
                                 android:layout_width="25dp"
                                 android:layout_height="25dp"
+                                android:visibility="gone"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerInParent="true"
                                 android:src="@drawable/ic_arrow_drop_down" />
@@ -192,7 +208,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_10sdp"
-                        android:text="@string/rent"
+                        android:text="@string/rate"
                         android:textColor="@color/black_txt"
                         android:textSize="@dimen/_14sdp" />
 
@@ -202,7 +218,7 @@
                         android:layout_height="@dimen/_40sdp"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:background="@android:drawable/edit_text"
-                        android:hint="@string/rent"
+                        android:hint="@string/rate"
                         android:inputType="number"
                         android:maxLength="30"
                         android:textSize="@dimen/_14sdp" />

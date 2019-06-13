@@ -12,7 +12,7 @@
     <string name="check_network">कृपया अपने नेटवर्क की जाँच करें</string>
     <string name="dashboard">डैशबोर्ड</string>
     <string name="resource_name">संसाधन का नाम</string>
-    <string name="rent">किराया</string>
+
     <string name="rent_category">किराया श्रेणी</string>
 
 </resources>

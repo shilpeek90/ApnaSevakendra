@@ -6,37 +6,54 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.net.Uri;
-import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.vibrant.asp.R;
+import com.vibrant.asp.adapter.SubscriptionAdapter;
+import com.vibrant.asp.constants.Cons;
+import com.vibrant.asp.gps.GPSTracker;
+import com.vibrant.asp.model.StateModel;
+import com.vibrant.asp.model.SubscriptionModel;
 
-import java.io.File;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.vibrant.asp.constants.Util.hideKeyboard;
+import static com.vibrant.asp.constants.Util.isInternetConnected;
+import static com.vibrant.asp.constants.Util.setPreference;
 import static com.vibrant.asp.constants.Util.showToast;
 
 public class DashboardActivity extends AppCompatActivity {
@@ -47,6 +64,13 @@ public class DashboardActivity extends AppCompatActivity {
     Button btnChoose1, btnChoose2, btnSubmit, btnCancel, btnCancel2;
     ImageView ivImage1, ivImage2;
     LinearLayout lLayRentCatgry, lLayGallery, lLayCamera, lLayRemove, lLayGallery2, lLayCamera2, lLayRemove2;
+    Spinner spinnerSub;
+    List<SubscriptionModel> subArrayList = new ArrayList<>();
+    List<SubscriptionModel> subArrayList1 = new ArrayList<>();
+    SubscriptionAdapter subAdapter;
+    String selectedSubId = "";
+    String error_message = "";
+
     public static final int PICK_IMAGE_GALLERY = 1;
     public static final int PICK_IMAGE_GALLERY_2 = 2;
     //  private static final int PERMISSION_REQUEST_CODE = 200;
@@ -54,35 +78,36 @@ public class DashboardActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE_2 = 200;
     BottomSheetDialog dialog;
     BottomSheetDialog dialog2;
-    ////
     private static final int CAMERA_PIC_REQUEST = 100;
 
     private final int PERMISSION_ALL = 1;
     String[] PERMISSIONS = {android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
             android.Manifest.permission.CAMERA};
     private Uri uri;
+    private double latitude;
+    private double longitude;
+    GPSTracker gpsTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         hideKeyboard(DashboardActivity.this);
+        gpsTracker = new GPSTracker(DashboardActivity.this);
         init();
     }
 
     private void init() {
         tvHeader = findViewById(R.id.tvHeader);
         tvHeader.setText(getString(R.string.dashboard));
-
         editResName = findViewById(R.id.editResName);
         editRent = findViewById(R.id.editRent);
-
         ivImage1 = findViewById(R.id.ivImage1);
         ivImage2 = findViewById(R.id.ivImage2);
-
         btnChoose1 = findViewById(R.id.btnChoose1);
         btnChoose2 = findViewById(R.id.btnChoose2);
         btnSubmit = findViewById(R.id.btnSubmit);
+        spinnerSub = findViewById(R.id.spinnerSub);
 
         lLayRentCatgry = findViewById(R.id.lLayRentCatgry);
 
@@ -107,12 +132,173 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isInternetConnected(getApplicationContext())) {
+                    if (Validation()) {
+                        Location location = gpsTracker.getLocation();
+                        if (location != null) {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                            Log.d("Current-----", "Dash " + latitude + ">>>>>>>>>>" + longitude);
+                            getUploadProduct();
+                        }
+                    } else {
+                        showToast(DashboardActivity.this, error_message);
+                    }
+                } else {
+                    showToast(DashboardActivity.this, getResources().getString(R.string.check_network));
+                }
 
             }
         });
+
+        getSubscription();
+        spinnerSub.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0) {
+                    SubscriptionModel subModel = subAdapter.getItem(position);
+                    selectedSubId = subModel.getSubID();
+                    Log.d(TAG, "onItemSelected: " + subModel.getSubID());
+                    Log.d(TAG, "onItemSelected: " + subModel.getSubName());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
+    private boolean Validation() {
+        if (TextUtils.isEmpty(editResName.getText().toString().trim())) {
+            error_message = getString(R.string.please_enter_re_name);
+            return false;
+        } else if (TextUtils.isEmpty(editRent.getText().toString().trim())) {
+            error_message = getString(R.string.please_enter_rate);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    private void getUploadProduct() {
+        String url = Cons.GET_UPLOAD_PRODUCT;
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            jsonObject.put("UserId", "1");
+            jsonObject.put("ProductName", editResName.getText().toString().trim());
+            jsonObject.put("Description", "");
+            jsonObject.put("Latitude", latitude);
+            jsonObject.put("Longitude", longitude);
+            jsonObject.put("ImageBase64String1", "");
+            jsonObject.put("Extension", "");
+            jsonObject.put("SubscriptionId", selectedSubId);
+            jsonObject.put("Rate", editRent.getText().toString().trim());
+
+
+            Log.d(TAG, "getState: " + jsonObject);
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, response.toString());
+                try {
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    String status = jsonObject.getString("d");
+                    if (status.equals("true")) {
+                        editResName.setText("");
+                        editRent.setText("");
+                        startActivity(new Intent(DashboardActivity.this, MainActivity.class));
+                        finish();
+                    } else {
+                        showToast(DashboardActivity.this, "Please Check Details");
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Error: " + error.getMessage());
+                showToast(DashboardActivity.this, "Something went wrong");
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+        };
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(50000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(jsonObjReq);
+    }
+
+    private void getSubscription() {
+        String url = Cons.GET_SUBSCRIPTION;
+        JSONObject jsonObject = new JSONObject();
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, response.toString());
+                subArrayList.clear();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    JSONArray jsonArray = jsonObject.getJSONArray("d");
+                    if (jsonArray.length() > 0) {
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jObj = jsonArray.getJSONObject(i);
+                            SubscriptionModel stateModel = new SubscriptionModel();
+                            stateModel.setSubID(jObj.getString("SubId"));
+                            stateModel.setSubName(jObj.getString("SubName"));
+                            subArrayList.add(stateModel);
+                        }
+
+                        if (jsonArray.length() > 0) {
+                            SubscriptionModel model = new SubscriptionModel();
+                            model.setSubName("Please Select");
+                            subArrayList1.add(0, model);
+                            subArrayList1.addAll(subArrayList);
+                            subAdapter = new SubscriptionAdapter(getApplicationContext(), subArrayList1);
+                            spinnerSub.setAdapter(subAdapter);
+                        }
+                    } else {
+                        showToast(DashboardActivity.this, "Data not found");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Error: " + error.getMessage());
+                showToast(DashboardActivity.this, "Something went wrong");
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+        };
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(50000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(jsonObjReq);
+
 
     }
 
@@ -313,8 +499,9 @@ public class DashboardActivity extends AppCompatActivity {
                     alertAlert(getString(R.string.permissions_not_granted));
                 }
             }
-        }else if (requestCode ==PERMISSION_REQUEST_CODE_2){
-            Log.d(TAG, "onRequestPermissionsResult: "+"second----->>>>>>");if (grantResults.length > 0) {
+        } else if (requestCode == PERMISSION_REQUEST_CODE_2) {
+            Log.d(TAG, "onRequestPermissionsResult: " + "second----->>>>>>");
+            if (grantResults.length > 0) {
                 // Check if the only required permission has been granted
                 if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // READ_PHONE_STATE permission has been granted, proceed with displaying IMEI Number
