@@ -1,17 +1,25 @@
 package com.vibrant.asp.activity;
+
 import android.Manifest;
+import android.app.Activity;
+import android.app.Dialog;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -41,17 +50,25 @@ import com.vibrant.asp.constants.ImageFilePath;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.gps.GPSTracker;
 import com.vibrant.asp.model.SubscriptionModel;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
+
 
 public class DashboardActivity extends AppCompatActivity {
     private static final String TAG = "DashboardActivity";
@@ -87,6 +104,7 @@ public class DashboardActivity extends AppCompatActivity {
     private double longitude;
     GPSTracker gpsTracker;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +127,7 @@ public class DashboardActivity extends AppCompatActivity {
         spinnerSub = findViewById(R.id.spinnerSub);
 
         lLayRentCatgry = findViewById(R.id.lLayRentCatgry);
+
 
         lLayRentCatgry.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +167,6 @@ public class DashboardActivity extends AppCompatActivity {
                 } else {
                     showToast(DashboardActivity.this, getResources().getString(R.string.check_network));
                 }
-
             }
         });
 
@@ -161,12 +179,14 @@ public class DashboardActivity extends AppCompatActivity {
                     selectedSubId = subModel.getSubID();
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
     }
+
 
     private boolean Validation() {
         if (TextUtils.isEmpty(editResName.getText().toString().trim())) {
@@ -191,6 +211,7 @@ public class DashboardActivity extends AppCompatActivity {
             jsonObject.put("Latitude", latitude);
             jsonObject.put("Longitude", longitude);
             jsonObject.put("ImageBase64String1", mConvertedImg);
+            jsonObject.put("ImageBase64String2", "");
             jsonObject.put("Extension", imgExtension);
             jsonObject.put("SubscriptionId", selectedSubId);
             jsonObject.put("Rate", editRent.getText().toString().trim());
@@ -212,7 +233,7 @@ public class DashboardActivity extends AppCompatActivity {
                         startActivity(new Intent(DashboardActivity.this, MainActivity.class));
                         finish();
                     } else {
-                        showToast(DashboardActivity.this, "Please Check Details");
+                        showToast(DashboardActivity.this, "Something went wrong");
                     }
 
                 } catch (JSONException e) {
@@ -364,7 +385,6 @@ public class DashboardActivity extends AppCompatActivity {
                 getPermission();
             }
         });
-
 
         /* if(checkAndRequestPermissions()){
                     takePhotoFromCamera();
@@ -523,26 +543,29 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
                 final Uri imageUri = data.getData();
-
                 String path = ImageFilePath.getPath(DashboardActivity.this, imageUri);
                 imgExtension = path.substring(path.lastIndexOf("."));
-                Bitmap bitmap = BitmapFactory.decodeFile(path);
-                Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
-                mConvertedImg = convertToBase64(resizedBitmap);
+                if (imgExtension.equalsIgnoreCase(".jpg")) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(path);
+                    Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
+                    mConvertedImg = convertToBase64(resizedBitmap);
+                    Log.d(TAG, "onActivityResult" + "imageUri---->>>-" + mConvertedImg);
+                    Log.d(TAG, "onActivityResult" + "imageUri-----" + imageUri);
+                    Log.d(TAG, "onActivityResult" + "path---" + path);
+                    Log.d(TAG, "onActivityResult" + imgExtension);
+                    Log.d(TAG, "onActivityResult:" + "base64--" + mConvertedImg);
 
-                Log.d(TAG, "onActivityResult" + "imageUri-----" + imageUri);
-                Log.d(TAG, "onActivityResult" + "path---" + path);
-                Log.d(TAG, "onActivityResult" + imgExtension);
-                Log.d(TAG, "onActivityResult:" + "base64--" + mConvertedImg);
-
-                ivImage1.setImageBitmap(bitmap);
+                    ivImage1.setImageBitmap(bitmap);
+                } else {
+                    showToast(DashboardActivity.this, "Please select jpg image only");
+                }
                 dialog.dismiss();
-                Log.d(TAG, "onActivityResGallary" + bitmap);
             } else {
                 Toast.makeText(DashboardActivity.this, "You haven't picked Image", Toast.LENGTH_LONG).show();
             }
@@ -589,6 +612,47 @@ public class DashboardActivity extends AppCompatActivity {
 //        }
     }
 
+    public class ImageFileFilter implements FileFilter {
+        File file;
+        private final String[] okFileExtensions = new String[]{"jpg", "png", "gif", "jpeg"};
+
+        public ImageFileFilter(File newfile) {
+            this.file = newfile;
+        }
+
+        public boolean accept(File file) {
+            for (String extension : okFileExtensions) {
+                if (file.getName().toLowerCase().endsWith(extension)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+    }
+   /* public String encodeUTF(String str) {
+
+        try {
+            byte[] utf8Bytes = str.getBytes("UTF-8");
+
+            String encodedStr = new String(utf8Bytes, "UTF-8");
+
+            return encodedStr;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    private String encodeImage(Bitmap bm) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+        return encImage;
+    }*/
+
 
 
     /*public static Bitmap decodeBase64(String input) {
@@ -597,14 +661,43 @@ public class DashboardActivity extends AppCompatActivity {
     }*/
 
     private String convertToBase64(Bitmap bitmap) {
+        String encodedStr = "";
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
+        byte[] ba = bao.toByteArray();
+
+        // String encodedImage = Base64.encodeToString(ba, Base64.DEFAULT);
+        //String encodedImage = Base64.encodeToString(ba, Base64.NO_WRAP | Base64.URL_SAFE);
+        //String encodedImage = Base64.encodeToString(ba, Base64.NO_WRAP);
+
+        String encodedImage = Base64.encodeToString(ba, Base64.NO_WRAP);
+
+        byte[] utf8Bytes = new byte[1024];
+        try {
+            utf8Bytes = encodedImage.getBytes("UTF-8");
+            encodedStr = new String(utf8Bytes, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return encodedStr;
+    }
+
+    /* private String convertToBase64(Bitmap bitmap) {
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
         int quality = 100; //100: compress nothing
         bitmap.compress(Bitmap.CompressFormat.JPEG, quality, bao);
         byte[] ba = bao.toByteArray();
+
+        Base64.Encoder encoder = Base64.getEncoder();
+        // Encoding string
+        String str = encoder.encodeToString("JavaTpoint".getBytes());
+        System.out.println("Encoded string: "+str);
+
         // String encodedImage = Base64.encodeToString(ba, Base64.DEFAULT);
-        String encodedImage = Base64.encodeToString(ba, Base64.NO_WRAP | Base64.URL_SAFE);
+         //String encodedImage = Base64.encodeToString(ba, Base64.NO_WRAP | Base64.URL_SAFE);
+         String encodedImage = Base64.encodeToString(ba, Base64.NO_WRAP | Base64.URL_SAFE);
         return encodedImage;
-    }
+    }*/
 
 
     @Override
