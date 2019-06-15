@@ -62,7 +62,7 @@ public class DashboardActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce = false;
     ProgressDialog pd;
     TextView tvHeader;
-    EditText editResName, editRent;
+    EditText editResName, editRent,editDiscription;
     Button btnChoose1, btnChoose2, btnSubmit, btnCancel, btnCancel2;
     ImageView ivImage1, ivImage2;
     LinearLayout lLayRentCatgry, lLayGallery, lLayCamera, lLayRemove, lLayGallery2, lLayCamera2, lLayRemove2;
@@ -100,6 +100,7 @@ public class DashboardActivity extends AppCompatActivity {
         tvHeader.setText(getString(R.string.dashboard));
         editResName = findViewById(R.id.editResName);
         editRent = findViewById(R.id.editRent);
+        editDiscription = findViewById(R.id.editDiscription);
         ivImage1 = findViewById(R.id.ivImage1);
         ivImage2 = findViewById(R.id.ivImage2);
         btnChoose1 = findViewById(R.id.btnChoose1);
@@ -175,7 +176,11 @@ public class DashboardActivity extends AppCompatActivity {
         } else if (TextUtils.isEmpty(editRent.getText().toString().trim())) {
             error_message = getString(R.string.please_enter_rate);
             return false;
-        } else {
+        }
+        else if (TextUtils.isEmpty(editDiscription.getText().toString().trim())) {
+            error_message = getString(R.string.please_enter_dis);
+            return false;
+        }else {
             return true;
         }
     }
@@ -187,7 +192,6 @@ public class DashboardActivity extends AppCompatActivity {
         try {
             jsonObject.put("UserId", "1");
             jsonObject.put("ProductName", editResName.getText().toString().trim());
-            jsonObject.put("Description", "descrrt");
             jsonObject.put("Latitude", latitude);
             jsonObject.put("Longitude", longitude);
             jsonObject.put("ImageBase64String1", mConvertedImg1);
@@ -195,6 +199,7 @@ public class DashboardActivity extends AppCompatActivity {
             jsonObject.put("Extension", imgExtension);
             jsonObject.put("SubscriptionId", selectedSubId);
             jsonObject.put("Rate", editRent.getText().toString().trim());
+            jsonObject.put("Description", editDiscription.getText().toString().trim());
             Log.d(TAG, "getUploadProduct: " + jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -210,6 +215,7 @@ public class DashboardActivity extends AppCompatActivity {
                     if (status.equals("true")) {
                         editResName.setText("");
                         editRent.setText("");
+                        editDiscription.setText("");
                         startActivity(new Intent(DashboardActivity.this, MainActivity.class));
                         finish();
                     } else {

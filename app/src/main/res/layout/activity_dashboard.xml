@@ -43,7 +43,7 @@
                         android:id="@+id/tvResourName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/resource_name"
                         android:textColor="@color/black_txt"
                         android:textSize="@dimen/_14sdp" />
@@ -223,6 +223,31 @@
                         android:hint="@string/rate"
                         android:inputType="number"
                         android:maxLength="30"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <com.vibrant.asp.customtext.MyTextLight
+                        android:id="@+id/tvDiscrip"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="@string/description"
+                        android:textColor="@color/black_txt"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <EditText
+                        android:id="@+id/editDiscription"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_100sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:background="@android:drawable/edit_text"
+                        android:ems="14"
+                        android:gravity="top|left"
+                        android:hint="@string/description"
+                        android:inputType="textMultiLine"
+                        android:lines="8"
+                        android:maxLines="10"
+                        android:scrollbars="vertical"
+                        android:scrollHorizontally="false"
                         android:textSize="@dimen/_14sdp" />
 
                     <com.vibrant.asp.customtext.MyButtonBold
