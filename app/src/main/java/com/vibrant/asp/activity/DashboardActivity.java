@@ -514,6 +514,7 @@ public class DashboardActivity extends AppCompatActivity {
             if (data != null && data.getData() != null) {
                 final Uri imageUri = data.getData();
                 String path = ImageFilePath.getPath(DashboardActivity.this, imageUri);
+                Log.d(TAG, "onActivityResult: "+path);
                 imgExtension = path.substring(path.lastIndexOf("."));
                 if (imgExtension.equalsIgnoreCase(".jpg")) {
                     Bitmap bitmap = BitmapFactory.decodeFile(path);
@@ -532,19 +533,20 @@ public class DashboardActivity extends AppCompatActivity {
             if (data != null && data.getExtras() != null) {
                 Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
                 // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
-                Uri tempUri = getImageUri(getApplicationContext(), imageBitmap);
+                Uri tempUriImg1 = getImageUri(getApplicationContext(), imageBitmap);
                 // CALL THIS METHOD TO GET THE ACTUAL PATH
-                File finalFile = new File(getRealPathFromURI(tempUri));
-                String fileEx = String.valueOf(finalFile);
+                File finalFileImg = new File(getRealPathFromURI(tempUriImg1));
+                String fileEx = String.valueOf(finalFileImg);
                 imgExtension = fileEx.substring(fileEx.lastIndexOf("."));
                 Bitmap bitmap = BitmapFactory.decodeFile(fileEx);
                 Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
                 mConvertedImg1 = convertToBase64(resizedBitmap);
 
-                Log.d(TAG, "onActivityResult:" + finalFile);
+                Log.d(TAG, "onActivityResult:" + finalFileImg);
                 Log.d(TAG, "onActivityResult:" + imgExtension);
-                Log.d(TAG, "onActivityResult:" + tempUri);
+                Log.d(TAG, "onActivityResult:" + tempUriImg1);
                 Log.d(TAG, "onActivityResult:" + mConvertedImg1);
+
                 ivImage1.setImageBitmap(imageBitmap);
                 dialog.dismiss();
             }
