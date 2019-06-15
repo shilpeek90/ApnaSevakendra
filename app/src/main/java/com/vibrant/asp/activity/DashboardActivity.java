@@ -191,7 +191,7 @@ public class DashboardActivity extends AppCompatActivity {
             jsonObject.put("Latitude", latitude);
             jsonObject.put("Longitude", longitude);
             jsonObject.put("ImageBase64String1", mConvertedImg1);
-            jsonObject.put("ImageBase64String2", "");
+            jsonObject.put("ImageBase64String2", mConvertedImg2);
             jsonObject.put("Extension", imgExtension);
             jsonObject.put("SubscriptionId", selectedSubId);
             jsonObject.put("Rate", editRent.getText().toString().trim());
@@ -423,7 +423,6 @@ public class DashboardActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE_1);
         }
     }
-
 
     private void requestCameraPermission2() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
