@@ -1,5 +1,4 @@
 package com.vibrant.asp.activity;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,7 +31,6 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -47,20 +45,14 @@ import com.vibrant.asp.constants.ImageFilePath;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.gps.GPSTracker;
 import com.vibrant.asp.model.SubscriptionModel;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileFilter;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
@@ -81,24 +73,17 @@ public class DashboardActivity extends AppCompatActivity {
     String selectedSubId = "";
     String error_message = "";
     String mConvertedImg1;
+    String mConvertedImg2;
     String imgExtension;
-    public static final int PICK_IMAGE_GALLERY = 1;
+    public static final int PICK_IMAGE_GALLERY_1 = 1;
     public static final int PICK_IMAGE_GALLERY_2 = 2;
-    //  private static final int PERMISSION_REQUEST_CODE = 200;
-    private static final int PERMISSION_REQUEST_CODE = 100;
+    private static final int PERMISSION_REQUEST_CODE_1 = 100;
     private static final int PERMISSION_REQUEST_CODE_2 = 200;
     BottomSheetDialog dialog;
     BottomSheetDialog dialog2;
-    private static final int CAMERA_PIC_REQUEST = 100;
-
-    private final int PERMISSION_ALL = 1;
-    String[] PERMISSIONS = {android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            android.Manifest.permission.CAMERA};
-    private Uri uri;
     private double latitude;
     private double longitude;
     GPSTracker gpsTracker;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +91,7 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
         hideKeyboard(DashboardActivity.this);
         gpsTracker = new GPSTracker(DashboardActivity.this);
+
         init();
     }
 
@@ -133,7 +119,7 @@ public class DashboardActivity extends AppCompatActivity {
         btnChoose1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getBottomSheet();
+                getBottomSheet1();
             }
         });
 
@@ -163,7 +149,10 @@ public class DashboardActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //For Subscription
         getSubscription();
+        //For Spinner Click Listener
         spinnerSub.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -172,7 +161,6 @@ public class DashboardActivity extends AppCompatActivity {
                     selectedSubId = subModel.getSubID();
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -270,7 +258,6 @@ public class DashboardActivity extends AppCompatActivity {
                             stateModel.setSubName(jObj.getString("SubName"));
                             subArrayList.add(stateModel);
                         }
-
                         if (jsonArray.length() > 0) {
                             SubscriptionModel model = new SubscriptionModel();
                             model.setSubName("Please Select");
@@ -301,8 +288,6 @@ public class DashboardActivity extends AppCompatActivity {
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(50000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(jsonObjReq);
-
-
     }
 
     private void getBottomSheet2() {
@@ -332,7 +317,7 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ivImage2.setImageDrawable(getResources().getDrawable(R.drawable.file));
-                Toast.makeText(DashboardActivity.this, "Suceessfully Removed photo", Toast.LENGTH_SHORT).show();
+                showToast(DashboardActivity.this, "Successfully Removed photo");
                 dialog2.dismiss();
             }
         });
@@ -348,14 +333,14 @@ public class DashboardActivity extends AppCompatActivity {
     private void getPermission2() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             // CAMERA permission has not been granted.
-            requestReadPhoneStatePermission2();
+            requestCameraPermission2();
         } else {
             // CAMERA permission is already been granted.
-            doPermissionGrantedStuffs2();
+            doPermissionGrantedCamera2();
         }
     }
 
-    private void getBottomSheet() {
+    private void getBottomSheet1() {
         View view = getLayoutInflater().inflate(R.layout.camera_bottom_sheet, null);
         dialog = new BottomSheetDialog(this);
         dialog.setContentView(view);
@@ -363,18 +348,18 @@ public class DashboardActivity extends AppCompatActivity {
         lLayCamera = dialog.findViewById(R.id.lLayCamera);
         lLayRemove = dialog.findViewById(R.id.lLayRemove);
         btnCancel = dialog.findViewById(R.id.btnCancel);
-
+        //Click for gallery Image
         lLayGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 choosePhotoFromGallary();
             }
         });
-
+        //click for camera Image 1
         lLayCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPermission();
+                getPermissionCamera1();   //For permission
             }
         });
 
@@ -382,7 +367,7 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ivImage1.setImageDrawable(getResources().getDrawable(R.drawable.file));
-                Toast.makeText(DashboardActivity.this, "Suceessfully Removed photo", Toast.LENGTH_SHORT).show();
+                showToast(DashboardActivity.this, "Successfully Removed photo");
                 dialog.dismiss();
             }
         });
@@ -400,7 +385,7 @@ public class DashboardActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_GALLERY);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_GALLERY_1);
     }
 
     private void choosePhotoFromGallary2() {
@@ -410,17 +395,17 @@ public class DashboardActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_GALLERY_2);
     }
 
-    private void getPermission() {
+    private void getPermissionCamera1() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             // CAMERA permission has not been granted.
-            requestReadPhoneStatePermission();
+            requestCameraPermission1();
         } else {
             // CAMERA permission is already been granted.
-            doPermissionGrantedStuffs();
+            doPermissionGrantedCamera1();
         }
     }
 
-    private void requestReadPhoneStatePermission() {
+    private void requestCameraPermission1() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
             new AlertDialog.Builder(DashboardActivity.this)
                     .setTitle("Permission Request")
@@ -429,18 +414,18 @@ public class DashboardActivity extends AppCompatActivity {
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             //re-request
-                            ActivityCompat.requestPermissions(DashboardActivity.this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE);
+                            ActivityCompat.requestPermissions(DashboardActivity.this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE_1);
                         }
                     })
                     .show();
         } else {
             // CAMERA permission has not been granted yet. Request it directly.
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE_1);
         }
     }
 
 
-    private void requestReadPhoneStatePermission2() {
+    private void requestCameraPermission2() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
             new AlertDialog.Builder(DashboardActivity.this)
                     .setTitle("Permission Request")
@@ -449,7 +434,7 @@ public class DashboardActivity extends AppCompatActivity {
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             //re-request
-                            ActivityCompat.requestPermissions(DashboardActivity.this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE);
+                            ActivityCompat.requestPermissions(DashboardActivity.this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE_2);
                         }
                     })
                     .show();
@@ -465,31 +450,30 @@ public class DashboardActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        if (requestCode == PERMISSION_REQUEST_CODE) {
+        //For Camera Image 1
+        if (requestCode == PERMISSION_REQUEST_CODE_1) {
             if (grantResults.length > 0) {
                 // Check if the only required permission has been granted
                 if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // READ_PHONE_STATE permission has been granted, proceed with displaying IMEI Number
+                    // Camera permission has been granted
                     alertAlert(getString(R.string.permissions_granted));
-                    doPermissionGrantedStuffs();
+                    doPermissionGrantedCamera1();
                 } else {
                     alertAlert(getString(R.string.permissions_not_granted));
                 }
             }
         } else if (requestCode == PERMISSION_REQUEST_CODE_2) {
-            Log.d(TAG, "onRequestPermissionsResult: " + "second----->>>>>>");
+            //For Camera Image 2
             if (grantResults.length > 0) {
                 // Check if the only required permission has been granted
                 if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // READ_PHONE_STATE permission has been granted, proceed with displaying IMEI Number
+                    // Camera permission has been granted
                     alertAlert(getString(R.string.permissions_granted));
-                    doPermissionGrantedStuffs2();
+                    doPermissionGrantedCamera2();
                 } else {
                     alertAlert(getString(R.string.permissions_not_granted));
                 }
             }
-
         }
     }
 
@@ -503,35 +487,30 @@ public class DashboardActivity extends AppCompatActivity {
                         // do something here
                     }
                 })
-                //	.setIcon(R.drawable.onlinlinew_warning_sign)
                 .show();
     }
 
-    public void doPermissionGrantedStuffs() {
-        Log.d(TAG, "doPermissionGrantedStuffs: " + "clicled");
-        /*Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(cameraIntent, PERMISSION_REQUEST_CODE);
-        */
+    //For Camera Image 1
+    public void doPermissionGrantedCamera1() {
         Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (pictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(pictureIntent, PERMISSION_REQUEST_CODE);
+            startActivityForResult(pictureIntent, PERMISSION_REQUEST_CODE_1);
         }
-
     }
 
-    public void doPermissionGrantedStuffs2() {
-        Log.d(TAG, "doPermissionGrantedStuffs2: " + "clicled");
+    //For Camera Image 2
+    public void doPermissionGrantedCamera2() {
         Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (pictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(pictureIntent, PERMISSION_REQUEST_CODE_2);
         }
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK) {
+        //for gallery Image 1
+        if (requestCode == PICK_IMAGE_GALLERY_1 && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
                 final Uri imageUri = data.getData();
                 String path = ImageFilePath.getPath(DashboardActivity.this, imageUri);
@@ -540,22 +519,16 @@ public class DashboardActivity extends AppCompatActivity {
                     Bitmap bitmap = BitmapFactory.decodeFile(path);
                     Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
                     mConvertedImg1 = convertToBase64(resizedBitmap);
-
-                    Log.d(TAG, "onActivityResult" + "imageUri---->>>-" + mConvertedImg1);
-                    Log.d(TAG, "onActivityResult" + "imageUri-----" + imageUri);
-                    Log.d(TAG, "onActivityResult" + "path---" + path);
-                    Log.d(TAG, "onActivityResult" + imgExtension);
-                    Log.d(TAG, "onActivityResult:" + "base64--" + mConvertedImg1);
-
                     ivImage1.setImageBitmap(bitmap);
                 } else {
                     showToast(DashboardActivity.this, "Please select jpg image only");
                 }
                 dialog.dismiss();
             } else {
-                Toast.makeText(DashboardActivity.this, "You haven't picked Image", Toast.LENGTH_LONG).show();
+                showToast(DashboardActivity.this, "You haven't picked Image");
             }
-        } else if (requestCode == PERMISSION_REQUEST_CODE && resultCode == RESULT_OK) {
+        } else if (requestCode == PERMISSION_REQUEST_CODE_1 && resultCode == RESULT_OK) {
+            //for camera Image 1
             if (data != null && data.getExtras() != null) {
                 Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
                 // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
@@ -564,7 +537,6 @@ public class DashboardActivity extends AppCompatActivity {
                 File finalFile = new File(getRealPathFromURI(tempUri));
                 String fileEx = String.valueOf(finalFile);
                 imgExtension = fileEx.substring(fileEx.lastIndexOf("."));
-
                 Bitmap bitmap = BitmapFactory.decodeFile(fileEx);
                 Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
                 mConvertedImg1 = convertToBase64(resizedBitmap);
@@ -573,46 +545,51 @@ public class DashboardActivity extends AppCompatActivity {
                 Log.d(TAG, "onActivityResult:" + imgExtension);
                 Log.d(TAG, "onActivityResult:" + tempUri);
                 Log.d(TAG, "onActivityResult:" + mConvertedImg1);
-                //////////////////////////
                 ivImage1.setImageBitmap(imageBitmap);
                 dialog.dismiss();
             }
         } else if (requestCode == PICK_IMAGE_GALLERY_2 && resultCode == RESULT_OK) {
+            //For Gallery Image 2
             if (data != null && data.getData() != null) {
-                try {
-                    final Uri imageUri = data.getData();
-                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                    Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
+                final Uri imageUri1 = data.getData();
+                String imagePath = ImageFilePath.getPath(DashboardActivity.this, imageUri1);
+                imgExtension = imagePath.substring(imagePath.lastIndexOf("."));
+                if (imgExtension.equalsIgnoreCase(".jpg")) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+                    Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
+                    mConvertedImg2 = convertToBase64(resizedBitmap);
                     ivImage2.setImageBitmap(bitmap);
-                    dialog2.dismiss();
-                    Log.d(TAG, "onActivityResult: " + bitmap);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Toast.makeText(DashboardActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                } else {
+                    showToast(DashboardActivity.this, "Please select jpg image only");
                 }
+                dialog2.dismiss();
             } else {
-                Toast.makeText(DashboardActivity.this, "You haven't picked Image", Toast.LENGTH_LONG).show();
+                showToast(DashboardActivity.this, "You haven't picked Image");
             }
         } else if (requestCode == PERMISSION_REQUEST_CODE_2 && resultCode == RESULT_OK) {
+            //For Camera Image 2
             if (data != null && data.getExtras() != null) {
                 Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                Log.d(TAG, "onActivityResult: camera" + imageBitmap);
+                // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
+                Uri tempUriImg2 = getImageUri(getApplicationContext(), imageBitmap);
+                // CALL THIS METHOD TO GET THE ACTUAL PATH
+                File finalFileImg2 = new File(getRealPathFromURI(tempUriImg2));
+                String fileEx = String.valueOf(finalFileImg2);
+                imgExtension = fileEx.substring(fileEx.lastIndexOf("."));
+                Bitmap bitmap = BitmapFactory.decodeFile(fileEx);
+                Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
+                mConvertedImg2 = convertToBase64(resizedBitmap);
+
+                Log.d(TAG, "onActivityResult:" + finalFileImg2);
+                Log.d(TAG, "onActivityResult:" + imgExtension);
+                Log.d(TAG, "onActivityResult:" + tempUriImg2);
+                Log.d(TAG, "onActivityResult:" + mConvertedImg1);
+
                 ivImage2.setImageBitmap(imageBitmap);
                 dialog2.dismiss();
             }
         }
-//        if (requestCode == CAMERA_PIC_REQUEST ) {
-//            try {
-//              Bitmap  bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-//                ivImage1.setImageBitmap(bitmap);
-//                Log.d ( TAG , "onActivityResult: "+bitmap );
-//                dialog.dismiss ();
-//            } catch ( IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
-
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -621,6 +598,7 @@ public class DashboardActivity extends AppCompatActivity {
         return Uri.parse(path);
     }
 
+    // For Image path
     public String getRealPathFromURI(Uri uri) {
         String path = "";
         if (getContentResolver() != null) {
@@ -635,6 +613,7 @@ public class DashboardActivity extends AppCompatActivity {
         return path;
     }
 
+    //For Converting Image into Base64
     private String convertToBase64(Bitmap bitmap) {
         String encodedStr = "";
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
@@ -652,23 +631,6 @@ public class DashboardActivity extends AppCompatActivity {
         return encodedStr;
     }
 
-    /* private String convertToBase64(Bitmap bitmap) {
-        ByteArrayOutputStream bao = new ByteArrayOutputStream();
-        int quality = 100; //100: compress nothing
-        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, bao);
-        byte[] ba = bao.toByteArray();
-
-        Base64.Encoder encoder = Base64.getEncoder();
-        // Encoding string
-        String str = encoder.encodeToString("JavaTpoint".getBytes());
-        System.out.println("Encoded string: "+str);
-
-        // String encodedImage = Base64.encodeToString(ba, Base64.DEFAULT);
-         //String encodedImage = Base64.encodeToString(ba, Base64.NO_WRAP | Base64.URL_SAFE);
-         String encodedImage = Base64.encodeToString(ba, Base64.NO_WRAP | Base64.URL_SAFE);
-        return encodedImage;
-    }*/
-
 
     @Override
     public void onBackPressed() {
@@ -685,76 +647,4 @@ public class DashboardActivity extends AppCompatActivity {
             }
         }, 2000);
     }
-
-
-    /* @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK) {
-            if (data != null && data.getData() != null) {
-                try {
-                    final Uri imageUri = data.getData();
-                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                    Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
-                    String base64 = convertToBase64(bitmap);
-                  //  Log.d(TAG, "onActivityResult:-- " + base64);
-                    Log.d(TAG, "onActivityResult:-- " + imageUri);
-                    String path = ImageFilePath.getPath(DashboardActivity.this, imageUri);
-                    String imageExtention = path.substring(path.lastIndexOf("."));
-
-                    Log.d(TAG, "onActivityResultPath---" + path);
-                    Log.d(TAG, "onActivityResultPath---" + imageExtention);
-                    ivImage1.setImageBitmap(bitmap);
-                    dialog.dismiss();
-                    Log.d(TAG, "onActivityResGallary" + bitmap);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Toast.makeText(DashboardActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
-                }
-            } else {
-                Toast.makeText(DashboardActivity.this, "You haven't picked Image", Toast.LENGTH_LONG).show();
-            }
-        } else if (requestCode == PERMISSION_REQUEST_CODE && resultCode == RESULT_OK) {
-            if (data != null && data.getExtras() != null) {
-                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                Log.d(TAG, "onActivityResult: camera" + imageBitmap);
-                ivImage1.setImageBitmap(imageBitmap);
-                dialog.dismiss();
-            }
-        } else if (requestCode == PICK_IMAGE_GALLERY_2 && resultCode == RESULT_OK) {
-            if (data != null && data.getData() != null) {
-                try {
-                    final Uri imageUri = data.getData();
-                    final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                    Bitmap bitmap = BitmapFactory.decodeStream(imageStream);
-                    ivImage2.setImageBitmap(bitmap);
-                    dialog2.dismiss();
-                    Log.d(TAG, "onActivityResult: " + bitmap);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Toast.makeText(DashboardActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
-                }
-            } else {
-                Toast.makeText(DashboardActivity.this, "You haven't picked Image", Toast.LENGTH_LONG).show();
-            }
-        } else if (requestCode == PERMISSION_REQUEST_CODE_2 && resultCode == RESULT_OK) {
-            if (data != null && data.getExtras() != null) {
-                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                Log.d(TAG, "onActivityResult: camera" + imageBitmap);
-                ivImage2.setImageBitmap(imageBitmap);
-                dialog2.dismiss();
-            }
-        }
-//        if (requestCode == CAMERA_PIC_REQUEST ) {
-//            try {
-//              Bitmap  bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),uri);
-//                ivImage1.setImageBitmap(bitmap);
-//                Log.d ( TAG , "onActivityResult: "+bitmap );
-//                dialog.dismiss ();
-//            } catch ( IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-    }
-*/
-
 }
