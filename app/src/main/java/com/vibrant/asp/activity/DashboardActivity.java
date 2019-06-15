@@ -1,9 +1,11 @@
 package com.vibrant.asp.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
@@ -30,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -44,9 +47,11 @@ import com.vibrant.asp.constants.ImageFilePath;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.gps.GPSTracker;
 import com.vibrant.asp.model.SubscriptionModel;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileFilter;
@@ -55,6 +60,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
@@ -74,7 +80,7 @@ public class DashboardActivity extends AppCompatActivity {
     SubscriptionAdapter subAdapter;
     String selectedSubId = "";
     String error_message = "";
-    String mConvertedImg;
+    String mConvertedImg1;
     String imgExtension;
     public static final int PICK_IMAGE_GALLERY = 1;
     public static final int PICK_IMAGE_GALLERY_2 = 2;
@@ -196,7 +202,7 @@ public class DashboardActivity extends AppCompatActivity {
             jsonObject.put("Description", "descrrt");
             jsonObject.put("Latitude", latitude);
             jsonObject.put("Longitude", longitude);
-            jsonObject.put("ImageBase64String1", mConvertedImg);
+            jsonObject.put("ImageBase64String1", mConvertedImg1);
             jsonObject.put("ImageBase64String2", "");
             jsonObject.put("Extension", imgExtension);
             jsonObject.put("SubscriptionId", selectedSubId);
@@ -372,11 +378,6 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-        /* if(checkAndRequestPermissions()){
-                    takePhotoFromCamera();
-                }*/
-
-
         lLayRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -433,7 +434,7 @@ public class DashboardActivity extends AppCompatActivity {
                     })
                     .show();
         } else {
-            // READ_PHONE_STATE permission has not been granted yet. Request it directly.
+            // CAMERA permission has not been granted yet. Request it directly.
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE);
         }
     }
@@ -453,7 +454,7 @@ public class DashboardActivity extends AppCompatActivity {
                     })
                     .show();
         } else {
-            // READ_PHONE_STATE permission has not been granted yet. Request it directly.
+            // CAMERA permission has not been granted yet. Request it directly.
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE_2);
         }
     }
@@ -538,13 +539,13 @@ public class DashboardActivity extends AppCompatActivity {
                 if (imgExtension.equalsIgnoreCase(".jpg")) {
                     Bitmap bitmap = BitmapFactory.decodeFile(path);
                     Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
-                    mConvertedImg = convertToBase64(resizedBitmap);
+                    mConvertedImg1 = convertToBase64(resizedBitmap);
 
-                    Log.d(TAG, "onActivityResult" + "imageUri---->>>-" + mConvertedImg);
+                    Log.d(TAG, "onActivityResult" + "imageUri---->>>-" + mConvertedImg1);
                     Log.d(TAG, "onActivityResult" + "imageUri-----" + imageUri);
                     Log.d(TAG, "onActivityResult" + "path---" + path);
                     Log.d(TAG, "onActivityResult" + imgExtension);
-                    Log.d(TAG, "onActivityResult:" + "base64--" + mConvertedImg);
+                    Log.d(TAG, "onActivityResult:" + "base64--" + mConvertedImg1);
 
                     ivImage1.setImageBitmap(bitmap);
                 } else {
@@ -557,7 +558,22 @@ public class DashboardActivity extends AppCompatActivity {
         } else if (requestCode == PERMISSION_REQUEST_CODE && resultCode == RESULT_OK) {
             if (data != null && data.getExtras() != null) {
                 Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                Log.d(TAG, "onActivityResult: camera" + imageBitmap);
+                // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
+                Uri tempUri = getImageUri(getApplicationContext(), imageBitmap);
+                // CALL THIS METHOD TO GET THE ACTUAL PATH
+                File finalFile = new File(getRealPathFromURI(tempUri));
+                String fileEx = String.valueOf(finalFile);
+                imgExtension = fileEx.substring(fileEx.lastIndexOf("."));
+
+                Bitmap bitmap = BitmapFactory.decodeFile(fileEx);
+                Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
+                mConvertedImg1 = convertToBase64(resizedBitmap);
+
+                Log.d(TAG, "onActivityResult:" + finalFile);
+                Log.d(TAG, "onActivityResult:" + imgExtension);
+                Log.d(TAG, "onActivityResult:" + tempUri);
+                Log.d(TAG, "onActivityResult:" + mConvertedImg1);
+                //////////////////////////
                 ivImage1.setImageBitmap(imageBitmap);
                 dialog.dismiss();
             }
@@ -597,64 +613,33 @@ public class DashboardActivity extends AppCompatActivity {
 //        }
     }
 
-    public class ImageFileFilter implements FileFilter {
-        File file;
-        private final String[] okFileExtensions = new String[]{"jpg", "png", "gif", "jpeg"};
 
-        public ImageFileFilter(File newfile) {
-            this.file = newfile;
-        }
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
 
-        public boolean accept(File file) {
-            for (String extension : okFileExtensions) {
-                if (file.getName().toLowerCase().endsWith(extension)) {
-                    return true;
-                }
+    public String getRealPathFromURI(Uri uri) {
+        String path = "";
+        if (getContentResolver() != null) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null) {
+                cursor.moveToFirst();
+                int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+                path = cursor.getString(idx);
+                cursor.close();
             }
-            return false;
         }
-
+        return path;
     }
-   /* public String encodeUTF(String str) {
-
-        try {
-            byte[] utf8Bytes = str.getBytes("UTF-8");
-
-            String encodedStr = new String(utf8Bytes, "UTF-8");
-
-            return encodedStr;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return str;
-    }
-
-    private String encodeImage(Bitmap bm) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] b = baos.toByteArray();
-        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
-
-        return encImage;
-    }*/
-
-
-
-    /*public static Bitmap decodeBase64(String input) {
-        byte[] decodedBytes = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-    }*/
 
     private String convertToBase64(Bitmap bitmap) {
         String encodedStr = "";
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bao);
         byte[] ba = bao.toByteArray();
-
-        // String encodedImage = Base64.encodeToString(ba, Base64.DEFAULT);
-        //String encodedImage = Base64.encodeToString(ba, Base64.NO_WRAP | Base64.URL_SAFE);
-        //String encodedImage = Base64.encodeToString(ba, Base64.NO_WRAP);
-
         String encodedImage = Base64.encodeToString(ba, Base64.NO_WRAP);
 
         byte[] utf8Bytes = new byte[1024];
