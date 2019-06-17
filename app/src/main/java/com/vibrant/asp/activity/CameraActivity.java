@@ -224,7 +224,8 @@ public class CameraActivity extends AppCompatActivity {
                         editResName.setText("");
                         editRent.setText("");
                         editDiscription.setText("");
-                        startActivity(new Intent(CameraActivity.this, MainActivity.class));
+                        showToast(CameraActivity.this, "Successfully Product Uploaded");
+                        startActivity(new Intent(CameraActivity.this, RentActivity.class));
                         finish();
                     } else {
                         showToast(CameraActivity.this, "Something went wrong");

@@ -49,7 +49,9 @@ public class AllProductActivity extends AppCompatActivity {
     RangeAdapter rangeAdapter;
     String selectedRange = "";
     List<RangeModel> rangeMainArray = new ArrayList<>();
-
+    AllProductAdapter mAdapter;
+    private double mLatCurrent;
+    private double mLngCurrent;
     String mResponse = "{\"d\":[       \n" +
             "    {\"range\":1},    \n" +
             "    {\"range\":2},  \n" +
@@ -103,12 +105,20 @@ public class AllProductActivity extends AppCompatActivity {
             "    {\"range\":50}   \n" +
             "]}}";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_product);
         hideKeyboard(AllProductActivity.this);
+        try {
+            Bundle bundle = getIntent().getBundleExtra("bundle");
+            if (bundle!=null) {
+                mLatCurrent = Double.parseDouble(bundle.getString("mLatCurrent"));
+                mLngCurrent = Double.parseDouble(bundle.getString("mLngCurrent"));
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
         init();
     }
 
@@ -118,9 +128,14 @@ public class AllProductActivity extends AppCompatActivity {
         ivBack = findViewById(R.id.ivBack);
         ivBack.setVisibility(View.VISIBLE);
         tvNoRecord = findViewById(R.id.tvNoRecord);
-        recyclerView = findViewById(R.id.recyclerView);
+
         spinnerRange = findViewById(R.id.spinnerRange);
 
+        recyclerView = findViewById(R.id.recyclerView);
+        /*RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+*/
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,15 +143,14 @@ public class AllProductActivity extends AppCompatActivity {
             }
         });
 
-        getNearByProduct();
         getRange();
         spinnerRange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position==0) {
                     RangeModel rangeModel = rangeAdapter.getItem(position);
                     selectedRange = rangeModel.getRange();
-                }
+                    Log.d(TAG, "onItemSelected: "+rangeModel.getRange());
+                    getNearByProduct();
             }
 
             @Override
@@ -144,7 +158,6 @@ public class AllProductActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void getRange() {
@@ -162,6 +175,7 @@ public class AllProductActivity extends AppCompatActivity {
                 if (rangeMainArray.size() > 0) {
                     rangeAdapter = new RangeAdapter(getApplicationContext(), rangeMainArray);
                     spinnerRange.setAdapter(rangeAdapter);
+                   // rangeAdapter.notifyDataSetChanged();
                 }
             } else {
                 showToast(AllProductActivity.this, "Data not found");
@@ -176,11 +190,11 @@ public class AllProductActivity extends AppCompatActivity {
         pd = ProgressDialog.show(AllProductActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("Range", "100");
-            //jsonObject.put("Latitude", String.valueOf(latitude));
-            //jsonObject.put("Longitude", String.valueOf(longitude));
-            jsonObject.put("Latitude", "27.8975");
-            jsonObject.put("Longitude", "81.8555");
+            jsonObject.put("Range", selectedRange);
+            jsonObject.put("Latitude", String.valueOf(mLatCurrent));
+            jsonObject.put("Longitude", String.valueOf(mLngCurrent));
+            //jsonObject.put("Latitude", "27.8975");
+           // jsonObject.put("Longitude", "81.8555");
             Log.d(TAG, "getNearByProduct: " + jsonObject);
 
         } catch (JSONException e) {
@@ -192,6 +206,7 @@ public class AllProductActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
+                Log.d(">>>>>>>>>>>>>", response.toString());
                 pd.dismiss();
 
                 try {
@@ -221,11 +236,13 @@ public class AllProductActivity extends AppCompatActivity {
                     Log.d(TAG, "onResponse: " + allProductArrayList.size());
                     if (allProductArrayList.size() > 0) {
                         tvNoRecord.setVisibility(View.GONE);
-                        AllProductAdapter mAdapter = new AllProductAdapter(AllProductActivity.this, allProductArrayList);
-                        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        mAdapter = new AllProductAdapter(AllProductActivity.this, allProductArrayList);
+                        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(AllProductActivity.this);
                         recyclerView.setLayoutManager(mLayoutManager);
                         recyclerView.setItemAnimator(new DefaultItemAnimator());
                         recyclerView.setAdapter(mAdapter);
+                        mAdapter.notifyDataSetChanged();
+
                     } else {
                         tvNoRecord.setVisibility(View.VISIBLE);
                     }

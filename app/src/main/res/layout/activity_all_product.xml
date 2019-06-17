@@ -15,44 +15,44 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/_5sdp"
-        android:layout_below="@+id/header">
+        android:layout_below="@+id/header"
+        android:padding="@dimen/_5sdp">
 
         <LinearLayout
             android:id="@+id/lLSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal"
             android:weightSum="1">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_45sdp"
-                android:orientation="vertical"
                 android:layout_marginRight="@dimen/_3sdp"
-                android:layout_weight=".5">
+                android:layout_weight=".5"
+                android:orientation="vertical">
 
                 <EditText
                     android:id="@+id/editResName"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_45sdp"
                     android:background="@android:drawable/edit_text"
-                    android:hint="Search here"
-                    android:scrollbars="vertical"
                     android:ems="14"
-                    android:scrollHorizontally="false"
+                    android:hint="Search here"
                     android:inputType="text"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false"
                     android:textSize="@dimen/_14sdp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginLeft="@dimen/_3sdp"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_45sdp"
-                android:orientation="vertical"
-                android:layout_weight=".5">
+                android:layout_marginLeft="@dimen/_3sdp"
+                android:layout_weight=".5"
+                android:orientation="vertical">
 
                 <Spinner
                     android:id="@+id/spinnerRange"
@@ -65,6 +65,7 @@
             </LinearLayout>
 
         </LinearLayout>
+
         <TextView
             android:id="@+id/tvNoRecord"
             android:layout_width="match_parent"
@@ -78,9 +79,9 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
-            android:layout_below="@+id/lLSearch"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/lLSearch"
             android:visibility="visible">
 
         </android.support.v7.widget.RecyclerView>
