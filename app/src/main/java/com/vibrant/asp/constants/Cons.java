@@ -7,6 +7,7 @@ public class Cons {
     public static final String GET_REGISTER =BASE_URL+"RegistarGrower";
     public static final String GET_SUBSCRIPTION =BASE_URL+"GetSubscription";
     public static final String GET_UPLOAD_PRODUCT =BASE_URL+"UploadProduct";
+    public static final String GET_NEAR_BY_PRODUCT =BASE_URL+"GetNearByProducts";
 
 
 

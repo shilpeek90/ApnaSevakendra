@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".activity.DashboardActivity">
+    tools:context=".activity.CameraActivity">
 
     <include
         android:id="@+id/header"

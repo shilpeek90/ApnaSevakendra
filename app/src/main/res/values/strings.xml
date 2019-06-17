@@ -26,7 +26,8 @@
     <string name="submit">Submit</string>
     <string name="check_network">Please check your Network</string>
 
-    <string name="dashboard">Dashboard</string>
+    <string name="camera">Camera</string>
+
     <string name="resource_name">Resource name</string>
 
 
@@ -54,6 +55,11 @@
     <string name="rate">Rate</string>
     <string name="password">Password</string>
     <string name="description">Description</string>
+
+    <string name="lend">Lend</string>
+    <string name="rent">Rent</string>
+    <string name="all_product">All Product</string>
+    <string name="map">Map</string>
 
 
 </resources>

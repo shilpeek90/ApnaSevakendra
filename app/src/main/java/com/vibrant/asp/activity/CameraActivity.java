@@ -57,9 +57,9 @@ import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
 
-public class DashboardActivity extends AppCompatActivity {
-    private static final String TAG = "DashboardActivity";
-    private boolean doubleBackToExitPressedOnce = false;
+public class CameraActivity extends AppCompatActivity {
+    private static final String TAG = "CameraActivity";
+   // private boolean doubleBackToExitPressedOnce = false;
     ProgressDialog pd;
     TextView tvHeader;
     EditText editResName, editRent,editDiscription;
@@ -84,20 +84,28 @@ public class DashboardActivity extends AppCompatActivity {
     private double latitude;
     private double longitude;
     GPSTracker gpsTracker;
-
+    ImageView ivBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
-        hideKeyboard(DashboardActivity.this);
-        gpsTracker = new GPSTracker(DashboardActivity.this);
+        setContentView(R.layout.activity_camera);
+        hideKeyboard(CameraActivity.this);
+        gpsTracker = new GPSTracker(CameraActivity.this);
 
         init();
     }
 
     private void init() {
         tvHeader = findViewById(R.id.tvHeader);
-        tvHeader.setText(getString(R.string.dashboard));
+        tvHeader.setText(getString(R.string.camera));
+        ivBack =findViewById(R.id.ivBack);
+        ivBack.setVisibility(View.VISIBLE);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         editResName = findViewById(R.id.editResName);
         editRent = findViewById(R.id.editRent);
         editDiscription = findViewById(R.id.editDiscription);
@@ -113,7 +121,7 @@ public class DashboardActivity extends AppCompatActivity {
         lLayRentCatgry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast(DashboardActivity.this, "Category Clicked");
+                showToast(CameraActivity.this, "Category Clicked");
             }
         });
 
@@ -143,10 +151,10 @@ public class DashboardActivity extends AppCompatActivity {
                             getUploadProduct();
                         }
                     } else {
-                        showToast(DashboardActivity.this, error_message);
+                        showToast(CameraActivity.this, error_message);
                     }
                 } else {
-                    showToast(DashboardActivity.this, getResources().getString(R.string.check_network));
+                    showToast(CameraActivity.this, getResources().getString(R.string.check_network));
                 }
             }
         });
@@ -187,7 +195,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void getUploadProduct() {
         String url = Cons.GET_UPLOAD_PRODUCT;
-        pd = ProgressDialog.show(DashboardActivity.this, "Please Wait...");
+        pd = ProgressDialog.show(CameraActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("UserId", "1");
@@ -216,10 +224,10 @@ public class DashboardActivity extends AppCompatActivity {
                         editResName.setText("");
                         editRent.setText("");
                         editDiscription.setText("");
-                        startActivity(new Intent(DashboardActivity.this, MainActivity.class));
+                        startActivity(new Intent(CameraActivity.this, MainActivity.class));
                         finish();
                     } else {
-                        showToast(DashboardActivity.this, "Something went wrong");
+                        showToast(CameraActivity.this, "Something went wrong");
                     }
 
                 } catch (JSONException e) {
@@ -231,7 +239,7 @@ public class DashboardActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Error: " + error.getMessage());
                 pd.dismiss();
-                showToast(DashboardActivity.this, "Something went wrong");
+                showToast(CameraActivity.this, "Something went wrong");
             }
         }) {
             @Override
@@ -273,7 +281,7 @@ public class DashboardActivity extends AppCompatActivity {
                             spinnerSub.setAdapter(subAdapter);
                         }
                     } else {
-                        showToast(DashboardActivity.this, "Data not found");
+                        showToast(CameraActivity.this, "Data not found");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -283,7 +291,7 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Error: " + error.getMessage());
-                showToast(DashboardActivity.this, "Something went wrong");
+                showToast(CameraActivity.this, "Something went wrong");
             }
         }) {
             @Override
@@ -323,7 +331,7 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ivImage2.setImageDrawable(getResources().getDrawable(R.drawable.file));
-                showToast(DashboardActivity.this, "Successfully Removed photo");
+                showToast(CameraActivity.this, "Successfully Removed photo");
                 dialog2.dismiss();
             }
         });
@@ -373,7 +381,7 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ivImage1.setImageDrawable(getResources().getDrawable(R.drawable.file));
-                showToast(DashboardActivity.this, "Successfully Removed photo");
+                showToast(CameraActivity.this, "Successfully Removed photo");
                 dialog.dismiss();
             }
         });
@@ -413,14 +421,14 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void requestCameraPermission1() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-            new AlertDialog.Builder(DashboardActivity.this)
+            new AlertDialog.Builder(CameraActivity.this)
                     .setTitle("Permission Request")
                     .setMessage(getString(R.string.permission_need_allowed))
                     .setCancelable(false)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             //re-request
-                            ActivityCompat.requestPermissions(DashboardActivity.this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE_1);
+                            ActivityCompat.requestPermissions(CameraActivity.this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE_1);
                         }
                     })
                     .show();
@@ -432,14 +440,14 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void requestCameraPermission2() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-            new AlertDialog.Builder(DashboardActivity.this)
+            new AlertDialog.Builder(CameraActivity.this)
                     .setTitle("Permission Request")
                     .setMessage(getString(R.string.permission_need_allowed))
                     .setCancelable(false)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             //re-request
-                            ActivityCompat.requestPermissions(DashboardActivity.this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE_2);
+                            ActivityCompat.requestPermissions(CameraActivity.this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE_2);
                         }
                     })
                     .show();
@@ -483,7 +491,7 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void alertAlert(String msg) {
-        new AlertDialog.Builder(DashboardActivity.this)
+        new AlertDialog.Builder(CameraActivity.this)
                 .setTitle("Permission Request")
                 .setMessage(msg)
                 .setCancelable(false)
@@ -518,7 +526,7 @@ public class DashboardActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_GALLERY_1 && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
                 final Uri imageUri = data.getData();
-                String path = ImageFilePath.getPath(DashboardActivity.this, imageUri);
+                String path = ImageFilePath.getPath(CameraActivity.this, imageUri);
                 Log.d(TAG, "onActivityResult: "+path);
                 imgExtension = path.substring(path.lastIndexOf("."));
                 if (imgExtension.equalsIgnoreCase(".jpg")) {
@@ -527,11 +535,11 @@ public class DashboardActivity extends AppCompatActivity {
                     mConvertedImg1 = convertToBase64(resizedBitmap);
                     ivImage1.setImageBitmap(bitmap);
                 } else {
-                    showToast(DashboardActivity.this, "Please select jpg image only");
+                    showToast(CameraActivity.this, "Please select jpg image only");
                 }
                 dialog.dismiss();
             } else {
-                showToast(DashboardActivity.this, "You haven't picked Image");
+                showToast(CameraActivity.this, "You haven't picked Image");
             }
         } else if (requestCode == PERMISSION_REQUEST_CODE_1 && resultCode == RESULT_OK) {
             //for camera Image 1
@@ -559,7 +567,7 @@ public class DashboardActivity extends AppCompatActivity {
             //For Gallery Image 2
             if (data != null && data.getData() != null) {
                 final Uri imageUri1 = data.getData();
-                String imagePath = ImageFilePath.getPath(DashboardActivity.this, imageUri1);
+                String imagePath = ImageFilePath.getPath(CameraActivity.this, imageUri1);
                 imgExtension = imagePath.substring(imagePath.lastIndexOf("."));
                 if (imgExtension.equalsIgnoreCase(".jpg")) {
                     Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
@@ -567,11 +575,11 @@ public class DashboardActivity extends AppCompatActivity {
                     mConvertedImg2 = convertToBase64(resizedBitmap);
                     ivImage2.setImageBitmap(bitmap);
                 } else {
-                    showToast(DashboardActivity.this, "Please select jpg image only");
+                    showToast(CameraActivity.this, "Please select jpg image only");
                 }
                 dialog2.dismiss();
             } else {
-                showToast(DashboardActivity.this, "You haven't picked Image");
+                showToast(CameraActivity.this, "You haven't picked Image");
             }
         } else if (requestCode == PERMISSION_REQUEST_CODE_2 && resultCode == RESULT_OK) {
             //For Camera Image 2
@@ -638,8 +646,12 @@ public class DashboardActivity extends AppCompatActivity {
         return encodedStr;
     }
 
-
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+    
+    /* @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
@@ -653,5 +665,5 @@ public class DashboardActivity extends AppCompatActivity {
                 doubleBackToExitPressedOnce = false;
             }
         }, 2000);
-    }
+    }*/
 }

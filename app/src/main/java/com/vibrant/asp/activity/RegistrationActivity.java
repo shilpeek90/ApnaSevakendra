@@ -24,7 +24,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -40,13 +39,10 @@ import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.gps.GPSTracker;
 import com.vibrant.asp.model.DistrictModel;
 import com.vibrant.asp.model.StateModel;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.setPreference;
@@ -347,7 +343,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         editGrowerName.setText("");
                         editMobile.setText("");
                         editAddress.setText("");
-                        startActivity(new Intent(RegistrationActivity.this, DashboardActivity.class));
+                        startActivity(new Intent(RegistrationActivity.this, RentActivity.class));
                         finish();
                     } else {
                         showToast(RegistrationActivity.this, "Already Registered");

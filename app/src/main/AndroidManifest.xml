@@ -22,14 +22,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".activity.ViewImageActivity"></activity>
+        <activity android:name=".activity.MapActivity" />
+        <activity android:name=".activity.AllProductActivity" />
+        <activity android:name=".activity.RentActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB87Ih7W2MyDa-zfMQuuVZejAbSQdDC2EY" />
 
         <activity
-            android:name=".activity.DashboardActivity"
+            android:name=".activity.CameraActivity"
             android:configChanges="keyboardHidden">
 
             <!--
