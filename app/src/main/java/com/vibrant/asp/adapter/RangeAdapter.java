@@ -1,16 +1,12 @@
 package com.vibrant.asp.adapter;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.vibrant.asp.R;
 import com.vibrant.asp.model.RangeModel;
-import com.vibrant.asp.model.SubscriptionModel;
-
 import java.util.List;
 
 public class RangeAdapter extends BaseAdapter {

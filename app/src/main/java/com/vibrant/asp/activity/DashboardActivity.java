@@ -18,35 +18,30 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.vibrant.asp.R;
 import com.vibrant.asp.gps.GPSTracker;
-
 import static com.vibrant.asp.constants.Util.showToast;
 
-public class RentActivity extends AppCompatActivity {
-    private static final String TAG = "RentActivity";
+public class DashboardActivity extends AppCompatActivity {
+    private static final String TAG = "DashboardActivity";
     private boolean doubleBackToExitPressedOnce = false;
     private static final int PERMISSION_REQUEST_CODE = 1;
     private double latitude;
     private double longitude;
-
     TextView tvHeader;
     Button btnLend,btnRent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rent);
-
+        setContentView(R.layout.activity_dashboard);
         init();
     }
 
     private void init() {
         tvHeader =findViewById(R.id.tvHeader);
-        tvHeader.setText(getString(R.string.rent));
-
+        tvHeader.setText(getString(R.string.dashboard));
         btnLend =findViewById(R.id.btnLend);
         btnRent =findViewById(R.id.btnRent);
-
-        //For click Listner
+        //For Click Listener
         btnRent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +52,7 @@ public class RentActivity extends AppCompatActivity {
         btnLend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RentActivity.this,CameraActivity.class));
+                startActivity(new Intent(DashboardActivity.this,CameraActivity.class));
             }
         });
     }
@@ -76,14 +71,14 @@ public class RentActivity extends AppCompatActivity {
 
     private void requestReadPhoneStatePermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            new AlertDialog.Builder(RentActivity.this)
+            new AlertDialog.Builder(DashboardActivity.this)
                     .setTitle("Permission Request")
                     .setMessage(getString(R.string.permission_read_phone_state_rationale1))
                     .setCancelable(false)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             //re-request
-                            ActivityCompat.requestPermissions(RentActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
+                            ActivityCompat.requestPermissions(DashboardActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
 
                             //ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},
                         }
@@ -116,7 +111,7 @@ public class RentActivity extends AppCompatActivity {
     }
 
     private void alertAlert(String msg) {
-        new AlertDialog.Builder(RentActivity.this)
+        new AlertDialog.Builder(DashboardActivity.this)
                 .setTitle("Permission Request")
                 .setMessage(msg)
                 .setCancelable(false)
@@ -131,7 +126,7 @@ public class RentActivity extends AppCompatActivity {
 
     public void doPermissionGrantedStuffs() {
         try {
-            GPSTracker gpsTracker = new GPSTracker(RentActivity.this);
+            GPSTracker gpsTracker = new GPSTracker(DashboardActivity.this);
             String msg = gpsTracker.getGPS_Location();
             Log.d(TAG, "doPermissionGrantedStuffs:---" + msg);
             if (msg == null) {
@@ -139,7 +134,7 @@ public class RentActivity extends AppCompatActivity {
             } else if (msg.equals("Location not found,Please move to open sky and try again")) {
                 showDialog("GPS Location not found,Please move to open sky and try again");
             } else if (msg.equals("Your GPS module is disabled. Would you like to enable it ?")) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(RentActivity.this, android.R.style.Theme_DeviceDefault_Dialog));
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(DashboardActivity.this, android.R.style.Theme_DeviceDefault_Dialog));
                 builder.setMessage("Your GPS module is disabled. Would you like to enable it ?")
                         .setCancelable(false)
                         .setPositiveButton("Yes",
@@ -163,7 +158,7 @@ public class RentActivity extends AppCompatActivity {
                 if (location != null) {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
-                    Intent intent = new Intent(RentActivity.this,AllProductActivity.class);
+                    Intent intent = new Intent(DashboardActivity.this,AllProductActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("mLatCurrent", String.valueOf(latitude));
                     bundle.putString("mLngCurrent", String.valueOf(longitude));
@@ -178,7 +173,7 @@ public class RentActivity extends AppCompatActivity {
 
 
     public void showDialog(String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(RentActivity.this, android.R.style.Theme_DeviceDefault_Dialog));
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(DashboardActivity.this, android.R.style.Theme_DeviceDefault_Dialog));
         builder.setMessage(message)
                 .setCancelable(false)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {

@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,15 +25,11 @@ import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.model.AllProductModel;
 import com.vibrant.asp.model.RangeModel;
-import com.vibrant.asp.model.SubscriptionModel;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.showToast;
 

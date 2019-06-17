@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -30,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -225,7 +224,7 @@ public class CameraActivity extends AppCompatActivity {
                         editRent.setText("");
                         editDiscription.setText("");
                         showToast(CameraActivity.this, "Successfully Product Uploaded");
-                        startActivity(new Intent(CameraActivity.this, RentActivity.class));
+                        startActivity(new Intent(CameraActivity.this, DashboardActivity.class));
                         finish();
                     } else {
                         showToast(CameraActivity.this, "Something went wrong");

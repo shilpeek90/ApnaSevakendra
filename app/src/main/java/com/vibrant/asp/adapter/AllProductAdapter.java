@@ -1,5 +1,4 @@
 package com.vibrant.asp.adapter;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
