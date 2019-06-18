@@ -47,7 +47,7 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        holder.tvName.setText(arrayList.get(position).getName());
+        holder.tvName.setText(arrayList.get(position).getName().toUpperCase());
        // holder.tvMobileNumber.setText(arrayList.get(position).getMobile());
         //holder.tvStateName.setText(arrayList.get(position).getStateName());
        // holder.tvDistrict.setText(arrayList.get(position).getDistrictName());
@@ -127,7 +127,7 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
         notifyDataSetChanged();
     }
    // @Override
-    public Filter getFilter() {
+   /* public Filter getFilter() {
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
@@ -156,5 +156,5 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
             }
         };
     }
-
+*/
 }

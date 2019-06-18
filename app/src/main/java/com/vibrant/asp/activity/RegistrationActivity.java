@@ -423,7 +423,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     JSONArray jsonArray = jsonObject.getJSONArray("d");
-                    if (jsonArray.length() > 0) {
+                   // if (jsonArray.length() > 0) {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jObj = jsonArray.getJSONObject(i);
                             StateModel stateModel = new StateModel();
@@ -435,9 +435,9 @@ public class RegistrationActivity extends AppCompatActivity {
                             autoSuggestAdapter.setData(stateArray);
                             autoSuggestAdapter.notifyDataSetChanged();
                         }
-                    } else {
+                    /*} else {
                         showToast(RegistrationActivity.this, "Data not found");
-                    }
+                    }*/
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

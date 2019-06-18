@@ -176,16 +176,20 @@ public class AllProductActivity extends AppCompatActivity {
     }
 
    public void filter(String text){
-        List<AllProductModel> temp = new ArrayList();
+        List<AllProductModel> filteredArray = new ArrayList();
         for(AllProductModel d: allProductArrayList){
             //or use .equal(text) with you want equal match
             //use .toLowerCase() for better matches
+           // if(d.getName().contains(text)){
             if(d.getName().contains(text)){
-                temp.add(d);
+                tvNoRecord.setVisibility(View.GONE);
+                filteredArray.add(d);
+            }else {
+                tvNoRecord.setVisibility(View.VISIBLE);
             }
         }
         //update recyclerview
-        mAdapter.updateList(temp);
+        mAdapter.updateList(filteredArray);
     }
 
 

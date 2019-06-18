@@ -8,6 +8,7 @@
     <include
         android:id="@+id/header"
         layout="@layout/header" />
+
     <RelativeLayout
         android:layout_below="@+id/header"
         android:layout_width="match_parent"
