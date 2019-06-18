@@ -4,19 +4,29 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.vibrant.asp.R;
+import com.vibrant.asp.activity.BookNowActivity;
 import com.vibrant.asp.activity.MapActivity;
 import com.vibrant.asp.activity.ViewImageActivity;
 import com.vibrant.asp.model.AllProductModel;
+import android.widget.Filter;
+import android.widget.Filterable;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.vibrant.asp.constants.Util.roundTwoDecimals;
 
 public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.MyHolder> {
     private List<AllProductModel> arrayList;
+    private List<AllProductModel> listFiltered;;
+
     Context mContext;
     private double latitude;
     private double longitude;
@@ -38,13 +48,14 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
         holder.tvName.setText(arrayList.get(position).getName());
-        holder.tvMobileNumber.setText(arrayList.get(position).getMobile());
-        holder.tvStateName.setText(arrayList.get(position).getStateName());
-        holder.tvDistrict.setText(arrayList.get(position).getDistrictName());
-        holder.tvAddress.setText(arrayList.get(position).getAddress());
-        holder.tvSubscription.setText(arrayList.get(position).getSubName());
-        holder.tvRate.setText(String.valueOf(arrayList.get(position).getRate()));
-        holder.tvDistance.setText(arrayList.get(position).getDistance());
+       // holder.tvMobileNumber.setText(arrayList.get(position).getMobile());
+        //holder.tvStateName.setText(arrayList.get(position).getStateName());
+       // holder.tvDistrict.setText(arrayList.get(position).getDistrictName());
+       // holder.tvAddress.setText(arrayList.get(position).getAddress());
+      //  holder.tvSubscription.setText(arrayList.get(position).getSubName());
+        holder.tvRate.setText(String.valueOf(arrayList.get(position).getRate())+" "+arrayList.get(position).getSubName());
+        holder.tvDistance.setText(String.valueOf(roundTwoDecimals((arrayList.get(position).getDistance())))+" "+"km");
+      //  holder.tvDistance.setText(String.format("%.3f", arrayList.get(position).getDistance())+" "+"km");
 
         holder.llViewMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +84,18 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
                 mContext.startActivity(intent);
             }
         });
+
+        holder.llBookNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, BookNowActivity.class);
+               /* Bundle bundle = new Bundle();
+                bundle.putString("", "");
+                bundle.putString("", "");
+                intent.putExtra("bundle", bundle);*/
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -82,20 +105,56 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
 
     public class MyHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvMobileNumber, tvStateName, tvDistrict, tvAddress, tvSubscription, tvRate, tvDistance;
-        LinearLayout llViewMap, llViewImage;
+        LinearLayout llViewMap, llViewImage,llBookNow;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
-            tvMobileNumber = itemView.findViewById(R.id.tvMobileNumber);
-            tvStateName = itemView.findViewById(R.id.tvStateName);
-            tvDistrict = itemView.findViewById(R.id.tvDistrict);
-            tvAddress = itemView.findViewById(R.id.tvAddress);
-            tvSubscription = itemView.findViewById(R.id.tvSubscription);
+           // tvMobileNumber = itemView.findViewById(R.id.tvMobileNumber);
+           // tvStateName = itemView.findViewById(R.id.tvStateName);
+           // tvDistrict = itemView.findViewById(R.id.tvDistrict);
+            //tvAddress = itemView.findViewById(R.id.tvAddress);
+            //tvSubscription = itemView.findViewById(R.id.tvSubscription);
             tvRate = itemView.findViewById(R.id.tvRate);
             tvDistance = itemView.findViewById(R.id.tvDistance);
             llViewMap = itemView.findViewById(R.id.llViewMap);
             llViewImage = itemView.findViewById(R.id.llViewImage);
+            llBookNow = itemView.findViewById(R.id.llBookNow);
         }
     }
+    public void updateList(List<AllProductModel> list){
+        arrayList = list;
+        notifyDataSetChanged();
+    }
+   // @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    listFiltered = arrayList;
+                } else {
+                    List<AllProductModel> filteredList = new ArrayList<>();
+                    for (AllProductModel row : arrayList) {
+                        if (row.getName().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+                    listFiltered = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = listFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                listFiltered = (ArrayList<AllProductModel>) filterResults.values;
+                Log.d(">>>>>>>", "publishResults: "+listFiltered.size());
+                notifyDataSetChanged();
+            }
+        };
+    }
+
 }

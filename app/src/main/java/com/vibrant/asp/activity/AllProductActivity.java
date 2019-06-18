@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -37,6 +40,7 @@ public class AllProductActivity extends AppCompatActivity {
     private static final String TAG = "AllProductActivity";
     TextView tvHeader, tvNoRecord;
     ImageView ivBack;
+    EditText editSearch;
     ProgressDialog pd;
     List<AllProductModel> allProductArrayList = new ArrayList<>();
     Spinner spinnerRange;
@@ -125,12 +129,10 @@ public class AllProductActivity extends AppCompatActivity {
         tvNoRecord = findViewById(R.id.tvNoRecord);
 
         spinnerRange = findViewById(R.id.spinnerRange);
-
         recyclerView = findViewById(R.id.recyclerView);
-        /*RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-*/
+
+        editSearch =findViewById(R.id.editSearch);
+
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,6 +140,25 @@ public class AllProductActivity extends AppCompatActivity {
             }
         });
 
+        editSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d(TAG, "onTextChanged: "+s);
+                /*if (s.length()>0) {
+                    mAdapter.getFilter().filter(s);
+                }*/
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filter(s.toString());
+            }
+        });
         getRange();
         spinnerRange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -147,13 +168,27 @@ public class AllProductActivity extends AppCompatActivity {
                     Log.d(TAG, "onItemSelected: "+rangeModel.getRange());
                     getNearByProduct();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
     }
+
+   public void filter(String text){
+        List<AllProductModel> temp = new ArrayList();
+        for(AllProductModel d: allProductArrayList){
+            //or use .equal(text) with you want equal match
+            //use .toLowerCase() for better matches
+            if(d.getName().contains(text)){
+                temp.add(d);
+            }
+        }
+        //update recyclerview
+        mAdapter.updateList(temp);
+    }
+
+
 
     private void getRange() {
         try {
@@ -224,7 +259,7 @@ public class AllProductActivity extends AppCompatActivity {
                         allProductModel.setDescription(jsonArray.getJSONObject(i).getString("Description"));
                         allProductModel.setLatitude(jsonArray.getJSONObject(i).getString("Latitude"));
                         allProductModel.setLongitude(jsonArray.getJSONObject(i).getString("Longitude"));
-                        allProductModel.setDistance(jsonArray.getJSONObject(i).getString("Distance"));
+                        allProductModel.setDistance(jsonArray.getJSONObject(i).getDouble("Distance"));
 
                         allProductArrayList.add(allProductModel);
                     }
@@ -237,11 +272,9 @@ public class AllProductActivity extends AppCompatActivity {
                         recyclerView.setItemAnimator(new DefaultItemAnimator());
                         recyclerView.setAdapter(mAdapter);
                         mAdapter.notifyDataSetChanged();
-
                     } else {
                         tvNoRecord.setVisibility(View.VISIBLE);
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -262,10 +295,7 @@ public class AllProductActivity extends AppCompatActivity {
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(50000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(jsonObjReq);
-
     }
-
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();

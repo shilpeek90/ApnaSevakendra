@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.vibrant.asp.R;
 
 import java.io.ByteArrayOutputStream;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -84,7 +86,14 @@ public class Util {
         toast.show();
 
     }
-
+   public static double roundTwoDecimals(double d)
+    {
+        DecimalFormat df = new DecimalFormat("#.###");
+        df.setRoundingMode(RoundingMode.CEILING);
+        return Double.valueOf(df.format(d));
+       /* DecimalFormat twoDForm = new DecimalFormat("#.##");
+        return Double.valueOf(twoDForm.format(d));*/
+    }
 
 }
 

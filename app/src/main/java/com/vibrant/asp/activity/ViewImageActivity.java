@@ -51,7 +51,7 @@ public class ViewImageActivity extends AppCompatActivity {
 
         RequestOptions options = new RequestOptions()
                 .centerCrop()
-                .error(R.drawable.file)
+                .error(R.drawable.file_error)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
 
@@ -61,7 +61,7 @@ public class ViewImageActivity extends AppCompatActivity {
 
         RequestOptions options2 = new RequestOptions()
                 .centerCrop()
-                .error(R.drawable.file)
+                .error(R.drawable.file_error)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .priority(Priority.HIGH);
 

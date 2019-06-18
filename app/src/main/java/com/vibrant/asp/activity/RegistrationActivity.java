@@ -78,20 +78,17 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         hideKeyboard(RegistrationActivity.this);
-
         init();
     }
 
     private void init() {
         tvHeader = findViewById(R.id.tvHeader);
         tvHeader.setText(getString(R.string.registration));
-        //  editState = findViewById(R.id.editState);
         autoCompletDistrict = findViewById(R.id.autoCompletDistrict);
         editGrowerName = findViewById(R.id.editGrowerName);
         editMobile = findViewById(R.id.editMobile);
         editAddress = findViewById(R.id.editAddress);
         editPass = findViewById(R.id.editPass);
-
         autoCompletState = findViewById(R.id.autoCompletState);
 
         autoSuggestAdapter = new AutoSuggestStateAdapter(this, android.R.layout.simple_dropdown_item_1line);
@@ -516,7 +513,6 @@ public class RegistrationActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(jsonObjReq);
     }
-
 
     @Override
     public void onBackPressed() {

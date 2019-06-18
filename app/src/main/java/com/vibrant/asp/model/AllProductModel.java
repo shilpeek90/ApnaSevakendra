@@ -14,7 +14,7 @@ private String image2;
 private String description;
 private String latitude;
 private String longitude;
-private String distance;
+private double distance;
 
 
     public AllProductModel() {
@@ -124,11 +124,11 @@ private String distance;
         this.longitude = longitude;
     }
 
-    public String getDistance() {
+    public double getDistance() {
         return distance;
     }
 
-    public void setDistance(String distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 }

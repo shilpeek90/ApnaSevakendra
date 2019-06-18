@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.vibrant.asp.R;
 import com.vibrant.asp.gps.GPSTracker;
@@ -27,7 +28,8 @@ public class DashboardActivity extends AppCompatActivity {
     private double latitude;
     private double longitude;
     TextView tvHeader;
-    Button btnLend,btnRent;
+   // Button btnLend,btnRent;
+    RelativeLayout rlayLend,rlRent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +41,17 @@ public class DashboardActivity extends AppCompatActivity {
     private void init() {
         tvHeader =findViewById(R.id.tvHeader);
         tvHeader.setText(getString(R.string.dashboard));
-        btnLend =findViewById(R.id.btnLend);
-        btnRent =findViewById(R.id.btnRent);
+        rlayLend =findViewById(R.id.rlayLend);
+        rlRent =findViewById(R.id.rlRent);
         //For Click Listener
-        btnRent.setOnClickListener(new View.OnClickListener() {
+        rlRent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getPermissionGPS();
             }
         });
 
-        btnLend.setOnClickListener(new View.OnClickListener() {
+        rlayLend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(DashboardActivity.this,CameraActivity.class));

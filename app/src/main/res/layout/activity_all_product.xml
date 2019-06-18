@@ -30,16 +30,18 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_45sdp"
                 android:layout_marginRight="@dimen/_3sdp"
-                android:layout_weight=".5"
+                android:layout_weight=".6"
                 android:orientation="vertical">
 
                 <EditText
-                    android:id="@+id/editResName"
+                    android:id="@+id/editSearch"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_45sdp"
                     android:background="@android:drawable/edit_text"
+                    android:drawableRight="@drawable/ic_search_24dp"
                     android:ems="14"
                     android:hint="Search here"
+                    android:maxLength="2"
                     android:inputType="text"
                     android:scrollbars="vertical"
                     android:scrollHorizontally="false"
@@ -51,7 +53,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_45sdp"
                 android:layout_marginLeft="@dimen/_3sdp"
-                android:layout_weight=".5"
+                android:layout_weight=".4"
                 android:orientation="vertical">
 
                 <Spinner
