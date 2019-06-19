@@ -10,8 +10,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -21,16 +19,16 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.vibrant.asp.BuildConfig;
 import com.vibrant.asp.R;
 import com.vibrant.asp.gps.GPSTracker;
 
+import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.showToast;
 
 public class MainActivity extends AppCompatActivity
@@ -40,37 +38,42 @@ public class MainActivity extends AppCompatActivity
     private static final int PERMISSION_REQUEST_CODE = 1;
     private double latitude;
     private double longitude;
-    TextView tvHeader;
-    // Button btnLend,btnRent;
-    RelativeLayout rlayLend,rlRent;
+    TextView tvName,tvVersion;
+    RelativeLayout rlayLend, rlRent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        /*FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        View headerView = navigationView.getHeaderView(0);
+        tvName = headerView.findViewById(R.id.tvName);
+        tvVersion = headerView.findViewById(R.id.tvVersion);
+        String mName = getPreference(MainActivity.this, "name");
+        if (mName != null && !mName.isEmpty()) {
+            tvName.setText(mName);
+        }
+        try {
+            String versionName = BuildConfig.VERSION_NAME;
+            int versionCode = BuildConfig.VERSION_CODE;
+            tvVersion.setText(getResources().getString(R.string.version) + " " + versionCode + " ( " + versionName + " )");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         init();
     }
+
     private void init() {
-       /* tvHeader =findViewById(R.id.tvHeader);
-        tvHeader.setText(getString(R.string.dashboard));*/
-        rlayLend =findViewById(R.id.rlayLend);
-        rlRent =findViewById(R.id.rlRent);
+        rlayLend = findViewById(R.id.rlayLend);
+        rlRent = findViewById(R.id.rlRent);
         //For Click Listener
         rlRent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         rlayLend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,CameraActivity.class));
+                startActivity(new Intent(MainActivity.this, CameraActivity.class));
             }
         });
     }
@@ -150,7 +153,6 @@ public class MainActivity extends AppCompatActivity
                         // do something here
                     }
                 })
-                //	.setIcon(R.drawable.onlinlinew_warning_sign)
                 .show();
     }
 
@@ -188,7 +190,7 @@ public class MainActivity extends AppCompatActivity
                 if (location != null) {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
-                    Intent intent = new Intent(MainActivity.this,AllProductActivity.class);
+                    Intent intent = new Intent(MainActivity.this, AllProductActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("mLatCurrent", String.valueOf(latitude));
                     bundle.putString("mLngCurrent", String.valueOf(longitude));
@@ -200,7 +202,6 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
     }
-
 
     public void showDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, android.R.style.Theme_DeviceDefault_Dialog));
@@ -218,35 +219,29 @@ public class MainActivity extends AppCompatActivity
         alert.show();
     }
 
-
-
-
-   /* @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-        this.doubleBackToExitPressedOnce = true;
-        showToast(this, "Please click BACK again to exit");
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 2000);
-    }*/
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+            this.doubleBackToExitPressedOnce = true;
+            showToast(this, "Please click BACK again to exit");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+            // super.onBackPressed();
         }
     }
 
-    @Override
+  /*  @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
@@ -266,7 +261,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -274,20 +269,19 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
-            startActivity(new Intent(MainActivity.this,OrdersForRenterActivity.class));
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_OrdersForRenter) {
+            startActivity(new Intent(MainActivity.this, OrdersForRenterActivity.class));
+        } else if (id == R.id.nav_GetOrdersForRentee) {
+            startActivity(new Intent(MainActivity.this, GetOrdersForRenteeActivity.class));
+        } else if (id == R.id.nav_logout) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_tools) {
+        } /*else if (id == R.id.nav_tools) {
 
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
-        }
+        }*/
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

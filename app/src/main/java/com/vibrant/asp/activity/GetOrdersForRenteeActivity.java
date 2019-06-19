@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -17,32 +18,37 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.vibrant.asp.R;
+import com.vibrant.asp.adapter.GetOrdersForRenteeAdapter;
 import com.vibrant.asp.adapter.GetOrdersForRenterAdapter;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
+import com.vibrant.asp.model.GetOrdersForRentee;
 import com.vibrant.asp.model.GetOrdersForRenter;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
 
-public class OrdersForRenterActivity extends AppCompatActivity {
-    private static final String TAG = "OrdersForRenterActivity";
+public class GetOrdersForRenteeActivity extends AppCompatActivity {
+    private static final String TAG = "GetOrdersForRenteeActiv";
     TextView tvHeader, tvNoRecord;
     ImageView ivBack;
     ProgressDialog pd;
-    List<GetOrdersForRenter> getOrdersForRenters = new ArrayList<>();
+    List<GetOrdersForRentee> getOrdersForRenters = new ArrayList<>();
     RecyclerView recyclerView;
-    GetOrdersForRenterAdapter mAdapter;
-
+    GetOrdersForRenteeAdapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orders_for_renter);
+        setContentView(R.layout.activity_get_orders_for_rentee);
+
         init();
     }
 
@@ -60,22 +66,22 @@ public class OrdersForRenterActivity extends AppCompatActivity {
         tvNoRecord = findViewById(R.id.tvNoRecord);
         recyclerView = findViewById(R.id.recyclerView);
         if (isInternetConnected(getApplicationContext())) {
-            getOrderForRenter();
+            getOrderForRentee();
         } else {
-            showToast(OrdersForRenterActivity.this, getResources().getString(R.string.check_network));
+            showToast(GetOrdersForRenteeActivity.this, getResources().getString(R.string.check_network));
         }
     }
 
-    private void getOrderForRenter() {
-        String url = Cons.GET_GET_ORDER_FOR_RENTER;
-        pd = ProgressDialog.show(OrdersForRenterActivity.this, "Please Wait...");
+    private void getOrderForRentee() {
+        String url = Cons.GET_ORDER_FOR_RENTEE;
+        pd = ProgressDialog.show(GetOrdersForRenteeActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            String mRenteeId = getPreference(OrdersForRenterActivity.this, "Id");
+            String mRenteeId = getPreference(GetOrdersForRenteeActivity.this, "Id");
             if (mRenteeId != null) {
-                jsonObject.put("RenterId", mRenteeId);
+                jsonObject.put("RenteeId", mRenteeId);
             }
-            Log.d(TAG, "getOrderForRenter: " + jsonObject);
+            Log.d(TAG, "getOrderForRentee: " + jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -93,21 +99,22 @@ public class OrdersForRenterActivity extends AppCompatActivity {
                     getOrdersForRenters.clear();
                     if (jsonArray.length() > 0) {
                         for (int i = 0; i < jsonArray.length(); i++) {
-                            GetOrdersForRenter getOrdersForRenter = new GetOrdersForRenter();
-                            getOrdersForRenter.setRentee(jsonArray.getJSONObject(i).getString("RenteeId"));
-                            getOrdersForRenter.setMobno(jsonArray.getJSONObject(i).getString("Mobno"));
-                            getOrdersForRenter.setAmount(jsonArray.getJSONObject(i).getString("Amount"));
-                            getOrdersForRenter.setBookingDate(jsonArray.getJSONObject(i).getString("BookingDate"));
-                            getOrdersForRenter.setStateName(jsonArray.getJSONObject(i).getString("StateName"));
-                            getOrdersForRenter.setDistrictName(jsonArray.getJSONObject(i).getString("DistrictName"));
-                            getOrdersForRenter.setBookedTill(jsonArray.getJSONObject(i).getString("BookedTill"));
-                            getOrdersForRenters.add(getOrdersForRenter);
+                            GetOrdersForRentee getOrdersForRentee = new GetOrdersForRentee();
+                            getOrdersForRentee.setRenter(jsonArray.getJSONObject(i).getString("Renter"));
+                            getOrdersForRentee.setMobno(jsonArray.getJSONObject(i).getString("Mobno"));
+                            getOrdersForRentee.setAmount(jsonArray.getJSONObject(i).getString("Amount"));
+                            getOrdersForRentee.setCommissionAmount(jsonArray.getJSONObject(i).getString("CommissionAmount"));
+                            getOrdersForRentee.setStateName(jsonArray.getJSONObject(i).getString("StateName"));
+                            getOrdersForRentee.setDistrictName(jsonArray.getJSONObject(i).getString("DistrictName"));
+                            getOrdersForRentee.setBookingDate(jsonArray.getJSONObject(i).getString("BookingDate"));
+                            getOrdersForRentee.setBookedTill(jsonArray.getJSONObject(i).getString("BookedTill"));
+                            getOrdersForRenters.add(getOrdersForRentee);
                         }
 
                         if (getOrdersForRenters.size() > 0) {
                             tvNoRecord.setVisibility(View.GONE);
-                            mAdapter = new GetOrdersForRenterAdapter(OrdersForRenterActivity.this, getOrdersForRenters);
-                            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(OrdersForRenterActivity.this);
+                            mAdapter = new GetOrdersForRenteeAdapter(GetOrdersForRenteeActivity.this, getOrdersForRenters);
+                            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(GetOrdersForRenteeActivity.this);
                             recyclerView.setLayoutManager(mLayoutManager);
                             recyclerView.setItemAnimator(new DefaultItemAnimator());
                             recyclerView.setAdapter(mAdapter);
@@ -117,7 +124,7 @@ public class OrdersForRenterActivity extends AppCompatActivity {
                         }
                     } else {
                         tvNoRecord.setVisibility(View.VISIBLE);
-                       // showToast(OrdersForRenterActivity.this, "No Record Found");
+                        // showToast(OrdersForRenterActivity.this, "No Record Found");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -128,7 +135,7 @@ public class OrdersForRenterActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Error: " + error.getMessage());
                 pd.dismiss();
-                showToast(OrdersForRenterActivity.this, "Something went wrong");
+                showToast(GetOrdersForRenteeActivity.this, "Something went wrong");
             }
         }) {
             @Override

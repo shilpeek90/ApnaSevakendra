@@ -176,10 +176,10 @@
 
                     <com.vibrant.asp.customtext.MyButtonBold
                         android:id="@+id/btnSubmit"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:layout_gravity="center"
-                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_margin="@dimen/_20sdp"
                         android:background="@drawable/custom_ripple_button"
                         android:paddingLeft="30dp"
                         android:paddingRight="30dp"

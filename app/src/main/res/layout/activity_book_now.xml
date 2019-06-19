@@ -90,7 +90,7 @@
                     android:id="@+id/tvCnt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Commission :"
+                    android:text="Commission Amount :"
                     android:textColor="@color/black"
                     android:textSize="16dp" />
 
@@ -109,12 +109,12 @@
 
             <com.vibrant.asp.customtext.MyButtonBold
                 android:id="@+id/btnSubmit"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_centerInParent="true"
                 android:layout_below="@+id/rlayoutCount"
                 android:gravity="center"
-                android:layout_marginTop="@dimen/_50sdp"
+                android:layout_margin="@dimen/_30sdp"
                 android:background="@drawable/custom_ripple_button"
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"

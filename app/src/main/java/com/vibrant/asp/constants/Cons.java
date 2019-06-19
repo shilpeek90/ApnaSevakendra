@@ -10,7 +10,8 @@ public class Cons {
     public static final String GET_UPLOAD_PRODUCT =BASE_URL+"UploadProduct";
     public static final String GET_NEAR_BY_PRODUCT =BASE_URL+"GetNearByProducts";
     public static final String GET_BOOK_PRODUCT =BASE_URL+"BookProduct";
-    public static final String GET_GetOrdersForRenter =BASE_URL+"GetOrdersForRenter";
+    public static final String GET_GET_ORDER_FOR_RENTER =BASE_URL+"GetOrdersForRenter";
+    public static final String GET_ORDER_FOR_RENTEE =BASE_URL+"GetOrdersForRentee";
 
 
 

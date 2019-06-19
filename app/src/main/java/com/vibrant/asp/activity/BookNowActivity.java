@@ -28,6 +28,7 @@ import org.json.JSONObject;
 
 import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.hideKeyboard;
+import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.setPreference;
 import static com.vibrant.asp.constants.Util.showToast;
 
@@ -82,6 +83,10 @@ public class BookNowActivity extends AppCompatActivity {
         tvAmount = findViewById(R.id.tvAmount);
         btnSubmit = findViewById(R.id.btnSubmit);
 
+        entered = editQnt.getText().toString();
+        tvAmount.setText(String.valueOf(getAmount(entered)));
+        tvCommission.setText(String.valueOf(getCommistion(getAmount(entered))));
+
         editQnt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -95,25 +100,21 @@ public class BookNowActivity extends AppCompatActivity {
                 Log.d(TAG, "onTextChanged: "+">>>>>"+entered);
                 tvAmount.setText(String.valueOf(getAmount(entered)));
                 tvCommission.setText(String.valueOf(getCommistion(getAmount(entered))));
-                //  int amount = getAmount(editQnt.getText().toString());
-                //Log.d(TAG, "onTextChanged: "+String.valueOf(amount));
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-               // tvAmount.setText(getAmount());
             }
         });
-
-
-
-
-
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getBookNow();
+                if (isInternetConnected(getApplicationContext())) {
+                    getBookNow();
+                } else {
+                    showToast(BookNowActivity.this, getResources().getString(R.string.check_network));
+                }
             }
         });
     }
@@ -122,12 +123,8 @@ public class BookNowActivity extends AppCompatActivity {
         int amt=0;
         if (entered.length()>0){
            amt= Integer.parseInt(entered);
-            Log.d(TAG, "getAmount: "+"amt--"+amt);
         }
          calAmount = (Integer.valueOf(mRate)*amt);
-        Log.d(TAG, "getAmount: " + String.valueOf(calAmount));
-        Log.d(TAG, "getAmount: " + entered);
-        Log.d(TAG, "getAmount: " + String.valueOf(amt));
         return calAmount;
     }
 

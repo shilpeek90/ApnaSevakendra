@@ -300,7 +300,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 if (location != null) {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
-                    Log.d("Current-----", "Home " + latitude + ">>>>>>>>>>" + longitude);
                     getRegister();
                 }
             }
@@ -308,7 +307,6 @@ public class RegistrationActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
 
     private void getRegister() {
         String url = Cons.GET_REGISTER;
@@ -328,9 +326,7 @@ public class RegistrationActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
@@ -345,9 +341,8 @@ public class RegistrationActivity extends AppCompatActivity {
                         String pass = editPass.getText().toString().trim();
                         getGrowerProfile(mob, pass);
                     } else {
-                        showToast(RegistrationActivity.this, "Already Registered");
+                        showToast(RegistrationActivity.this, "This Mobile Number Already Registered");
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -371,14 +366,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-
     private void getGrowerProfile(String mob, String pass) {
         String url = Cons.GET_GROWER_PROFILE;
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("Mobno", mob);
             jsonObject.put("Password", pass);
-
             Log.d(TAG, "getGrowerProfile: " + jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -389,12 +382,9 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
-
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
-
                     JSONArray jsonArray = jsonObject.getJSONArray("d");
-
                     if (jsonArray.length() > 0) {
 
                         for (int i = 0; i < jsonArray.length(); i++) {
@@ -408,7 +398,9 @@ public class RegistrationActivity extends AppCompatActivity {
                             //  String districtId = jobj.getString("DistrictId");
                             // String stateId = jobj.getString("StateId");
                             // String tstamp = jobj.getString("Tstamp");
+
                             setPreference(RegistrationActivity.this, "Id", Id);
+                            setPreference(RegistrationActivity.this, "name", name);
                         }
                         editGrowerName.setText("");
                         editMobile.setText("");

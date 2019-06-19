@@ -22,12 +22,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.OrdersForRenterActivity"></activity>
+        <activity android:name=".activity.GetOrdersForRenteeActivity"></activity>
+        <activity android:name=".activity.OrdersForRenterActivity" />
         <activity android:name=".activity.BookNowActivity" />
         <activity android:name=".activity.ViewImageActivity" />
         <activity android:name=".activity.MapActivity" />
         <activity android:name=".activity.AllProductActivity" />
-
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -63,16 +63,6 @@
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <provider
-            android:name=".activity.GenericFileProvider"
-            android:authorities="${applicationId}.Custprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
     </application>
 
 </manifest>
