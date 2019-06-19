@@ -1,10 +1,17 @@
 package com.vibrant.asp.activity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -15,21 +22,45 @@ import com.android.volley.toolbox.Volley;
 import com.vibrant.asp.R;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static com.vibrant.asp.constants.Util.getPreference;
+import static com.vibrant.asp.constants.Util.hideKeyboard;
+import static com.vibrant.asp.constants.Util.setPreference;
 import static com.vibrant.asp.constants.Util.showToast;
 
 public class BookNowActivity extends AppCompatActivity {
     private static final String TAG = "BookNowActivity";
-    TextView tvHeader;
+    TextView tvHeader, tvCommission, tvAmount;
     ImageView ivBack;
     ProgressDialog pd;
+    EditText editQnt;
     String error_message = "";
-
+    Button btnSubmit;
+    String SubscriptionId = "";
+    String mProductId = "";
+    String mRenterId = "";
+    int mRate = 0;
+    String entered="";
+    int calAmount =0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_now);
+        hideKeyboard(BookNowActivity.this);
+        try {
+            Bundle bundle = getIntent().getBundleExtra("bundle");
+            if (bundle != null) {
+                SubscriptionId = bundle.getString("SubscriptionId");
+                mRenterId = bundle.getString("mRenterId");
+                mProductId = bundle.getString("mProductId");
+                mRate = bundle.getInt("mRate");
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
 
         init();
     }
@@ -46,15 +77,78 @@ public class BookNowActivity extends AppCompatActivity {
             }
         });
 
+        editQnt = findViewById(R.id.editQnt);
+        tvCommission = findViewById(R.id.tvCommission);
+        tvAmount = findViewById(R.id.tvAmount);
+        btnSubmit = findViewById(R.id.btnSubmit);
+
+        editQnt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d(TAG, "onTextChanged: " + s);
+                entered = s.toString();
+                Log.d(TAG, "onTextChanged: "+">>>>>"+entered);
+                tvAmount.setText(String.valueOf(getAmount(entered)));
+                tvCommission.setText(String.valueOf(getCommistion(getAmount(entered))));
+                //  int amount = getAmount(editQnt.getText().toString());
+                //Log.d(TAG, "onTextChanged: "+String.valueOf(amount));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+               // tvAmount.setText(getAmount());
+            }
+        });
+
+
+
+
+
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getBookNow();
+            }
+        });
+    }
+
+    private int getAmount(String entered) {
+        int amt=0;
+        if (entered.length()>0){
+           amt= Integer.parseInt(entered);
+            Log.d(TAG, "getAmount: "+"amt--"+amt);
+        }
+         calAmount = (Integer.valueOf(mRate)*amt);
+        Log.d(TAG, "getAmount: " + String.valueOf(calAmount));
+        Log.d(TAG, "getAmount: " + entered);
+        Log.d(TAG, "getAmount: " + String.valueOf(amt));
+        return calAmount;
     }
 
 
     private void getBookNow() {
-        String url = Cons.GET_REGISTER;
+        String url = Cons.GET_BOOK_PRODUCT;
         pd = ProgressDialog.show(BookNowActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("name", "");
+
+            String mRenteeId = getPreference(BookNowActivity.this, "Id");
+            if (mRenteeId != null) {
+                jsonObject.put("RenteeId", mRenteeId);
+            }
+            jsonObject.put("RenterId", mRenterId);
+            jsonObject.put("ProductId", mProductId);
+            jsonObject.put("Amount", tvAmount.getText().toString());
+            jsonObject.put("Count", editQnt.getText().toString());
+            jsonObject.put("SubscriptionId", SubscriptionId);
+            jsonObject.put("CommissionAmount", tvCommission.getText().toString());
+
             Log.d(TAG, "getBookNow: " + jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -70,8 +164,13 @@ public class BookNowActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     String status = jsonObject.getString("d");
-
-
+                    if (status.equals("true")) {
+                        showToast(BookNowActivity.this, "Successfully Booked");
+                       startActivity(new Intent(BookNowActivity.this,MainActivity.class));
+                       finish();
+                    } else {
+                        showToast(BookNowActivity.this, "Something went wrong");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -99,5 +198,13 @@ public class BookNowActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+    public double getCommistion(int amount) {
+        int commit =(amount*5);
+        double total= Double.valueOf((double)commit/100);
+        Log.d(TAG, "getCommistion: "+commit);
+        Log.d(TAG, "getCommistion: "+amount);
+        Log.d(TAG, "getCommistion: "+total);
+        return total;
     }
 }

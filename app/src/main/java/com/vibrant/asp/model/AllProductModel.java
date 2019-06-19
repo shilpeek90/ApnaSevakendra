@@ -1,6 +1,8 @@
 package com.vibrant.asp.model;
 
 public class AllProductModel {
+private String renterId;
+private String productId;
 private String name;
 private String mobile;
 private String stateName;
@@ -9,6 +11,7 @@ private String address;
 private String subName;
 private int rate;
 private String productName;
+private String subscriptionId;
 private String image1;
 private String image2;
 private String description;
@@ -18,6 +21,23 @@ private double distance;
 
 
     public AllProductModel() {
+    }
+
+
+    public String getRenterId() {
+        return renterId;
+    }
+
+    public void setRenterId(String renterId) {
+        this.renterId = renterId;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getName() {
@@ -82,6 +102,14 @@ private double distance;
 
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+
+    public String getSubscriptionId() {
+        return subscriptionId;
+    }
+
+    public void setSubscriptionId(String subscriptionId) {
+        this.subscriptionId = subscriptionId;
     }
 
     public String getImage1() {

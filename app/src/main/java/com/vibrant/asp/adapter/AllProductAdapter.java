@@ -88,11 +88,18 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
         holder.llBookNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String mSubscriptionId=arrayList.get(position).getSubscriptionId();
+                String mRenterId=arrayList.get(position).getRenterId();
+                String mProductId=arrayList.get(position).getProductId();
+                int mRate= arrayList.get(position).getRate();
+
                 Intent intent = new Intent(mContext, BookNowActivity.class);
-               /* Bundle bundle = new Bundle();
-                bundle.putString("", "");
-                bundle.putString("", "");
-                intent.putExtra("bundle", bundle);*/
+                Bundle bundle = new Bundle();
+                bundle.putString("SubscriptionId",mSubscriptionId);
+                bundle.putString("mRenterId",mRenterId);
+                bundle.putString("mProductId",mProductId);
+                bundle.putInt("mRate", mRate);
+                intent.putExtra("bundle", bundle);
                 mContext.startActivity(intent);
             }
         });
@@ -126,35 +133,5 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
         arrayList = list;
         notifyDataSetChanged();
     }
-   // @Override
-   /* public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence charSequence) {
-                String charString = charSequence.toString();
-                if (charString.isEmpty()) {
-                    listFiltered = arrayList;
-                } else {
-                    List<AllProductModel> filteredList = new ArrayList<>();
-                    for (AllProductModel row : arrayList) {
-                        if (row.getName().toLowerCase().contains(charString.toLowerCase())) {
-                            filteredList.add(row);
-                        }
-                    }
-                    listFiltered = filteredList;
-                }
-                FilterResults filterResults = new FilterResults();
-                filterResults.values = listFiltered;
-                return filterResults;
-            }
 
-            @Override
-            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                listFiltered = (ArrayList<AllProductModel>) filterResults.values;
-                Log.d(">>>>>>>", "publishResults: "+listFiltered.size());
-                notifyDataSetChanged();
-            }
-        };
-    }
-*/
 }

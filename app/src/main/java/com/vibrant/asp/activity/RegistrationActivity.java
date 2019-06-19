@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,10 +40,13 @@ import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.gps.GPSTracker;
 import com.vibrant.asp.model.DistrictModel;
 import com.vibrant.asp.model.StateModel;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
+
 import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.setPreference;
@@ -51,7 +55,7 @@ import static com.vibrant.asp.constants.Util.showToast;
 public class RegistrationActivity extends AppCompatActivity {
     private static final String TAG = "RegistrationActivity";
     TextView tvHeader;
-    EditText editGrowerName, editMobile, editAddress,editPass;
+    EditText editGrowerName, editMobile, editAddress, editPass;
     AppCompatAutoCompleteTextView autoCompletState, autoCompletDistrict;
     private AutoSuggestStateAdapter autoSuggestAdapter;
     private AutoSuggestDistrictAdapter autoSuggestDistrictAdapter;
@@ -337,11 +341,9 @@ public class RegistrationActivity extends AppCompatActivity {
                     String status = jsonObject.getString("d");
                     if (status.equals("true")) {
                         setPreference(RegistrationActivity.this, "status", status);
-                        editGrowerName.setText("");
-                        editMobile.setText("");
-                        editAddress.setText("");
-                        startActivity(new Intent(RegistrationActivity.this, DashboardActivity.class));
-                        finish();
+                        String mob = editMobile.getText().toString().trim();
+                        String pass = editPass.getText().toString().trim();
+                        getGrowerProfile(mob, pass);
                     } else {
                         showToast(RegistrationActivity.this, "Already Registered");
                     }
@@ -368,6 +370,76 @@ public class RegistrationActivity extends AppCompatActivity {
         requestQueue.add(jsonObjReq);
 
     }
+
+
+    private void getGrowerProfile(String mob, String pass) {
+        String url = Cons.GET_GROWER_PROFILE;
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("Mobno", mob);
+            jsonObject.put("Password", pass);
+
+            Log.d(TAG, "getGrowerProfile: " + jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, response.toString());
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response.toString());
+
+                    JSONArray jsonArray = jsonObject.getJSONArray("d");
+
+                    if (jsonArray.length() > 0) {
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jobj = jsonArray.getJSONObject(0);
+                            String Id = jobj.getString("Id");
+                            String name = jobj.getString("Name");
+                            // String mobno = jobj.getString("Mobno");
+                            //String address = jobj.getString("Address");
+                            // String latitude = jobj.getString("Latitude");
+                            // String longitude = jobj.getString("Longitude");
+                            //  String districtId = jobj.getString("DistrictId");
+                            // String stateId = jobj.getString("StateId");
+                            // String tstamp = jobj.getString("Tstamp");
+                            setPreference(RegistrationActivity.this, "Id", Id);
+                        }
+                        editGrowerName.setText("");
+                        editMobile.setText("");
+                        editAddress.setText("");
+                        startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+                        finish();
+                    } else {
+                        showToast(RegistrationActivity.this, "No Record Found");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Error: " + error.getMessage());
+                showToast(RegistrationActivity.this, "Something went wrong");
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+        };
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(50000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(jsonObjReq);
+
+    }
+
 
     private boolean Validation() {
         if (TextUtils.isEmpty(editGrowerName.getText().toString().trim())) {
@@ -423,18 +495,18 @@ public class RegistrationActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     JSONArray jsonArray = jsonObject.getJSONArray("d");
-                   // if (jsonArray.length() > 0) {
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jObj = jsonArray.getJSONObject(i);
-                            StateModel stateModel = new StateModel();
-                            stateModel.setStateId(jObj.getString("StateId"));
-                            stateModel.setStateName(jObj.getString("StateName"));
-                            stateArray.add(stateModel);
-                        }
-                        if (stateArray.size() > 0) {
-                            autoSuggestAdapter.setData(stateArray);
-                            autoSuggestAdapter.notifyDataSetChanged();
-                        }
+                    // if (jsonArray.length() > 0) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jObj = jsonArray.getJSONObject(i);
+                        StateModel stateModel = new StateModel();
+                        stateModel.setStateId(jObj.getString("StateId"));
+                        stateModel.setStateName(jObj.getString("StateName"));
+                        stateArray.add(stateModel);
+                    }
+                    if (stateArray.size() > 0) {
+                        autoSuggestAdapter.setData(stateArray);
+                        autoSuggestAdapter.notifyDataSetChanged();
+                    }
                     /*} else {
                         showToast(RegistrationActivity.this, "Data not found");
                     }*/
