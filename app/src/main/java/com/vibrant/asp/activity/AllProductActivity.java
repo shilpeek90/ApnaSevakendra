@@ -9,6 +9,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -103,6 +105,7 @@ public class AllProductActivity extends AppCompatActivity {
 
         spinnerRange = findViewById(R.id.spinnerRange);
         recyclerView = findViewById(R.id.recyclerView);
+
 
         editSearch = findViewById(R.id.editSearch);
 
@@ -245,6 +248,8 @@ public class AllProductActivity extends AppCompatActivity {
                             allProductModel.setLatitude(jsonArray.getJSONObject(i).getString("Latitude"));
                             allProductModel.setLongitude(jsonArray.getJSONObject(i).getString("Longitude"));
                             allProductModel.setDistance(jsonArray.getJSONObject(i).getDouble("Distance"));
+                            allProductModel.setStatus(jsonArray.getJSONObject(i).getString("Status"));
+                            allProductModel.setBookedTill(jsonArray.getJSONObject(i).getString("BookedTill"));
 
                             allProductArrayList.add(allProductModel);
                         }

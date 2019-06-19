@@ -1,7 +1,10 @@
 package com.vibrant.asp.adapter;
+
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,11 +13,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.vibrant.asp.R;
 import com.vibrant.asp.activity.BookNowActivity;
 import com.vibrant.asp.activity.MapActivity;
 import com.vibrant.asp.activity.ViewImageActivity;
 import com.vibrant.asp.model.AllProductModel;
+
 import android.widget.Filter;
 import android.widget.Filterable;
 
@@ -25,7 +30,8 @@ import static com.vibrant.asp.constants.Util.roundTwoDecimals;
 
 public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.MyHolder> {
     private List<AllProductModel> arrayList;
-    private List<AllProductModel> listFiltered;;
+    private List<AllProductModel> listFiltered;
+    ;
 
     Context mContext;
     private double latitude;
@@ -48,14 +54,24 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
         holder.tvName.setText(arrayList.get(position).getName().toUpperCase());
-       // holder.tvMobileNumber.setText(arrayList.get(position).getMobile());
+        // holder.tvMobileNumber.setText(arrayList.get(position).getMobile());
         //holder.tvStateName.setText(arrayList.get(position).getStateName());
-       // holder.tvDistrict.setText(arrayList.get(position).getDistrictName());
-       // holder.tvAddress.setText(arrayList.get(position).getAddress());
-      //  holder.tvSubscription.setText(arrayList.get(position).getSubName());
-        holder.tvRate.setText(String.valueOf(arrayList.get(position).getRate())+" "+arrayList.get(position).getSubName());
-        holder.tvDistance.setText(String.valueOf(roundTwoDecimals((arrayList.get(position).getDistance())))+" "+"km");
-      //  holder.tvDistance.setText(String.format("%.3f", arrayList.get(position).getDistance())+" "+"km");
+        // holder.tvDistrict.setText(arrayList.get(position).getDistrictName());
+        // holder.tvAddress.setText(arrayList.get(position).getAddress());
+        //  holder.tvSubscription.setText(arrayList.get(position).getSubName());
+          holder.tvBookedTill.setText(arrayList.get(position).getBookedTill());
+
+          if (arrayList.get(position).getStatus().equalsIgnoreCase("Available")){
+              holder.tvStatus.setText(arrayList.get(position).getStatus());
+              //holder.tvStatus.setTextColor(Color.parseColor("#FF3AFD42"));
+              holder.tvStatus.setTextColor(Color.parseColor("#228B22"));
+          }else {
+              holder.tvStatus.setText(arrayList.get(position).getStatus());
+              holder.tvStatus.setTextColor(Color.parseColor("#808080"));
+          }
+        holder.tvRate.setText(String.valueOf(arrayList.get(position).getRate()) + " " + arrayList.get(position).getSubName());
+        holder.tvDistance.setText(String.valueOf(roundTwoDecimals((arrayList.get(position).getDistance()))) + " " + "km");
+        //  holder.tvDistance.setText(String.format("%.3f", arrayList.get(position).getDistance())+" "+"km");
 
         holder.llViewMap.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,16 +104,16 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
         holder.llBookNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String mSubscriptionId=arrayList.get(position).getSubscriptionId();
-                String mRenterId=arrayList.get(position).getRenterId();
-                String mProductId=arrayList.get(position).getProductId();
-                int mRate= arrayList.get(position).getRate();
+                String mSubscriptionId = arrayList.get(position).getSubscriptionId();
+                String mRenterId = arrayList.get(position).getRenterId();
+                String mProductId = arrayList.get(position).getProductId();
+                int mRate = arrayList.get(position).getRate();
 
                 Intent intent = new Intent(mContext, BookNowActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("SubscriptionId",mSubscriptionId);
-                bundle.putString("mRenterId",mRenterId);
-                bundle.putString("mProductId",mProductId);
+                bundle.putString("SubscriptionId", mSubscriptionId);
+                bundle.putString("mRenterId", mRenterId);
+                bundle.putString("mProductId", mProductId);
                 bundle.putInt("mRate", mRate);
                 intent.putExtra("bundle", bundle);
                 mContext.startActivity(intent);
@@ -111,15 +127,15 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvMobileNumber, tvStateName, tvDistrict, tvAddress, tvSubscription, tvRate, tvDistance;
-        LinearLayout llViewMap, llViewImage,llBookNow;
+        TextView tvName, tvMobileNumber, tvStateName, tvDistrict, tvAddress, tvSubscription, tvRate, tvDistance, tvBookedTill,tvStatus;
+        LinearLayout llViewMap, llViewImage, llBookNow;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
-           // tvMobileNumber = itemView.findViewById(R.id.tvMobileNumber);
-           // tvStateName = itemView.findViewById(R.id.tvStateName);
-           // tvDistrict = itemView.findViewById(R.id.tvDistrict);
+            // tvMobileNumber = itemView.findViewById(R.id.tvMobileNumber);
+            // tvStateName = itemView.findViewById(R.id.tvStateName);
+            // tvDistrict = itemView.findViewById(R.id.tvDistrict);
             //tvAddress = itemView.findViewById(R.id.tvAddress);
             //tvSubscription = itemView.findViewById(R.id.tvSubscription);
             tvRate = itemView.findViewById(R.id.tvRate);
@@ -127,9 +143,12 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
             llViewMap = itemView.findViewById(R.id.llViewMap);
             llViewImage = itemView.findViewById(R.id.llViewImage);
             llBookNow = itemView.findViewById(R.id.llBookNow);
+            tvBookedTill = itemView.findViewById(R.id.tvBookedTill);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
         }
     }
-    public void updateList(List<AllProductModel> list){
+
+    public void updateList(List<AllProductModel> list) {
         arrayList = list;
         notifyDataSetChanged();
     }

@@ -18,6 +18,8 @@ private String description;
 private String latitude;
 private String longitude;
 private double distance;
+private String Status;
+private String BookedTill;
 
 
     public AllProductModel() {
@@ -158,5 +160,21 @@ private double distance;
 
     public void setDistance(double distance) {
         this.distance = distance;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
+    }
+
+    public String getBookedTill() {
+        return BookedTill;
+    }
+
+    public void setBookedTill(String bookedTill) {
+        BookedTill = bookedTill;
     }
 }

@@ -21,6 +21,9 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -38,32 +41,32 @@ public class MainActivity extends AppCompatActivity
     private static final int PERMISSION_REQUEST_CODE = 1;
     private double latitude;
     private double longitude;
-    TextView tvName,tvVersion;
-    RelativeLayout rlayLend, rlRent;
-
+    TextView tvName,tvWallet;
+    LinearLayout rlayLend, rlRent,llrow1,llrow2,llrow3;
+    Animation leftSide,rightSide;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        leftSide = AnimationUtils.loadAnimation(MainActivity.this, R.anim.left_side);
+        rightSide = AnimationUtils.loadAnimation(MainActivity.this, R.anim.right_side);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
         View headerView = navigationView.getHeaderView(0);
         tvName = headerView.findViewById(R.id.tvName);
-        tvVersion = headerView.findViewById(R.id.tvVersion);
+        tvWallet = headerView.findViewById(R.id.tvWallet);
         String mName = getPreference(MainActivity.this, "name");
         if (mName != null && !mName.isEmpty()) {
             tvName.setText(mName);
         }
-        try {
-            String versionName = BuildConfig.VERSION_NAME;
-            int versionCode = BuildConfig.VERSION_CODE;
-            tvVersion.setText(getResources().getString(R.string.version) + " " + versionCode + " ( " + versionName + " )");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+         tvWallet.setText(getResources().getString(R.string.wallet) + " "+"0");
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -74,6 +77,15 @@ public class MainActivity extends AppCompatActivity
     private void init() {
         rlayLend = findViewById(R.id.rlayLend);
         rlRent = findViewById(R.id.rlRent);
+
+        llrow1 = findViewById(R.id.llrow1);
+        llrow2 = findViewById(R.id.llrow2);
+        llrow3 = findViewById(R.id.llrow3);
+        //for animation
+        llrow1.startAnimation(rightSide);
+        llrow2.startAnimation(leftSide);
+        llrow3.startAnimation(rightSide);
+
         //For Click Listener
         rlRent.setOnClickListener(new View.OnClickListener() {
             @Override

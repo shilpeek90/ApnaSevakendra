@@ -27,7 +27,6 @@ public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersFor
     public GetOrdersForRenterAdapter(Context mContext, List<GetOrdersForRenter> arrayList) {
         this.mContext = mContext;
         this.arrayList = arrayList;
-
     }
 
     @NonNull

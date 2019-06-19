@@ -128,7 +128,6 @@ public class BookNowActivity extends AppCompatActivity {
         return calAmount;
     }
 
-
     private void getBookNow() {
         String url = Cons.GET_BOOK_PRODUCT;
         pd = ProgressDialog.show(BookNowActivity.this, "Please Wait...");
@@ -191,7 +190,6 @@ public class BookNowActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -199,9 +197,6 @@ public class BookNowActivity extends AppCompatActivity {
     public double getCommistion(int amount) {
         int commit =(amount*5);
         double total= Double.valueOf((double)commit/100);
-        Log.d(TAG, "getCommistion: "+commit);
-        Log.d(TAG, "getCommistion: "+amount);
-        Log.d(TAG, "getCommistion: "+total);
         return total;
     }
 }
