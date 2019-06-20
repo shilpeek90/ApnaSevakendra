@@ -98,7 +98,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:id="@+id/rlayDemo1"
+                        android:id="@+id/llayMutureOrder"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -109,7 +109,7 @@
                         android:padding="@dimen/_8sdp">
 
                         <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/ivdem1"
+                            android:id="@+id/ivMutureO"
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="@dimen/_100sdp"
                             android:src="@drawable/file"
@@ -121,13 +121,13 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="center"
-                            android:text="Demo"
+                            android:text="Muture Orders"
                             android:textColor="@color/gray"
                             android:textSize="@dimen/_14sdp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/rldemo2"
+                        android:id="@+id/llConfirmedOrder"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -138,7 +138,7 @@
                         android:padding="@dimen/_8sdp">
 
                         <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/ivdem2"
+                            android:id="@+id/ivConfirmedOr"
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="@dimen/_100sdp"
                             android:src="@drawable/file"
@@ -150,7 +150,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="center"
-                            android:text="Demo"
+                            android:text="Confirmed Orders"
                             android:textColor="@color/gray"
                             android:textSize="@dimen/_14sdp" />
 
@@ -166,7 +166,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:id="@+id/rlayDemo3"
+                        android:id="@+id/llayPendingOrder"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -177,7 +177,7 @@
                         android:padding="@dimen/_8sdp">
 
                         <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/ivdem3"
+                            android:id="@+id/ivPendingOrder"
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="@dimen/_100sdp"
                             android:src="@drawable/file"
@@ -189,7 +189,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="center"
-                            android:text="Demo"
+                            android:text="Pending Orders"
                             android:textColor="@color/gray"
                             android:textSize="@dimen/_14sdp" />
                     </LinearLayout>
@@ -218,7 +218,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="center"
-                            android:text="Demo"
+                            android:text="Recharge"
                             android:textColor="@color/gray"
                             android:textSize="@dimen/_14sdp" />
 

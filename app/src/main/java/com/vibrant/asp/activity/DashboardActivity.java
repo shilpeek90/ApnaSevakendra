@@ -1,5 +1,4 @@
 package com.vibrant.asp.activity;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -25,10 +24,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.vibrant.asp.R;
 import com.vibrant.asp.gps.GPSTracker;
-
 import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.showToast;
 
@@ -39,16 +36,16 @@ public class DashboardActivity extends AppCompatActivity
     private static final int PERMISSION_REQUEST_CODE = 1;
     private double latitude;
     private double longitude;
-    TextView tvName,tvWallet;
-    LinearLayout rlayLend, rlRent,llrow1,llrow2,llrow3;
-    Animation leftSide,rightSide;
+    TextView tvName, tvWallet;
+    LinearLayout rlayLend, rlRent, llrow1, llrow2, llrow3, llConfirmedOrder, llayMutureOrder, llayPendingOrder;
+    Animation leftSide, rightSide;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         leftSide = AnimationUtils.loadAnimation(DashboardActivity.this, R.anim.left_side);
         rightSide = AnimationUtils.loadAnimation(DashboardActivity.this, R.anim.right_side);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -63,7 +60,7 @@ public class DashboardActivity extends AppCompatActivity
             tvName.setText(mName);
         }
 
-         tvWallet.setText(getResources().getString(R.string.wallet) + " "+"0");
+        tvWallet.setText(getResources().getString(R.string.wallet) + " " + "0");
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -75,10 +72,12 @@ public class DashboardActivity extends AppCompatActivity
     private void init() {
         rlayLend = findViewById(R.id.rlayLend);
         rlRent = findViewById(R.id.rlRent);
-
         llrow1 = findViewById(R.id.llrow1);
         llrow2 = findViewById(R.id.llrow2);
         llrow3 = findViewById(R.id.llrow3);
+        llayMutureOrder = findViewById(R.id.llayMutureOrder);
+        llConfirmedOrder = findViewById(R.id.llConfirmedOrder);
+        llayPendingOrder = findViewById(R.id.llayPendingOrder);
         //for animation
         llrow1.startAnimation(rightSide);
         llrow2.startAnimation(leftSide);
@@ -98,6 +97,26 @@ public class DashboardActivity extends AppCompatActivity
                 startActivity(new Intent(DashboardActivity.this, CameraActivity.class));
             }
         });
+
+        llayMutureOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        llConfirmedOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        llayPendingOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void getPermissionGPS() {
@@ -109,7 +128,6 @@ public class DashboardActivity extends AppCompatActivity
             // READ_PHONE_STATE permission is already been granted.
             doPermissionGrantedStuffs();
         }
-
     }
 
     private void requestReadPhoneStatePermission() {
