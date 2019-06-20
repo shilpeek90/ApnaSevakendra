@@ -14,14 +14,16 @@
             android:title="@string/getordersforrentee" />
 
         <item
+            android:id="@+id/nav_AllProductsForRenter"
+            android:icon="@drawable/file_error"
+            android:title="@string/my_orders" />
+
+        <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
             android:title="@string/log_out" />
 
-       <!-- <item
-            android:id="@+id/nav_tools"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/menu_tools" />-->
+
     </group>
 
    <!-- <item android:title="Communicate">

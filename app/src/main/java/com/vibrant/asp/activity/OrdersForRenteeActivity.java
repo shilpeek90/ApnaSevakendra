@@ -29,7 +29,7 @@ import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
 
-public class GetOrdersForRenteeActivity extends AppCompatActivity {
+public class OrdersForRenteeActivity extends AppCompatActivity {
     private static final String TAG = "GetOrdersForRenteeActiv";
     TextView tvHeader, tvNoRecord;
     ImageView ivBack;
@@ -40,7 +40,7 @@ public class GetOrdersForRenteeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_get_orders_for_rentee);
+        setContentView(R.layout.activity_orders_for_rentee);
         init();
     }
 
@@ -60,16 +60,16 @@ public class GetOrdersForRenteeActivity extends AppCompatActivity {
         if (isInternetConnected(getApplicationContext())) {
             getOrderForRentee();
         } else {
-            showToast(GetOrdersForRenteeActivity.this, getResources().getString(R.string.check_network));
+            showToast(OrdersForRenteeActivity.this, getResources().getString(R.string.check_network));
         }
     }
 
     private void getOrderForRentee() {
         String url = Cons.GET_ORDER_FOR_RENTEE;
-        pd = ProgressDialog.show(GetOrdersForRenteeActivity.this, "Please Wait...");
+        pd = ProgressDialog.show(OrdersForRenteeActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            String mRenteeId = getPreference(GetOrdersForRenteeActivity.this, "Id");
+            String mRenteeId = getPreference(OrdersForRenteeActivity.this, "Id");
             if (mRenteeId != null) {
                 jsonObject.put("RenteeId", mRenteeId);
             }
@@ -103,8 +103,8 @@ public class GetOrdersForRenteeActivity extends AppCompatActivity {
 
                         if (getOrdersForRenters.size() > 0) {
                             tvNoRecord.setVisibility(View.GONE);
-                            mAdapter = new GetOrdersForRenteeAdapter(GetOrdersForRenteeActivity.this, getOrdersForRenters);
-                            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(GetOrdersForRenteeActivity.this);
+                            mAdapter = new GetOrdersForRenteeAdapter(OrdersForRenteeActivity.this, getOrdersForRenters);
+                            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(OrdersForRenteeActivity.this);
                             recyclerView.setLayoutManager(mLayoutManager);
                             recyclerView.setItemAnimator(new DefaultItemAnimator());
                             recyclerView.setAdapter(mAdapter);
@@ -124,7 +124,7 @@ public class GetOrdersForRenteeActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Error: " + error.getMessage());
                 pd.dismiss();
-                showToast(GetOrdersForRenteeActivity.this, "Something went wrong");
+                showToast(OrdersForRenteeActivity.this, "Something went wrong");
             }
         }) {
             @Override

@@ -13,15 +13,59 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <com.vibrant.asp.customtext.MyTextBold
-        android:id="@+id/tvWallet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_gravity="right"
         android:gravity="center|right"
         android:text=""
+        android:visibility="gone"
         android:textColor="@color/white"
         android:textSize="14dp" />
+
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rlayoutRate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="right"
+        android:gravity="center|right">
+
+        <com.vibrant.asp.customtext.MyTextBold
+            android:id="@+id/tvWallte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:text="@string/wallet"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp" />
+
+        <ImageView
+            android:id="@+id/ivRupee"
+            android:layout_width="@dimen/_8sdp"
+            android:layout_height="@dimen/_8sdp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="5dp"
+            android:backgroundTint="@color/white"
+            android:layout_toRightOf="@+id/tvWallte"
+            android:src="@drawable/rupee_white" />
+
+        <com.vibrant.asp.customtext.MyTextBold
+            android:id="@+id/tvWallet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_1sdp"
+            android:layout_toRightOf="@+id/ivRupee"
+            android:text=""
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp" />
+
+    </RelativeLayout>
+
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageView"

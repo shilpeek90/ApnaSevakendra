@@ -4,8 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash_background"
     tools:context=".activity.SplashActivity">
+
+
+    <!--    android:background="@drawable/splash_background"
+-->
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/splash2"/>
 
     <com.vibrant.asp.customtext.MyTextLight
         android:id="@+id/tvVersion"
@@ -19,6 +29,7 @@
 
     <com.vibrant.asp.customtext.MyTextLight
         android:id="@+id/tvMess"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

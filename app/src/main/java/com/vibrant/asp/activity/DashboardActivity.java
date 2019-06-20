@@ -1,4 +1,5 @@
 package com.vibrant.asp.activity;
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,6 +11,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -24,9 +28,27 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.vibrant.asp.R;
+import com.vibrant.asp.adapter.GetOrdersForRenteeAdapter;
+import com.vibrant.asp.constants.Cons;
+import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.gps.GPSTracker;
+import com.vibrant.asp.model.GetOrdersForRentee;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import static com.vibrant.asp.constants.Util.getPreference;
+import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
 
 public class DashboardActivity extends AppCompatActivity
@@ -37,7 +59,8 @@ public class DashboardActivity extends AppCompatActivity
     private double latitude;
     private double longitude;
     TextView tvName, tvWallet;
-    LinearLayout rlayLend, rlRent, llrow1, llrow2, llrow3, llConfirmedOrder, llayMutureOrder, llayPendingOrder;
+    ProgressDialog pd;
+    LinearLayout rlayLend, rlRent, llrow1, llrow2, llrow3, llrow4, llConfirmedOrder, llayMutureOrder, llayPendingOrder;
     Animation leftSide, rightSide;
 
     @Override
@@ -53,28 +76,36 @@ public class DashboardActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         View headerView = navigationView.getHeaderView(0);
-        tvName = headerView.findViewById(R.id.tvName);
+        /*tvName = headerView.findViewById(R.id.tvName);
         tvWallet = headerView.findViewById(R.id.tvWallet);
         String mName = getPreference(DashboardActivity.this, "name");
         if (mName != null && !mName.isEmpty()) {
             tvName.setText(mName);
-        }
+        }*/
 
-        tvWallet.setText(getResources().getString(R.string.wallet) + " " + "0");
+        //tvWallet.setText(getResources().getString(R.string.wallet) + " " + "0");
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (isInternetConnected(getApplicationContext())) {
+            GetRenterWalletBalance();
+        } else {
+            showToast(DashboardActivity.this, getResources().getString(R.string.check_network));
+        }
         init();
     }
 
     private void init() {
+        tvWallet = findViewById(R.id.tvWallet);
         rlayLend = findViewById(R.id.rlayLend);
         rlRent = findViewById(R.id.rlRent);
         llrow1 = findViewById(R.id.llrow1);
         llrow2 = findViewById(R.id.llrow2);
         llrow3 = findViewById(R.id.llrow3);
+        llrow4 = findViewById(R.id.llrow4);
         llayMutureOrder = findViewById(R.id.llayMutureOrder);
         llConfirmedOrder = findViewById(R.id.llConfirmedOrder);
         llayPendingOrder = findViewById(R.id.llayPendingOrder);
@@ -82,6 +113,7 @@ public class DashboardActivity extends AppCompatActivity
         llrow1.startAnimation(rightSide);
         llrow2.startAnimation(leftSide);
         llrow3.startAnimation(rightSide);
+        llrow4.startAnimation(leftSide);
 
         //For Click Listener
         rlRent.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +150,7 @@ public class DashboardActivity extends AppCompatActivity
             }
         });
     }
+
 
     private void getPermissionGPS() {
         // Check if the ACCESS_FINE_LOCATION permission is already available.
@@ -247,6 +280,55 @@ public class DashboardActivity extends AppCompatActivity
         alert.show();
     }
 
+
+    private void GetRenterWalletBalance() {
+        String url = Cons.GET_RENTER_WALLET_BALANCE;
+        pd = ProgressDialog.show(DashboardActivity.this, "Please Wait...");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            String mRenteeId = getPreference(DashboardActivity.this, "Id");
+            if (mRenteeId != null) {
+                jsonObject.put("RenterId", mRenteeId);
+            }
+            Log.d(TAG, "getOrderForRentee: " + jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, response.toString());
+                pd.dismiss();
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    String mWalletBalance = jsonObject.getString("d");
+                    if (mWalletBalance != null && !mWalletBalance.isEmpty()) {
+                        tvWallet.setText(" " + mWalletBalance);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Error: " + error.getMessage());
+                pd.dismiss();
+                showToast(DashboardActivity.this, "Something went wrong");
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+        };
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(50000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(jsonObjReq);
+    }
+
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -300,12 +382,12 @@ public class DashboardActivity extends AppCompatActivity
         if (id == R.id.nav_OrdersForRenter) {
             startActivity(new Intent(DashboardActivity.this, OrdersForRenterActivity.class));
         } else if (id == R.id.nav_GetOrdersForRentee) {
-            startActivity(new Intent(DashboardActivity.this, GetOrdersForRenteeActivity.class));
+            startActivity(new Intent(DashboardActivity.this, OrdersForRenteeActivity.class));
+        } else if (id == R.id.nav_AllProductsForRenter) {
+            startActivity(new Intent(DashboardActivity.this, AllProductsForRenterActivity.class));
         } else if (id == R.id.nav_logout) {
 
-        } /*else if (id == R.id.nav_tools) {
-
-        } else if (id == R.id.nav_share) {
+        } /* else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 

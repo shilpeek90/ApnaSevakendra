@@ -22,7 +22,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.GetOrdersForRenteeActivity"></activity>
+        <activity android:name=".activity.AllProductImagViewActivity"></activity>
+        <activity android:name=".activity.AllProductsForRenterActivity" />
+        <activity android:name=".activity.OrdersForRenteeActivity" />
         <activity android:name=".activity.OrdersForRenterActivity" />
         <activity android:name=".activity.BookNowActivity" />
         <activity android:name=".activity.ViewImageActivity" />
@@ -52,7 +54,8 @@
             android:configChanges="keyboardHidden" />
         <activity
             android:name=".activity.SplashActivity"
-            android:configChanges="keyboardHidden">
+            android:configChanges="keyboardHidden"
+            android:theme="@style/AppFullScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

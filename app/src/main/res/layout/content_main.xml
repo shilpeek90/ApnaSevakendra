@@ -13,7 +13,49 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <RelativeLayout
+            android:id="@+id/rlayoutRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_gravity="center">
+
+            <com.vibrant.asp.customtext.MyTextBold
+                android:id="@+id/tvWallte"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wallet"
+                android:layout_alignParentLeft="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/_12sdp" />
+
+            <ImageView
+                android:id="@+id/ivRupee"
+                android:layout_width="@dimen/_8sdp"
+                android:layout_height="@dimen/_8sdp"
+                android:layout_marginLeft="5dp"
+                android:layout_centerInParent="true"
+                android:layout_toRightOf="@+id/tvWallte"
+                android:src="@drawable/rupee_white" />
+
+            <com.vibrant.asp.customtext.MyTextBold
+                android:id="@+id/tvWallet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_1sdp"
+                android:layout_toRightOf="@+id/ivRupee"
+                android:text=""
+                android:textAllCaps="false"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/_12sdp" />
+
+        </RelativeLayout>
+
         <ScrollView
+            android:layout_below="@+id/rlayoutRate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -45,9 +87,9 @@
                             android:id="@+id/ivCirLend"
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="@dimen/_100sdp"
-                            android:src="@drawable/lend"
-                            app:civ_border_color="@color/gray"
-                            app:civ_border_width="@dimen/_1sdp" />
+                            android:src="@drawable/lend1"
+                            app:civ_border_color="@color/colorPrimaryDark"
+                            app:civ_border_width="@dimen/_2sdp" />
 
                         <com.vibrant.asp.customtext.MyTextLight
                             android:layout_width="match_parent"
@@ -74,9 +116,9 @@
                             android:id="@+id/ivCirRent"
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="@dimen/_100sdp"
-                            android:src="@drawable/rent"
-                            app:civ_border_color="@color/gray"
-                            app:civ_border_width="@dimen/_1sdp" />
+                            android:src="@drawable/tractor"
+                            app:civ_border_color="@color/colorPrimaryDark"
+                            app:civ_border_width="@dimen/_2sdp" />
 
                         <com.vibrant.asp.customtext.MyTextLight
                             android:layout_width="wrap_content"
@@ -113,8 +155,8 @@
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="@dimen/_100sdp"
                             android:src="@drawable/file"
-                            app:civ_border_color="@color/gray"
-                            app:civ_border_width="@dimen/_1sdp" />
+                            app:civ_border_color="@color/colorPrimaryDark"
+                            app:civ_border_width="@dimen/_2sdp" />
 
                         <com.vibrant.asp.customtext.MyTextLight
                             android:layout_width="match_parent"
@@ -142,8 +184,8 @@
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="@dimen/_100sdp"
                             android:src="@drawable/file"
-                            app:civ_border_color="@color/gray"
-                            app:civ_border_width="@dimen/_1sdp" />
+                            app:civ_border_color="@color/colorPrimaryDark"
+                            app:civ_border_width="@dimen/_2sdp" />
 
                         <com.vibrant.asp.customtext.MyTextLight
                             android:layout_width="wrap_content"
@@ -181,8 +223,8 @@
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="@dimen/_100sdp"
                             android:src="@drawable/file"
-                            app:civ_border_color="@color/gray"
-                            app:civ_border_width="@dimen/_1sdp" />
+                            app:civ_border_color="@color/colorPrimaryDark"
+                            app:civ_border_width="@dimen/_2sdp" />
 
                         <com.vibrant.asp.customtext.MyTextLight
                             android:layout_width="match_parent"
@@ -210,8 +252,8 @@
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="@dimen/_100sdp"
                             android:src="@drawable/file"
-                            app:civ_border_color="@color/gray"
-                            app:civ_border_width="@dimen/_1sdp" />
+                            app:civ_border_color="@color/colorPrimaryDark"
+                            app:civ_border_width="@dimen/_2sdp" />
 
                         <com.vibrant.asp.customtext.MyTextLight
                             android:layout_width="wrap_content"
@@ -224,164 +266,81 @@
 
                     </LinearLayout>
                 </LinearLayout>
-                <!---->
 
                 <!---->
 
-                <!--  <LinearLayout
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:gravity="center"
-                      android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/llrow4"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:orientation="horizontal">
 
-                      <ImageView
-                          android:id="@+id/ivLend"
-                          android:layout_width="@dimen/_120sdp"
-                          android:layout_height="@dimen/_120sdp"
-                          android:src="@drawable/lend" />
+                    <LinearLayout
+                        android:id="@+id/llaySell"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:gravity="center"
+                        android:background="@drawable/custom_ripple_white"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_8sdp">
 
-                      <com.vibrant.asp.customtext.MyTextLight
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:gravity="center"
-                          android:text="@string/lend"
-                          android:textSize="@dimen/_20sdp" />
-                  </LinearLayout>
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/ivSell"
+                            android:layout_width="@dimen/_100sdp"
+                            android:layout_height="@dimen/_100sdp"
+                            android:src="@drawable/file"
+                            app:civ_border_color="@color/colorPrimaryDark"
+                            app:civ_border_width="@dimen/_2sdp" />
+
+                        <com.vibrant.asp.customtext.MyTextLight
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:gravity="center"
+                            android:text="Sell"
+                            android:textColor="@color/gray"
+                            android:textSize="@dimen/_14sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/rldemo5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:background="@drawable/custom_ripple_white"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_8sdp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/ivDemo5"
+                            android:layout_width="@dimen/_100sdp"
+                            android:layout_height="@dimen/_100sdp"
+                            android:src="@drawable/file"
+                            app:civ_border_color="@color/colorPrimaryDark"
+                            app:civ_border_width="@dimen/_2sdp" />
+
+                        <com.vibrant.asp.customtext.MyTextLight
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:gravity="center"
+                            android:text="Demo"
+                            android:textColor="@color/gray"
+                            android:textSize="@dimen/_14sdp" />
+
+                    </LinearLayout>
+                </LinearLayout>
 
 
-                  <LinearLayout
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_marginTop="@dimen/_20sdp"
-                      android:gravity="center"
-                      android:orientation="vertical">
-
-                      <ImageView
-                          android:id="@+id/ivRent"
-                          android:layout_width="@dimen/_120sdp"
-                          android:layout_height="@dimen/_120sdp"
-                          android:src="@drawable/rent" />
-
-                      <com.vibrant.asp.customtext.MyTextLight
-                          android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:gravity="center"
-                          android:text="@string/rent"
-                          android:textSize="@dimen/_20sdp" />
-                  </LinearLayout>-->
             </LinearLayout>
 
         </ScrollView>
     </RelativeLayout>
 </RelativeLayout>
 
-    <!----><!-- <LinearLayout
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:gravity="center"
-android:orientation="vertical">
-
-<RelativeLayout
-    android:id="@+id/rlayLend"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:padding="@dimen/_8sdp">
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/ivCirLend"
-        android:layout_width="@dimen/_120sdp"
-        android:layout_height="@dimen/_120sdp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/lend"
-        app:civ_border_color="@color/gray"
-        app:civ_border_width="@dimen/_1sdp" />
-
-    <com.vibrant.asp.customtext.MyTextLight
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivCirLend"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:gravity="center"
-        android:text="@string/lend"
-        android:textColor="@color/gray"
-        android:textSize="@dimen/_14sdp" />
-</RelativeLayout>
-
-<com.vibrant.asp.customtext.MyTextLight
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/_2sdp"
-    android:background="@color/gray" />
-
-<RelativeLayout
-    android:id="@+id/rlRent"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:padding="@dimen/_8sdp">
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/ivCirRent"
-        android:layout_width="@dimen/_120sdp"
-        android:layout_height="@dimen/_120sdp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/rent"
-        app:civ_border_color="@color/gray"
-        app:civ_border_width="@dimen/_1sdp" />
-
-    <com.vibrant.asp.customtext.MyTextLight
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivCirRent"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:gravity="center"
-        android:text="@string/rent"
-        android:textColor="@color/gray"
-        android:textSize="@dimen/_14sdp" />
-
-</RelativeLayout>
-
-&lt;!&ndash;  <LinearLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:gravity="center"
-      android:orientation="vertical">
-
-      <ImageView
-          android:id="@+id/ivLend"
-          android:layout_width="@dimen/_120sdp"
-          android:layout_height="@dimen/_120sdp"
-          android:src="@drawable/lend" />
-
-      <com.vibrant.asp.customtext.MyTextLight
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:gravity="center"
-          android:text="@string/lend"
-          android:textSize="@dimen/_20sdp" />
-  </LinearLayout>
-
-
-  <LinearLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="@dimen/_20sdp"
-      android:gravity="center"
-      android:orientation="vertical">
-
-      <ImageView
-          android:id="@+id/ivRent"
-          android:layout_width="@dimen/_120sdp"
-          android:layout_height="@dimen/_120sdp"
-          android:src="@drawable/rent" />
-
-      <com.vibrant.asp.customtext.MyTextLight
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:gravity="center"
-          android:text="@string/rent"
-          android:textSize="@dimen/_20sdp" />
-  </LinearLayout>&ndash;&gt;
-</LinearLayout>-->

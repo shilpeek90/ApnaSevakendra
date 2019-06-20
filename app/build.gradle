@@ -20,8 +20,8 @@ android {
         main {
             assets.srcDirs = ['src/main/assets', 'src/main/assets/font'] 
 
-            
-} }
+
+        } }
 
     android {
         compileOptions {
