@@ -98,7 +98,7 @@ public class BookNowActivity extends AppCompatActivity {
                 entered = s.toString();
                 Log.d(TAG, "onTextChanged: "+">>>>>"+entered);
                 tvAmount.setText(String.valueOf(getAmount(entered)));
-                tvCommission.setText(String.valueOf(getCommistion(getAmount(entered))));
+               tvCommission.setText(String.valueOf(getCommistion(getAmount(entered))));
             }
 
             @Override
