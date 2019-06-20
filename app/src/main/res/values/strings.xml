@@ -57,7 +57,8 @@
     <string name="lend">Lend</string>
     <string name="rent">Rent</string>
     <string name="all_product">All Product</string>
-    <string name="all_order">GetOrdersForRenter</string>
+    <string name="all_order">Orders For Renter</string>
+    <string name="all_order_for_rantee">Orders For Rentee</string>
     <string name="book_now">Book Now</string>
     <string name="map">Map</string>
     <string name="vi_imag">View Image</string>

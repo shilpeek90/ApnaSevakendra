@@ -24,19 +24,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.vibrant.asp.BuildConfig;
 import com.vibrant.asp.R;
 import com.vibrant.asp.gps.GPSTracker;
 
 import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.showToast;
 
-public class MainActivity extends AppCompatActivity
+public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "DashboardActivity";
     private boolean doubleBackToExitPressedOnce = false;
     private static final int PERMISSION_REQUEST_CODE = 1;
     private double latitude;
@@ -47,9 +45,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        leftSide = AnimationUtils.loadAnimation(MainActivity.this, R.anim.left_side);
-        rightSide = AnimationUtils.loadAnimation(MainActivity.this, R.anim.right_side);
+        setContentView(R.layout.activity_dashboard);
+        leftSide = AnimationUtils.loadAnimation(DashboardActivity.this, R.anim.left_side);
+        rightSide = AnimationUtils.loadAnimation(DashboardActivity.this, R.anim.right_side);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         tvName = headerView.findViewById(R.id.tvName);
         tvWallet = headerView.findViewById(R.id.tvWallet);
-        String mName = getPreference(MainActivity.this, "name");
+        String mName = getPreference(DashboardActivity.this, "name");
         if (mName != null && !mName.isEmpty()) {
             tvName.setText(mName);
         }
@@ -97,7 +95,7 @@ public class MainActivity extends AppCompatActivity
         rlayLend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CameraActivity.class));
+                startActivity(new Intent(DashboardActivity.this, CameraActivity.class));
             }
         });
     }
@@ -116,14 +114,14 @@ public class MainActivity extends AppCompatActivity
 
     private void requestReadPhoneStatePermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            new AlertDialog.Builder(MainActivity.this)
+            new AlertDialog.Builder(DashboardActivity.this)
                     .setTitle("Permission Request")
                     .setMessage(getString(R.string.permission_read_phone_state_rationale1))
                     .setCancelable(false)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             //re-request
-                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
+                            ActivityCompat.requestPermissions(DashboardActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
 
                             //ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},
                         }
@@ -156,7 +154,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void alertAlert(String msg) {
-        new AlertDialog.Builder(MainActivity.this)
+        new AlertDialog.Builder(DashboardActivity.this)
                 .setTitle("Permission Request")
                 .setMessage(msg)
                 .setCancelable(false)
@@ -170,7 +168,7 @@ public class MainActivity extends AppCompatActivity
 
     public void doPermissionGrantedStuffs() {
         try {
-            GPSTracker gpsTracker = new GPSTracker(MainActivity.this);
+            GPSTracker gpsTracker = new GPSTracker(DashboardActivity.this);
             String msg = gpsTracker.getGPS_Location();
             Log.d(TAG, "doPermissionGrantedStuffs:---" + msg);
             if (msg == null) {
@@ -178,7 +176,7 @@ public class MainActivity extends AppCompatActivity
             } else if (msg.equals("Location not found,Please move to open sky and try again")) {
                 showDialog("GPS Location not found,Please move to open sky and try again");
             } else if (msg.equals("Your GPS module is disabled. Would you like to enable it ?")) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, android.R.style.Theme_DeviceDefault_Dialog));
+                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(DashboardActivity.this, android.R.style.Theme_DeviceDefault_Dialog));
                 builder.setMessage("Your GPS module is disabled. Would you like to enable it ?")
                         .setCancelable(false)
                         .setPositiveButton("Yes",
@@ -202,7 +200,7 @@ public class MainActivity extends AppCompatActivity
                 if (location != null) {
                     latitude = location.getLatitude();
                     longitude = location.getLongitude();
-                    Intent intent = new Intent(MainActivity.this, AllProductActivity.class);
+                    Intent intent = new Intent(DashboardActivity.this, AllProductActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("mLatCurrent", String.valueOf(latitude));
                     bundle.putString("mLngCurrent", String.valueOf(longitude));
@@ -216,7 +214,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void showDialog(String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(MainActivity.this, android.R.style.Theme_DeviceDefault_Dialog));
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(DashboardActivity.this, android.R.style.Theme_DeviceDefault_Dialog));
         builder.setMessage(message)
                 .setCancelable(false)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -282,9 +280,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_OrdersForRenter) {
-            startActivity(new Intent(MainActivity.this, OrdersForRenterActivity.class));
+            startActivity(new Intent(DashboardActivity.this, OrdersForRenterActivity.class));
         } else if (id == R.id.nav_GetOrdersForRentee) {
-            startActivity(new Intent(MainActivity.this, GetOrdersForRenteeActivity.class));
+            startActivity(new Intent(DashboardActivity.this, GetOrdersForRenteeActivity.class));
         } else if (id == R.id.nav_logout) {
 
         } /*else if (id == R.id.nav_tools) {

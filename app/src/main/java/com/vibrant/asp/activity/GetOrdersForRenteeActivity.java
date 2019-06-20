@@ -1,5 +1,4 @@
 package com.vibrant.asp.activity;
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -9,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,19 +17,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.vibrant.asp.R;
 import com.vibrant.asp.adapter.GetOrdersForRenteeAdapter;
-import com.vibrant.asp.adapter.GetOrdersForRenterAdapter;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.model.GetOrdersForRentee;
-import com.vibrant.asp.model.GetOrdersForRenter;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
@@ -48,13 +41,12 @@ public class GetOrdersForRenteeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_orders_for_rentee);
-
         init();
     }
 
     private void init() {
         tvHeader = findViewById(R.id.tvHeader);
-        tvHeader.setText(getString(R.string.all_order));
+        tvHeader.setText(getString(R.string.all_order_for_rantee));
         ivBack = findViewById(R.id.ivBack);
         ivBack.setVisibility(View.VISIBLE);
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -85,9 +77,7 @@ public class GetOrdersForRenteeActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
@@ -124,7 +114,6 @@ public class GetOrdersForRenteeActivity extends AppCompatActivity {
                         }
                     } else {
                         tvNoRecord.setVisibility(View.VISIBLE);
-                        // showToast(OrdersForRenterActivity.this, "No Record Found");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

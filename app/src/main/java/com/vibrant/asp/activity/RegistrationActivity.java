@@ -405,7 +405,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         editGrowerName.setText("");
                         editMobile.setText("");
                         editAddress.setText("");
-                        startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+                        startActivity(new Intent(RegistrationActivity.this, DashboardActivity.class));
                         finish();
                     } else {
                         showToast(RegistrationActivity.this, "No Record Found");

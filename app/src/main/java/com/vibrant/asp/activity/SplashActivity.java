@@ -37,7 +37,7 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     if (getPreference(SplashActivity.this, "status") != null && !getPreference(SplashActivity.this, "status").isEmpty()) {
-                        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                        Intent intent = new Intent(SplashActivity.this, DashboardActivity.class);
                         startActivity(intent);
                         finish();
                     } else {

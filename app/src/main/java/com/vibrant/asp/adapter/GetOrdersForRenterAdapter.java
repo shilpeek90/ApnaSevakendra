@@ -10,11 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.content.DialogInterface;
 
 import com.vibrant.asp.R;
-import com.vibrant.asp.activity.MainActivity;
+import com.vibrant.asp.activity.DashboardActivity;
 import com.vibrant.asp.model.GetOrdersForRenter;
 
 import java.util.List;
@@ -59,7 +58,7 @@ public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersFor
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                mContext.startActivity(new Intent(mContext, MainActivity.class));
+                                mContext.startActivity(new Intent(mContext, DashboardActivity.class));
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {

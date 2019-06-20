@@ -29,7 +29,6 @@ import org.json.JSONObject;
 import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
-import static com.vibrant.asp.constants.Util.setPreference;
 import static com.vibrant.asp.constants.Util.showToast;
 
 public class BookNowActivity extends AppCompatActivity {
@@ -162,7 +161,7 @@ public class BookNowActivity extends AppCompatActivity {
                     String status = jsonObject.getString("d");
                     if (status.equals("true")) {
                         showToast(BookNowActivity.this, "Successfully Booked");
-                       startActivity(new Intent(BookNowActivity.this,MainActivity.class));
+                       startActivity(new Intent(BookNowActivity.this, DashboardActivity.class));
                        finish();
                     } else {
                         showToast(BookNowActivity.this, "Something went wrong");
