@@ -40,7 +40,7 @@ import static com.vibrant.asp.constants.Util.showToast;
 
 public class BookNowActivity extends AppCompatActivity {
     private static final String TAG = "BookNowActivity";
-    TextView tvHeader, tvCommission, tvAmount;
+    TextView tvHeader, tvCommission, tvAmount,tvSubName;
     ImageView ivBack;
     ProgressDialog pd;
     EditText editSubscription;
@@ -48,6 +48,7 @@ public class BookNowActivity extends AppCompatActivity {
     String SubscriptionId = "";
     String mProductId = "";
     String mRenterId = "";
+    String mSubName = "";
     int mRate = 0;
     String entered="";
     int calAmount =0;
@@ -55,26 +56,105 @@ public class BookNowActivity extends AppCompatActivity {
     QuantityAdapter adapter;
     List<QuantityModel> quantityArray = new ArrayList<>();
     String mResponse = "{\"d\":[  \n" +
-            "    {\"range\":\"0 to 5\"},  \n" +
-            "    {\"range\":\"5 to 10\"},        \n" +
-            "    {\"range\":\"10 to 15\"},  \n" +
-            "    {\"range\":\"15 to 20\"},  \n" +
-            "    {\"range\":\"20 to 25\"},  \n" +
-            "    {\"range\":\"25 to 30\"},  \n" +
-            "    {\"range\":\"30 to 35\"},  \n" +
-            "    {\"range\":\"35 to 40\"},  \n" +
-            "    {\"range\":\"40 to 45\"},  \n" +
-            "    {\"range\":\"45 to 50\"},  \n" +
-            "    {\"range\":\"50 to 55\"},  \n" +
-            "    {\"range\":\"55 to 60\"},  \n" +
-            "    {\"range\":\"60 to 65\"},  \n" +
-            "    {\"range\":\"65 to 70\"},  \n" +
-            "    {\"range\":\"70 to 75\"},  \n" +
-            "    {\"range\":\"75 to 80\"},  \n" +
-            "    {\"range\":\"80 to 85\"},  \n" +
-            "    {\"range\":\"85 to 90\"},  \n" +
-            "    {\"range\":\"90 to 95\"},  \n" +
-            "    {\"range\":\"95 to 100\"}   \n" +
+            "    {\"quantity\":\"1\"},  \n" +
+            "    {\"quantity\":\"2\"},  \n" +
+            "    {\"quantity\":\"3\"},  \n" +
+            "    {\"quantity\":\"4\"},  \n" +
+            "    {\"quantity\":\"5\"},  \n" +
+            "    {\"quantity\":\"6\"},  \n" +
+            "    {\"quantity\":\"7\"},  \n" +
+            "    {\"quantity\":\"8\"},  \n" +
+            "    {\"quantity\":\"9\"},  \n" +
+            "    {\"quantity\":\"10\"},  \n" +
+            "    {\"quantity\":\"11\"},  \n" +
+            "    {\"quantity\":\"12\"},  \n" +
+            "    {\"quantity\":\"13\"},  \n" +
+            "    {\"quantity\":\"14\"},  \n" +
+            "    {\"quantity\":\"15\"},  \n" +
+            "    {\"quantity\":\"16\"},  \n" +
+            "    {\"quantity\":\"17\"},  \n" +
+            "    {\"quantity\":\"18\"},  \n" +
+            "    {\"quantity\":\"19\"},  \n" +
+            "    {\"quantity\":\"20\"},  \n" +
+            "    {\"quantity\":\"21\"},  \n" +
+            "    {\"quantity\":\"22\"},  \n" +
+            "    {\"quantity\":\"23\"},  \n" +
+            "    {\"quantity\":\"24\"},  \n" +
+            "    {\"quantity\":\"25\"},  \n" +
+            "    {\"quantity\":\"26\"},  \n" +
+            "    {\"quantity\":\"27\"},  \n" +
+            "    {\"quantity\":\"28\"},  \n" +
+            "    {\"quantity\":\"29\"},  \n" +
+            "    {\"quantity\":\"30\"},  \n" +
+            "    {\"quantity\":\"31\"},  \n" +
+            "    {\"quantity\":\"32\"},  \n" +
+            "    {\"quantity\":\"33\"},  \n" +
+            "    {\"quantity\":\"34\"},  \n" +
+            "    {\"quantity\":\"35\"},  \n" +
+            "    {\"quantity\":\"36\"},  \n" +
+            "    {\"quantity\":\"37\"},  \n" +
+            "    {\"quantity\":\"38\"},  \n" +
+            "    {\"quantity\":\"39\"},  \n" +
+            "    {\"quantity\":\"40\"},  \n" +
+            "    {\"quantity\":\"41\"},  \n" +
+            "    {\"quantity\":\"42\"},  \n" +
+            "    {\"quantity\":\"43\"},  \n" +
+            "    {\"quantity\":\"44\"},  \n" +
+            "    {\"quantity\":\"45\"},  \n" +
+            "    {\"quantity\":\"46\"},  \n" +
+            "    {\"quantity\":\"47\"},  \n" +
+            "    {\"quantity\":\"48\"},  \n" +
+            "    {\"quantity\":\"49\"},  \n" +
+            "    {\"quantity\":\"50\"},  \n" +
+            "    {\"quantity\":\"51\"},  \n" +
+            "    {\"quantity\":\"52\"},  \n" +
+            "    {\"quantity\":\"53\"},  \n" +
+            "    {\"quantity\":\"54\"},  \n" +
+            "    {\"quantity\":\"55\"},  \n" +
+            "    {\"quantity\":\"56\"},  \n" +
+            "    {\"quantity\":\"57\"},  \n" +
+            "    {\"quantity\":\"58\"},  \n" +
+            "    {\"quantity\":\"59\"},  \n" +
+            "    {\"quantity\":\"60\"},  \n" +
+            "    {\"quantity\":\"61\"},  \n" +
+            "    {\"quantity\":\"62\"},  \n" +
+            "    {\"quantity\":\"63\"},  \n" +
+            "    {\"quantity\":\"64\"},  \n" +
+            "    {\"quantity\":\"65\"},  \n" +
+            "    {\"quantity\":\"66\"},  \n" +
+            "    {\"quantity\":\"67\"},  \n" +
+            "    {\"quantity\":\"68\"},  \n" +
+            "    {\"quantity\":\"69\"},  \n" +
+            "    {\"quantity\":\"70\"},  \n" +
+            "    {\"quantity\":\"71\"},  \n" +
+            "    {\"quantity\":\"72\"},  \n" +
+            "    {\"quantity\":\"73\"},  \n" +
+            "    {\"quantity\":\"74\"},  \n" +
+            "    {\"quantity\":\"75\"},  \n" +
+            "    {\"quantity\":\"76\"},  \n" +
+            "    {\"quantity\":\"78\"},  \n" +
+            "    {\"quantity\":\"79\"},  \n" +
+            "    {\"quantity\":\"80\"},  \n" +
+            "    {\"quantity\":\"81\"},  \n" +
+            "    {\"quantity\":\"82\"},  \n" +
+            "    {\"quantity\":\"83\"},  \n" +
+            "    {\"quantity\":\"84\"},  \n" +
+            "    {\"quantity\":\"85\"},  \n" +
+            "    {\"quantity\":\"86\"},  \n" +
+            "    {\"quantity\":\"87\"},  \n" +
+            "    {\"quantity\":\"88\"},  \n" +
+            "    {\"quantity\":\"89\"},  \n" +
+            "    {\"quantity\":\"90\"},  \n" +
+            "    {\"quantity\":\"91\"},  \n" +
+            "    {\"quantity\":\"92\"},  \n" +
+            "    {\"quantity\":\"93\"},  \n" +
+            "    {\"quantity\":\"94\"},  \n" +
+            "    {\"quantity\":\"95\"},  \n" +
+            "    {\"quantity\":\"96\"},  \n" +
+            "    {\"quantity\":\"97\"},  \n" +
+            "    {\"quantity\":\"98\"},  \n" +
+            "    {\"quantity\":\"99\"},  \n" +
+            "    {\"quantity\":\"100\"} \n" +
             "]}  ";
     private String selectedQuantity ="";
 
@@ -89,6 +169,7 @@ public class BookNowActivity extends AppCompatActivity {
                 SubscriptionId = bundle.getString("SubscriptionId");
                 mRenterId = bundle.getString("mRenterId");
                 mProductId = bundle.getString("mProductId");
+                mSubName = bundle.getString("subName");
                 mRate = bundle.getInt("mRate");
             }
         } catch (NumberFormatException e) {
@@ -114,9 +195,10 @@ public class BookNowActivity extends AppCompatActivity {
         tvAmount = findViewById(R.id.tvAmount);
         btnSubmit = findViewById(R.id.btnSubmit);
         spinnerQuantity = findViewById(R.id.spinnerQuantity);
-
+        tvSubName = findViewById(R.id.tvSubName);
 
         entered = editSubscription.getText().toString();
+        tvSubName.setText(mSubName);
         tvAmount.setText(String.valueOf(getAmount(entered)));
         tvCommission.setText(String.valueOf(getCommistion(getAmount(entered))));
 
@@ -150,8 +232,7 @@ public class BookNowActivity extends AppCompatActivity {
                 }
             }
         });
-        //getQuantity();
-
+        getQuantity();
         spinnerQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -185,7 +266,7 @@ public class BookNowActivity extends AppCompatActivity {
             if (jsonArray.length() > 0) {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     QuantityModel quantityModel = new QuantityModel();
-                    quantityModel.setQuantity(jsonArray.getJSONObject(i).getString("range"));
+                    quantityModel.setQuantity(jsonArray.getJSONObject(i).getString("quantity"));
                     quantityArray.add(quantityModel);
                 }
                 if (quantityArray.size() > 0) {
@@ -206,7 +287,6 @@ public class BookNowActivity extends AppCompatActivity {
         pd = ProgressDialog.show(BookNowActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-
             String mRenteeId = getPreference(BookNowActivity.this, "Id");
             if (mRenteeId != null) {
                 jsonObject.put("RenteeId", mRenteeId);
@@ -216,6 +296,7 @@ public class BookNowActivity extends AppCompatActivity {
             jsonObject.put("Amount", tvAmount.getText().toString());
             jsonObject.put("Count", editSubscription.getText().toString());
             jsonObject.put("SubscriptionId", SubscriptionId);
+            jsonObject.put("Quantity", selectedQuantity);
             jsonObject.put("CommissionAmount", tvCommission.getText().toString());
 
             Log.d(TAG, "getBookNow: " + jsonObject);

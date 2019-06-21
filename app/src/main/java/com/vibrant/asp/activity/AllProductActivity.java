@@ -33,6 +33,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.showToast;
 
@@ -202,17 +204,18 @@ public class AllProductActivity extends AppCompatActivity {
         pd = ProgressDialog.show(AllProductActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
+            String mRenteeId = getPreference(AllProductActivity.this, "Id");
+            if (mRenteeId != null) {
+                jsonObject.put("UserId", mRenteeId);
+            }
             jsonObject.put("FromKm", mFromKm);
             jsonObject.put("ToKm", mToKm);
             jsonObject.put("Latitude", String.valueOf(mLatCurrent));
             jsonObject.put("Longitude", String.valueOf(mLngCurrent));
-            //jsonObject.put("Latitude", "27.8975");
-            // jsonObject.put("Longitude", "81.8555");
             Log.d(TAG, "getNearByProduct: " + jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
 
             @Override
@@ -247,7 +250,6 @@ public class AllProductActivity extends AppCompatActivity {
                             allProductModel.setDistance(jsonArray.getJSONObject(i).getDouble("Distance"));
                             allProductModel.setStatus(jsonArray.getJSONObject(i).getString("Status"));
                             allProductModel.setBookedTill(jsonArray.getJSONObject(i).getString("BookedTill"));
-
                             allProductArrayList.add(allProductModel);
                         }
                         Log.d(TAG, "onResponse: " + allProductArrayList.size());

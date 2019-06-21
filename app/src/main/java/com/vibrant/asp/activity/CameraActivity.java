@@ -29,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,11 +37,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.vibrant.asp.R;
+import com.vibrant.asp.adapter.CameraQuantityAdapter;
 import com.vibrant.asp.adapter.SubscriptionAdapter;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ImageFilePath;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.gps.GPSTracker;
+import com.vibrant.asp.model.CameraQuantityModel;
 import com.vibrant.asp.model.SubscriptionModel;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -83,7 +84,114 @@ public class CameraActivity extends AppCompatActivity {
     private double latitude;
     private double longitude;
     GPSTracker gpsTracker;
+    Spinner spinnerQuantity;
+    List<CameraQuantityModel> quantityArray = new ArrayList<>();
+    String selectedQuantity="";
+    CameraQuantityAdapter adapter;
     ImageView ivBack;
+    String mResponse ="{\"d\":[  \n" +
+            "    {\"quantity\":\"1\"},  \n" +
+            "    {\"quantity\":\"2\"},  \n" +
+            "    {\"quantity\":\"3\"},  \n" +
+            "    {\"quantity\":\"4\"},  \n" +
+            "    {\"quantity\":\"5\"},  \n" +
+            "    {\"quantity\":\"6\"},  \n" +
+            "    {\"quantity\":\"7\"},  \n" +
+            "    {\"quantity\":\"8\"},  \n" +
+            "    {\"quantity\":\"9\"},  \n" +
+            "    {\"quantity\":\"10\"},  \n" +
+            "    {\"quantity\":\"11\"},  \n" +
+            "    {\"quantity\":\"12\"},  \n" +
+            "    {\"quantity\":\"13\"},  \n" +
+            "    {\"quantity\":\"14\"},  \n" +
+            "    {\"quantity\":\"15\"},  \n" +
+            "    {\"quantity\":\"16\"},  \n" +
+            "    {\"quantity\":\"17\"},  \n" +
+            "    {\"quantity\":\"18\"},  \n" +
+            "    {\"quantity\":\"19\"},  \n" +
+            "    {\"quantity\":\"20\"},  \n" +
+            "    {\"quantity\":\"21\"},  \n" +
+            "    {\"quantity\":\"22\"},  \n" +
+            "    {\"quantity\":\"23\"},  \n" +
+            "    {\"quantity\":\"24\"},  \n" +
+            "    {\"quantity\":\"25\"},  \n" +
+            "    {\"quantity\":\"26\"},  \n" +
+            "    {\"quantity\":\"27\"},  \n" +
+            "    {\"quantity\":\"28\"},  \n" +
+            "    {\"quantity\":\"29\"},  \n" +
+            "    {\"quantity\":\"30\"},  \n" +
+            "    {\"quantity\":\"31\"},  \n" +
+            "    {\"quantity\":\"32\"},  \n" +
+            "    {\"quantity\":\"33\"},  \n" +
+            "    {\"quantity\":\"34\"},  \n" +
+            "    {\"quantity\":\"35\"},  \n" +
+            "    {\"quantity\":\"36\"},  \n" +
+            "    {\"quantity\":\"37\"},  \n" +
+            "    {\"quantity\":\"38\"},  \n" +
+            "    {\"quantity\":\"39\"},  \n" +
+            "    {\"quantity\":\"40\"},  \n" +
+            "    {\"quantity\":\"41\"},  \n" +
+            "    {\"quantity\":\"42\"},  \n" +
+            "    {\"quantity\":\"43\"},  \n" +
+            "    {\"quantity\":\"44\"},  \n" +
+            "    {\"quantity\":\"45\"},  \n" +
+            "    {\"quantity\":\"46\"},  \n" +
+            "    {\"quantity\":\"47\"},  \n" +
+            "    {\"quantity\":\"48\"},  \n" +
+            "    {\"quantity\":\"49\"},  \n" +
+            "    {\"quantity\":\"50\"},  \n" +
+            "    {\"quantity\":\"51\"},  \n" +
+            "    {\"quantity\":\"52\"},  \n" +
+            "    {\"quantity\":\"53\"},  \n" +
+            "    {\"quantity\":\"54\"},  \n" +
+            "    {\"quantity\":\"55\"},  \n" +
+            "    {\"quantity\":\"56\"},  \n" +
+            "    {\"quantity\":\"57\"},  \n" +
+            "    {\"quantity\":\"58\"},  \n" +
+            "    {\"quantity\":\"59\"},  \n" +
+            "    {\"quantity\":\"60\"},  \n" +
+            "    {\"quantity\":\"61\"},  \n" +
+            "    {\"quantity\":\"62\"},  \n" +
+            "    {\"quantity\":\"63\"},  \n" +
+            "    {\"quantity\":\"64\"},  \n" +
+            "    {\"quantity\":\"65\"},  \n" +
+            "    {\"quantity\":\"66\"},  \n" +
+            "    {\"quantity\":\"67\"},  \n" +
+            "    {\"quantity\":\"68\"},  \n" +
+            "    {\"quantity\":\"69\"},  \n" +
+            "    {\"quantity\":\"70\"},  \n" +
+            "    {\"quantity\":\"71\"},  \n" +
+            "    {\"quantity\":\"72\"},  \n" +
+            "    {\"quantity\":\"73\"},  \n" +
+            "    {\"quantity\":\"74\"},  \n" +
+            "    {\"quantity\":\"75\"},  \n" +
+            "    {\"quantity\":\"76\"},  \n" +
+            "    {\"quantity\":\"78\"},  \n" +
+            "    {\"quantity\":\"79\"},  \n" +
+            "    {\"quantity\":\"80\"},  \n" +
+            "    {\"quantity\":\"81\"},  \n" +
+            "    {\"quantity\":\"82\"},  \n" +
+            "    {\"quantity\":\"83\"},  \n" +
+            "    {\"quantity\":\"84\"},  \n" +
+            "    {\"quantity\":\"85\"},  \n" +
+            "    {\"quantity\":\"86\"},  \n" +
+            "    {\"quantity\":\"87\"},  \n" +
+            "    {\"quantity\":\"88\"},  \n" +
+            "    {\"quantity\":\"89\"},  \n" +
+            "    {\"quantity\":\"90\"},  \n" +
+            "    {\"quantity\":\"91\"},  \n" +
+            "    {\"quantity\":\"92\"},  \n" +
+            "    {\"quantity\":\"93\"},  \n" +
+            "    {\"quantity\":\"94\"},  \n" +
+            "    {\"quantity\":\"95\"},  \n" +
+            "    {\"quantity\":\"96\"},  \n" +
+            "    {\"quantity\":\"97\"},  \n" +
+            "    {\"quantity\":\"98\"},  \n" +
+            "    {\"quantity\":\"99\"},  \n" +
+            "    {\"quantity\":\"100\"} \n" +
+            "]}  ";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +222,7 @@ public class CameraActivity extends AppCompatActivity {
         btnChoose2 = findViewById(R.id.btnChoose2);
         btnSubmit = findViewById(R.id.btnSubmit);
         spinnerSub = findViewById(R.id.spinnerSub);
+        spinnerQuantity = findViewById(R.id.spinnerQuantity);
 
         lLayRentCatgry = findViewById(R.id.lLayRentCatgry);
 
@@ -135,6 +244,21 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getBottomSheet2();
+            }
+        });
+
+        getQuantity();
+        spinnerQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                CameraQuantityModel cameraQuantityModel = adapter.getItem(position);
+                selectedQuantity = cameraQuantityModel.getQuantity();
+                Log.d(TAG, "onItemSelected: " + cameraQuantityModel.getQuantity());
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
@@ -176,6 +300,32 @@ public class CameraActivity extends AppCompatActivity {
         });
     }
 
+    private void getQuantity() {
+        try {
+            JSONObject jsonObject = new JSONObject(mResponse);
+            JSONArray jsonArray = jsonObject.getJSONArray("d");
+            quantityArray.clear();
+
+            if (jsonArray.length() > 0) {
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    CameraQuantityModel cameraQuantityModel = new CameraQuantityModel();
+                    cameraQuantityModel.setQuantity(jsonArray.getJSONObject(i).getString("quantity"));
+                    quantityArray.add(cameraQuantityModel);
+                }
+                if (quantityArray.size() > 0) {
+                    adapter = new CameraQuantityAdapter(getApplicationContext(), quantityArray);
+                    spinnerQuantity.setAdapter(adapter);
+                    // rangeAdapter.notifyDataSetChanged();
+                }
+            } else {
+                showToast(CameraActivity.this, "Data not found");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private boolean Validation() {
         if (TextUtils.isEmpty(editResName.getText().toString().trim())) {
             error_message = getString(R.string.please_enter_re_name);
@@ -207,6 +357,7 @@ public class CameraActivity extends AppCompatActivity {
             jsonObject.put("SubscriptionId", selectedSubId);
             jsonObject.put("Rate", editRent.getText().toString().trim());
             jsonObject.put("Description", editDiscription.getText().toString().trim());
+            jsonObject.put("Quantity", selectedQuantity);
             Log.d(TAG, "getUploadProduct: " + jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -274,7 +425,7 @@ public class CameraActivity extends AppCompatActivity {
                         }
                         if (jsonArray.length() > 0) {
                             SubscriptionModel model = new SubscriptionModel();
-                            model.setSubName("Please Select");
+                            model.setSubName("Please select subscription");
                             subArrayList1.add(0, model);
                             subArrayList1.addAll(subArrayList);
                             subAdapter = new SubscriptionAdapter(getApplicationContext(), subArrayList1);

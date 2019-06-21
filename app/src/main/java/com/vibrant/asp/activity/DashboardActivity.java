@@ -60,7 +60,7 @@ public class DashboardActivity extends AppCompatActivity
     private double longitude;
     TextView tvName, tvWallet;
     ProgressDialog pd;
-    LinearLayout rlayLend, rlRent, llrow1, llrow2, llrow3, llrow4, llConfirmedOrder, llayMutureOrder, llayPendingOrder;
+    LinearLayout rlayLend, rlRent, llrow1, llrow2, llrow3, llrow4,llaySale,llConfirmedOrder, llayCancelOrder, llayPendingOrder, rlWalletRecharge, rlHelp;
     Animation leftSide, rightSide;
 
     @Override
@@ -76,12 +76,12 @@ public class DashboardActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         View headerView = navigationView.getHeaderView(0);
-        /*tvName = headerView.findViewById(R.id.tvName);
+        tvName = headerView.findViewById(R.id.tvName);
         tvWallet = headerView.findViewById(R.id.tvWallet);
         String mName = getPreference(DashboardActivity.this, "name");
         if (mName != null && !mName.isEmpty()) {
             tvName.setText(mName);
-        }*/
+        }
 
         //tvWallet.setText(getResources().getString(R.string.wallet) + " " + "0");
 
@@ -106,9 +106,13 @@ public class DashboardActivity extends AppCompatActivity
         llrow2 = findViewById(R.id.llrow2);
         llrow3 = findViewById(R.id.llrow3);
         llrow4 = findViewById(R.id.llrow4);
-        llayMutureOrder = findViewById(R.id.llayMutureOrder);
+        llayCancelOrder = findViewById(R.id.llayCancelOrder);
         llConfirmedOrder = findViewById(R.id.llConfirmedOrder);
         llayPendingOrder = findViewById(R.id.llayPendingOrder);
+        rlWalletRecharge = findViewById(R.id.rlWalletRecharge);
+        llaySale = findViewById(R.id.llaySale);
+        rlHelp = findViewById(R.id.rlHelp);
+
         //for animation
         llrow1.startAnimation(rightSide);
         llrow2.startAnimation(leftSide);
@@ -130,27 +134,46 @@ public class DashboardActivity extends AppCompatActivity
             }
         });
 
-        llayMutureOrder.setOnClickListener(new View.OnClickListener() {
+        llayCancelOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showToast(DashboardActivity.this, "Coming Soon");
             }
         });
         llConfirmedOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showToast(DashboardActivity.this,"Coming Soon");
             }
         });
 
         llayPendingOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showToast(DashboardActivity.this,"Coming Soon");
+            }
+        });
 
+        llaySale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast(DashboardActivity.this,"Coming Soon");
+            }
+        });
+
+        rlWalletRecharge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast(DashboardActivity.this,"Coming Soon");
+            }
+        });
+        rlHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showToast(DashboardActivity.this,"Coming Soon");
             }
         });
     }
-
 
     private void getPermissionGPS() {
         // Check if the ACCESS_FINE_LOCATION permission is already available.

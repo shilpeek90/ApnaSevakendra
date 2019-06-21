@@ -16,6 +16,4 @@ public class Cons {
     public static final String GET_RENTER_WALLET_BALANCE =BASE_URL+"GetRenterWalletBalance";
     public static final String GET_UPDATE_ORDER_STATUS =BASE_URL+"UpdateOrderStatus";
 
-
-
 }

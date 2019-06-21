@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Agri Resource </string>
+    <string name="app_name">Agri Resources</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -24,7 +24,7 @@
     <string name="check_network">Please check your Network</string>
     <string name="wallet">Wallet Balance :</string>
 
-    <string name="camera">Camera</string>
+    <string name="camera">Upload Product</string>
 
     <string name="resource_name">Resource name</string>
 
@@ -72,8 +72,11 @@
     <string name="getordersforrentee">Orders For Rentee</string>
     <string name="log_out">Log out</string>
     <string name="my_orders">My Orders</string>
-    <string name="mature_orders">Mature Orders</string>
+
     <string name="confirmed_orders">Confirmed Orders</string>
     <string name="pending_orders">Pending Orders</string>
+    <string name="cancel_orders">Cancel Orders</string>
+    <string name="sale">Sale</string>
+    <string name="wallet_recharge">Wallet Recharge</string>
 
 </resources>

@@ -17,18 +17,18 @@
             android:id="@+id/rlayoutRate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_gravity="center"
             android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_gravity="center">
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_5sdp">
 
             <com.vibrant.asp.customtext.MyTextBold
                 android:id="@+id/tvWallte"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/wallet"
                 android:layout_alignParentLeft="true"
+                android:text="@string/wallet"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/_12sdp" />
 
@@ -36,8 +36,8 @@
                 android:id="@+id/ivRupee"
                 android:layout_width="@dimen/_8sdp"
                 android:layout_height="@dimen/_8sdp"
-                android:layout_marginLeft="5dp"
                 android:layout_centerInParent="true"
+                android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/tvWallte"
                 android:src="@drawable/rupee_white" />
 
@@ -55,9 +55,9 @@
         </RelativeLayout>
 
         <ScrollView
-            android:layout_below="@+id/rlayoutRate"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlayoutRate">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,10 +75,10 @@
                         android:id="@+id/rlayLend"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
                         android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_weight="1"
                         android:background="@drawable/custom_ripple_white"
+                        android:gravity="center"
                         android:orientation="vertical"
                         android:padding="@dimen/_8sdp">
 
@@ -104,10 +104,10 @@
                         android:id="@+id/rlRent"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginLeft="@dimen/_5sdp"
-                        android:gravity="center"
+                        android:layout_weight="1"
                         android:background="@drawable/custom_ripple_white"
+                        android:gravity="center"
                         android:orientation="vertical"
                         android:padding="@dimen/_8sdp">
 
@@ -139,21 +139,21 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:id="@+id/llayMutureOrder"
+                        android:id="@+id/llayCancelOrder"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
                         android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_weight="1"
                         android:background="@drawable/custom_ripple_white"
+                        android:gravity="center"
                         android:orientation="vertical"
                         android:padding="@dimen/_8sdp">
 
                         <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/ivMutureO"
+                            android:id="@+id/ivCancelO"
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="@dimen/_100sdp"
-                            android:src="@drawable/mature"
+                            android:src="@drawable/cancel"
                             app:civ_border_color="@color/colorPrimaryDark"
                             app:civ_border_width="@dimen/_2sdp" />
 
@@ -162,7 +162,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="center"
-                            android:text="@string/mature_orders"
+                            android:text="@string/cancel_orders"
                             android:textColor="@color/gray"
                             android:textSize="@dimen/_14sdp" />
                     </LinearLayout>
@@ -171,10 +171,10 @@
                         android:id="@+id/llConfirmedOrder"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginLeft="@dimen/_5sdp"
-                        android:gravity="center"
+                        android:layout_weight="1"
                         android:background="@drawable/custom_ripple_white"
+                        android:gravity="center"
                         android:orientation="vertical"
                         android:padding="@dimen/_8sdp">
 
@@ -200,19 +200,19 @@
 
                 <LinearLayout
                     android:id="@+id/llrow3"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:orientation="horizontal">
 
                     <LinearLayout
                         android:id="@+id/llayPendingOrder"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:layout_marginRight="@dimen/_5sdp"
-                        android:gravity="center"
+                        android:layout_weight="1"
                         android:background="@drawable/custom_ripple_white"
+                        android:gravity="center"
                         android:orientation="vertical"
                         android:padding="@dimen/_8sdp">
 
@@ -235,13 +235,51 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/rldemo4"
+                        android:id="@+id/llaySale"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
                         android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_weight="1"
                         android:background="@drawable/custom_ripple_white"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/_8sdp">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/ivSale"
+                            android:layout_width="@dimen/_100sdp"
+                            android:layout_height="@dimen/_100sdp"
+                            android:src="@drawable/sale"
+                            app:civ_border_color="@color/colorPrimaryDark"
+                            app:civ_border_width="@dimen/_2sdp" />
+
+                        <com.vibrant.asp.customtext.MyTextLight
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:gravity="center"
+                            android:text="@string/sale"
+                            android:textColor="@color/gray"
+                            android:textSize="@dimen/_14sdp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llrow4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/rlWalletRecharge"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_ripple_white"
+                        android:gravity="center"
                         android:orientation="vertical"
                         android:padding="@dimen/_8sdp">
 
@@ -258,62 +296,24 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="center"
-                            android:text="Recharge"
-                            android:textColor="@color/gray"
-                            android:textSize="@dimen/_14sdp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/llrow4"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_20sdp"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/llaySell"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginRight="@dimen/_5sdp"
-                        android:gravity="center"
-                        android:background="@drawable/custom_ripple_white"
-                        android:orientation="vertical"
-                        android:padding="@dimen/_8sdp">
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/ivSell"
-                            android:layout_width="@dimen/_100sdp"
-                            android:layout_height="@dimen/_100sdp"
-                            android:src="@drawable/sale"
-                            app:civ_border_color="@color/colorPrimaryDark"
-                            app:civ_border_width="@dimen/_2sdp" />
-
-                        <com.vibrant.asp.customtext.MyTextLight
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:gravity="center"
-                            android:text="Sell"
+                            android:text="@string/wallet_recharge"
                             android:textColor="@color/gray"
                             android:textSize="@dimen/_14sdp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/rldemo5"
+                        android:id="@+id/rlHelp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
                         android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_weight="1"
                         android:background="@drawable/custom_ripple_white"
+                        android:gravity="center"
                         android:orientation="vertical"
                         android:padding="@dimen/_8sdp">
 
                         <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/ivDemo5"
+                            android:id="@+id/ivHelp"
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="@dimen/_100sdp"
                             android:src="@drawable/demo"
@@ -325,7 +325,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="center"
-                            android:text="Demo"
+                            android:text="Help"
                             android:textColor="@color/gray"
                             android:textSize="@dimen/_14sdp" />
 

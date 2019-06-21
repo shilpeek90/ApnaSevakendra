@@ -40,7 +40,12 @@ public class SubscriptionAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.custom_spinner_items, null);;
         TextView textView =view.findViewById(R.id.tvSubName);
-        textView.setText(subscriptionModels.get(position).getSubName());
+        if (position==0){
+            textView.setText(subscriptionModels.get(position).getSubName());
+        }else {
+            textView.setText("Per "+subscriptionModels.get(position).getSubName());
+        }
+
         return view;
     }
 }

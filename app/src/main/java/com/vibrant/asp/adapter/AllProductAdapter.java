@@ -19,11 +19,6 @@ import com.vibrant.asp.activity.BookNowActivity;
 import com.vibrant.asp.activity.MapActivity;
 import com.vibrant.asp.activity.ViewImageActivity;
 import com.vibrant.asp.model.AllProductModel;
-
-import android.widget.Filter;
-import android.widget.Filterable;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.vibrant.asp.constants.Util.roundTwoDecimals;
@@ -31,8 +26,6 @@ import static com.vibrant.asp.constants.Util.roundTwoDecimals;
 public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.MyHolder> {
     private List<AllProductModel> arrayList;
     private List<AllProductModel> listFiltered;
-    ;
-
     Context mContext;
     private double latitude;
     private double longitude;
@@ -108,13 +101,14 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
                 String mRenterId = arrayList.get(position).getRenterId();
                 String mProductId = arrayList.get(position).getProductId();
                 int mRate = arrayList.get(position).getRate();
-
+                String subName = arrayList.get(position).getSubName();
                 Intent intent = new Intent(mContext, BookNowActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("SubscriptionId", mSubscriptionId);
                 bundle.putString("mRenterId", mRenterId);
                 bundle.putString("mProductId", mProductId);
                 bundle.putInt("mRate", mRate);
+                bundle.putString("subName", subName);
                 intent.putExtra("bundle", bundle);
                 mContext.startActivity(intent);
             }
