@@ -24,13 +24,44 @@
             android:padding="5dp">
 
             <RelativeLayout
-                android:id="@+id/rlayoutQnt"
+                android:id="@+id/lLQuanty"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_marginTop="@dimen/_20sdp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="horizontal">
 
                 <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvQuantity"
+                    android:id="@+id/editQuanty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quantity :"
+                    android:gravity="center"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp"  />
+
+                    <Spinner
+                        android:id="@+id/spinnerQuantity"
+                        android:layout_marginLeft="@dimen/_8sdp"
+                        android:layout_toRightOf="@+id/editQuanty"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_45sdp"
+                        android:background="@android:drawable/btn_dropdown"
+                        android:dropDownWidth="fill_parent"
+                        android:spinnerMode="dropdown" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlayoutSubscription"
+                android:layout_below="@+id/lLQuanty"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_15sdp">
+
+                <com.vibrant.asp.customtext.MyTextLight
+                    android:id="@+id/tvSubScr"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="Subscription Count :"
@@ -38,12 +69,10 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp" />
 
-                <!--Quantity-->
-
                 <EditText
-                    android:id="@+id/editQnt"
+                    android:id="@+id/editSubscription"
                     android:layout_width="wrap_content"
-                    android:layout_toRightOf="@+id/tvQuantity"
+                    android:layout_toRightOf="@+id/tvSubScr"
                     android:layout_height="@dimen/_40sdp"
                     android:background="@android:drawable/edit_text"
                     android:ems="14"
@@ -54,13 +83,14 @@
                     android:scrollbars="vertical"
                     android:scrollHorizontally="false"
                     android:textSize="@dimen/_14sdp" />
+
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rlayoutAmt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rlayoutQnt">
+                android:layout_below="@+id/rlayoutSubscription">
 
                 <TextView
                     android:id="@+id/tvAmt"

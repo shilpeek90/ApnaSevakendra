@@ -72,5 +72,8 @@
     <string name="getordersforrentee">Orders For Rentee</string>
     <string name="log_out">Log out</string>
     <string name="my_orders">My Orders</string>
+    <string name="mature_orders">Mature Orders</string>
+    <string name="confirmed_orders">Confirmed Orders</string>
+    <string name="pending_orders">Pending Orders</string>
 
 </resources>
