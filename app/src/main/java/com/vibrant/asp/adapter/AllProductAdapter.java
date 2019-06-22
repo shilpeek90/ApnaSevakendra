@@ -57,14 +57,14 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
           if (arrayList.get(position).getStatus().equalsIgnoreCase("Available")){
               holder.tvStatus.setText(arrayList.get(position).getStatus());
               //holder.tvStatus.setTextColor(Color.parseColor("#FF3AFD42"));
-              holder.tvStatus.setTextColor(Color.parseColor("#228B22"));
+              //holder.tvStatus.setTextColor(Color.parseColor("#228B22"));
+              holder.tvStatus.setTextColor(Color.parseColor("#17a75f"));
           }else {
               holder.tvStatus.setText(arrayList.get(position).getStatus());
               holder.tvStatus.setTextColor(Color.parseColor("#808080"));
           }
         holder.tvRate.setText(String.valueOf(arrayList.get(position).getRate()) + " " + arrayList.get(position).getSubName());
         holder.tvDistance.setText(String.valueOf(roundTwoDecimals((arrayList.get(position).getDistance()))) + " " + "km");
-        //  holder.tvDistance.setText(String.format("%.3f", arrayList.get(position).getDistance())+" "+"km");
 
         holder.llViewMap.setOnClickListener(new View.OnClickListener() {
             @Override

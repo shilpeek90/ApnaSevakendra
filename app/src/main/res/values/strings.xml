@@ -46,6 +46,8 @@
     <string name="please_enter_rate">Please Enter rate</string>
     <string name="please_enter_address">Please Enter Address</string>
     <string name="please_enter_dis">Please Enter Description</string>
+    <string name="please_enter_num">Please Enter Number Only</string>
+
 
     <string name="permission_read_phone_state_rationale1">Permission previously Denied</string>
     <string name="permissions_not_granted_read_phone_state1">Permission denied</string>
@@ -66,8 +68,11 @@
     <string name="confirm">Confirm</string>
 
 
-    <string name="dialog_message">Welcome to Alert Dialog</string>
+    <string name="dialog_message_cancel">Are you sure want to cancel ?</string>
+    <string name="dialog_message_confirm">Are you sure want to confirm ?</string>
+
     <string name="dialog_title">Are you sure want to confirm</string>
+
     <string name="ordersforrenter">Orders For Renter</string>
     <string name="getordersforrentee">Orders For Rentee</string>
     <string name="log_out">Log out</string>
@@ -78,5 +83,7 @@
     <string name="cancel_orders">Cancel Orders</string>
     <string name="sale">Sale</string>
     <string name="wallet_recharge">Wallet Recharge</string>
+    <string name="quantity">Quantity :</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

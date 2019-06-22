@@ -240,7 +240,6 @@ public class BookNowActivity extends AppCompatActivity {
                 selectedQuantity = quantityModel.getQuantity();
                 Log.d(TAG, "onItemSelected: " + quantityModel.getQuantity());
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 

@@ -71,7 +71,8 @@ public class OrdersForRenteeActivity extends AppCompatActivity {
         try {
             String mRenteeId = getPreference(OrdersForRenteeActivity.this, "Id");
             if (mRenteeId != null) {
-                jsonObject.put("RenteeId", mRenteeId);
+               // jsonObject.put("RenteeId", mRenteeId);
+                jsonObject.put("RenteeId", "1");
             }
             Log.d(TAG, "getOrderForRentee: " + jsonObject);
         } catch (JSONException e) {
@@ -100,7 +101,6 @@ public class OrdersForRenteeActivity extends AppCompatActivity {
                             getOrdersForRentee.setBookedTill(jsonArray.getJSONObject(i).getString("BookedTill"));
                             getOrdersForRenters.add(getOrdersForRentee);
                         }
-
                         if (getOrdersForRenters.size() > 0) {
                             tvNoRecord.setVisibility(View.GONE);
                             mAdapter = new GetOrdersForRenteeAdapter(OrdersForRenteeActivity.this, getOrdersForRenters);

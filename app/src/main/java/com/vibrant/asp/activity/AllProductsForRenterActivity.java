@@ -74,7 +74,8 @@ public class AllProductsForRenterActivity extends AppCompatActivity {
         try {
             String mRenteeId = getPreference(AllProductsForRenterActivity.this, "Id");
             if (mRenteeId != null) {
-                jsonObject.put("RenterId", mRenteeId);
+                //jsonObject.put("RenterId", mRenteeId);
+                jsonObject.put("RenterId", "1");
             }
             Log.d(TAG, "GetAllProductsForRenter: "+jsonObject);
 
@@ -93,7 +94,6 @@ public class AllProductsForRenterActivity extends AppCompatActivity {
                     getOrdersForRenters.clear();
                     if (jsonArray.length() > 0) {
                         for (int i = 0; i < jsonArray.length(); i++) {
-
                             GetAllProductsForRenter getOrdersForRentee = new GetAllProductsForRenter();
                             getOrdersForRentee.setName(jsonArray.getJSONObject(i).getString("name"));
                             getOrdersForRentee.setSubName(jsonArray.getJSONObject(i).getString("SubName"));
@@ -107,7 +107,6 @@ public class AllProductsForRenterActivity extends AppCompatActivity {
                             getOrdersForRentee.setBookedTill(jsonArray.getJSONObject(i).getString("BookedTill"));
                             getOrdersForRenters.add(getOrdersForRentee);
                         }
-
                         if (getOrdersForRenters.size() > 0) {
                             tvNoRecord.setVisibility(View.GONE);
                             mAdapter = new AllProductsForRenterAdapter(AllProductsForRenterActivity.this, getOrdersForRenters);

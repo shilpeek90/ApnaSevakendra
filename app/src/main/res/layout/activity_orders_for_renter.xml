@@ -5,15 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.OrdersForRenterActivity">
+
     <include
         android:id="@+id/header"
         layout="@layout/header" />
 
     <RelativeLayout
-        android:layout_below="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header">
+
+        <com.vibrant.asp.customtext.MyTextLight
             android:id="@+id/tvNoRecord"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,9 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/lLSearch"
+            android:layout_margin="@dimen/_5sdp"
             android:visibility="visible">
-
         </android.support.v7.widget.RecyclerView>
-
     </RelativeLayout>
 </RelativeLayout>

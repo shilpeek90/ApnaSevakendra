@@ -17,10 +17,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.vibrant.asp.R;
-import com.vibrant.asp.adapter.GetOrdersForRenterAdapter;
+import com.vibrant.asp.adapter.PendingOrdersAdapter;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
-import com.vibrant.asp.model.GetOrdersForRenter;
+import com.vibrant.asp.model.PendingOrdersModel;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,25 +30,25 @@ import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
 
-public class OrdersForRenterActivity extends AppCompatActivity {
-    private static final String TAG = "OrdersForRenterActivity";
+public class PendingOrdersActivity extends AppCompatActivity {
+    private static final String TAG = "PendingOrdersActivity";
     TextView tvHeader, tvNoRecord;
     ImageView ivBack;
     ProgressDialog pd;
-    List<GetOrdersForRenter> getOrdersForRenters = new ArrayList<>();
+    List<PendingOrdersModel> pendingOrderArray = new ArrayList<>();
     RecyclerView recyclerView;
-    GetOrdersForRenterAdapter mAdapter;
+    PendingOrdersAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orders_for_renter);
+        setContentView(R.layout.activity_pending_orders);
         init();
     }
 
     private void init() {
         tvHeader = findViewById(R.id.tvHeader);
-        tvHeader.setText(getString(R.string.all_order));
+        tvHeader.setText(getString(R.string.pending_orders));
         ivBack = findViewById(R.id.ivBack);
         ivBack.setVisibility(View.VISIBLE);
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -60,26 +60,25 @@ public class OrdersForRenterActivity extends AppCompatActivity {
         tvNoRecord = findViewById(R.id.tvNoRecord);
         recyclerView = findViewById(R.id.recyclerView);
         if (isInternetConnected(getApplicationContext())) {
-            getOrderForRenter();
+            getPendingOrder();
         } else {
-            showToast(OrdersForRenterActivity.this, getResources().getString(R.string.check_network));
+            showToast(PendingOrdersActivity.this, getResources().getString(R.string.check_network));
         }
     }
 
-    private void getOrderForRenter() {
-        String url = Cons.GET_ORDER_FOR_RENTER;
-        pd = ProgressDialog.show(OrdersForRenterActivity.this, "Please Wait...");
+    private void getPendingOrder() {
+        String url = Cons.GET_PENDING_ORDER;
+        pd = ProgressDialog.show(PendingOrdersActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            String mRenteeId = getPreference(OrdersForRenterActivity.this, "Id");
+            String mRenteeId = getPreference(PendingOrdersActivity.this, "Id");
             if (mRenteeId != null) {
                 jsonObject.put("RenterId", mRenteeId);
             }
-            Log.d(TAG, "getOrderForRenter: " + jsonObject);
+            Log.d(TAG, "getPendingOrder: " + jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
 
             @Override
@@ -90,26 +89,19 @@ public class OrdersForRenterActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     JSONArray jsonArray = jsonObject.getJSONArray("d");
-                    getOrdersForRenters.clear();
+                    pendingOrderArray.clear();
                     if (jsonArray.length() > 0) {
                         for (int i = 0; i < jsonArray.length(); i++) {
-                            GetOrdersForRenter getOrdersForRenter = new GetOrdersForRenter();
-                            getOrdersForRenter.setOrderId(jsonArray.getJSONObject(i).getInt("OrderId"));
-                            getOrdersForRenter.setRentee(jsonArray.getJSONObject(i).getString("Rentee"));
-                            getOrdersForRenter.setMobno(jsonArray.getJSONObject(i).getString("Mobno"));
-                            getOrdersForRenter.setAmount(jsonArray.getJSONObject(i).getString("Amount"));
-                            getOrdersForRenter.setBookingDate(jsonArray.getJSONObject(i).getString("BookingDate"));
-                            getOrdersForRenter.setStateName(jsonArray.getJSONObject(i).getString("StateName"));
-                            getOrdersForRenter.setDistrictName(jsonArray.getJSONObject(i).getString("DistrictName"));
-                            getOrdersForRenter.setBookedTill(jsonArray.getJSONObject(i).getString("BookedTill"));
-                            getOrdersForRenter.setConfirmed(jsonArray.getJSONObject(i).getString("Confirmed"));
-                            getOrdersForRenters.add(getOrdersForRenter);
+                            PendingOrdersModel pendingOrdersModel = new PendingOrdersModel();
+                            pendingOrdersModel.setBookedTill(jsonArray.getJSONObject(i).getString("BookedTill"));
+                            pendingOrdersModel.setConfirmed(jsonArray.getJSONObject(i).getString("Confirmed"));
+                            pendingOrderArray.add(pendingOrdersModel);
                         }
 
-                        if (getOrdersForRenters.size() > 0) {
+                        if (pendingOrderArray.size() > 0) {
                             tvNoRecord.setVisibility(View.GONE);
-                            mAdapter = new GetOrdersForRenterAdapter(OrdersForRenterActivity.this, getOrdersForRenters);
-                            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(OrdersForRenterActivity.this);
+                            mAdapter = new PendingOrdersAdapter(PendingOrdersActivity.this, pendingOrderArray);
+                            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(PendingOrdersActivity.this);
                             recyclerView.setLayoutManager(mLayoutManager);
                             recyclerView.setItemAnimator(new DefaultItemAnimator());
                             recyclerView.setAdapter(mAdapter);
@@ -130,7 +122,7 @@ public class OrdersForRenterActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Error: " + error.getMessage());
                 pd.dismiss();
-                showToast(OrdersForRenterActivity.this, "Something went wrong");
+                showToast(PendingOrdersActivity.this, "Something went wrong");
             }
         }) {
             @Override

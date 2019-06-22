@@ -55,11 +55,11 @@
                         android:hint="@string/resource_name"
                         android:scrollbars="vertical"
                         android:ems="14"
-                        android:maxLines="2"
+                        android:maxLength="30"
+                        android:maxLines="1"
                         android:scrollHorizontally="false"
-                        android:inputType="textMultiLine"
+                        android:inputType="text"
                         android:textSize="@dimen/_14sdp" />
-
 
                     <com.vibrant.asp.customtext.MyTextLight
                         android:id="@+id/tvImage"
@@ -174,12 +174,12 @@
                             android:id="@+id/editQuanty"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Quantity :"
+                            android:text="@string/quantity"
                             android:gravity="center"
                             android:layout_alignParentLeft="true"
                             android:layout_centerInParent="true"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_12sdp"  />
+                            android:textSize="@dimen/_14sdp"  />
 
                         <Spinner
                             android:id="@+id/spinnerQuantity"
@@ -249,7 +249,7 @@
                         android:background="@android:drawable/edit_text"
                         android:hint="@string/rate"
                         android:inputType="number"
-                        android:maxLength="30"
+                        android:maxLength="8"
                         android:textSize="@dimen/_14sdp" />
 
                     <com.vibrant.asp.customtext.MyTextLight

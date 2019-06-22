@@ -137,13 +137,14 @@ public class DashboardActivity extends AppCompatActivity
         llayCancelOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast(DashboardActivity.this, "Coming Soon");
+                startActivity(new Intent(DashboardActivity.this, CancelOrderActivity.class));
             }
         });
         llConfirmedOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showToast(DashboardActivity.this,"Coming Soon");
+
             }
         });
 

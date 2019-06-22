@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_10sdp"
-            android:padding="5dp">
+            android:padding="@dimen/_5sdp">
 
             <RelativeLayout
                 android:id="@+id/lLQuanty"
@@ -104,24 +104,24 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rlayoutSubscription">
 
-                <TextView
+                <com.vibrant.asp.customtext.MyTextLight
                     android:id="@+id/tvAmt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Amount :"
                     android:textColor="@color/black"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/_12sdp" />
 
-                <TextView
+                <com.vibrant.asp.customtext.MyTextLight
                     android:id="@+id/tvAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="@dimen/_5sdp"
                     android:layout_toRightOf="@+id/tvAmt"
                     android:text=""
                     android:textAllCaps="false"
                     android:textColor="@color/gray"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/_12sdp" />
 
             </RelativeLayout>
 
@@ -133,15 +133,15 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rlayoutAmt">
 
-                <TextView
+                <com.vibrant.asp.customtext.MyTextLight
                     android:id="@+id/tvCnt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Commission Amount :"
                     android:textColor="@color/black"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/_12sdp" />
 
-                <TextView
+                <com.vibrant.asp.customtext.MyTextLight
                     android:id="@+id/tvCommission"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
                     android:text=""
                     android:textAllCaps="false"
                     android:textColor="@color/gray"
-                    android:textSize="16dp" />
+                    android:textSize="@dimen/_12sdp" />
 
             </RelativeLayout>
 
@@ -163,12 +163,11 @@
                 android:gravity="center"
                 android:layout_margin="@dimen/_30sdp"
                 android:background="@drawable/custom_ripple_button"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
+                android:paddingLeft="@dimen/_30sdp"
+                android:paddingRight="@dimen/_30sdp"
                 android:text="@string/submit"
                 android:textAllCaps="false"
                 android:textColor="@color/white" />
-
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

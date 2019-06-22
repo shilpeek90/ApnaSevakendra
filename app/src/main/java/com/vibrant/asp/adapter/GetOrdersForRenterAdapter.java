@@ -1,6 +1,8 @@
 package com.vibrant.asp.adapter;
+
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.content.DialogInterface;
 import android.widget.Toast;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,16 +27,23 @@ import com.vibrant.asp.activity.DashboardActivity;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.model.GetOrdersForRenter;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.List;
+
+import static com.vibrant.asp.constants.Util.getPreference;
 
 public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersForRenterAdapter.MyHolder> {
     private static final String TAG = "GetOrdersForRenterAdapt";
     private List<GetOrdersForRenter> arrayList;
     Context mContext;
-    AlertDialog.Builder builder;
+    AlertDialog.Builder builderConfirm;
+    AlertDialog.Builder builderCancel;
     ProgressDialog pd;
+    String mOrderId = "";
+    String mOrderIdCancel = "";
 
     public GetOrdersForRenterAdapter(Context mContext, List<GetOrdersForRenter> arrayList) {
         this.mContext = mContext;
@@ -43,7 +53,7 @@ public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersFor
     @NonNull
     @Override
     public GetOrdersForRenterAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_order_item_row, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_for_renter_row, parent, false);
         return new GetOrdersForRenterAdapter.MyHolder(itemView);
     }
 
@@ -56,13 +66,21 @@ public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersFor
         holder.tvDistrictName.setText(arrayList.get(position).getDistrictName());
         holder.tvBookingDate.setText(arrayList.get(position).getBookingDate());
         holder.tvBookedTill.setText(arrayList.get(position).getBookedTill());
-        holder.tvDistance.setText(arrayList.get(position).getDistrictName());
+
+        if (arrayList.get(position).getConfirmed().equalsIgnoreCase("Yes")) {
+            holder.tvStatus.setText(arrayList.get(position).getConfirmed());
+            holder.tvStatus.setTextColor(Color.parseColor("#17a75f"));
+        } else {
+            holder.tvStatus.setText(arrayList.get(position).getConfirmed());
+            holder.tvStatus.setTextColor(Color.parseColor("#808080"));
+        }
+
         holder.btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                builder = new AlertDialog.Builder(mContext);
-                builder.setMessage(R.string.dialog_message).setTitle(R.string.dialog_title);
-                builder.setMessage("Are you sure want to confirm ?")
+                mOrderId = String.valueOf(arrayList.get(position).getOrderId());
+                builderConfirm = new AlertDialog.Builder(mContext);
+                builderConfirm.setMessage(R.string.dialog_message_confirm)
                         .setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -74,13 +92,35 @@ public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersFor
                                 dialog.cancel();
                             }
                         });
-                AlertDialog alert = builder.create();
-                alert.setTitle("AlertDialog");
+                AlertDialog alert = builderConfirm.create();
+                alert.setTitle(R.string.app_name);
+                alert.show();
+            }
+        });
+
+        holder.btnCancelOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOrderIdCancel = String.valueOf(arrayList.get(position).getOrderId());
+                builderCancel = new AlertDialog.Builder(mContext);
+                builderCancel.setMessage(R.string.dialog_message_cancel)
+                        .setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                CancelOrderByRenter();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builderCancel.create();
+                alert.setTitle(R.string.app_name);
                 alert.show();
             }
         });
     }
-
 
     @Override
     public int getItemCount() {
@@ -88,8 +128,8 @@ public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersFor
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvMobileNumber, tvAmount, tvStateName, tvDistrictName, tvBookingDate, tvBookedTill, tvDistance;
-        Button btnConfirm;
+        TextView tvName, tvMobileNumber, tvAmount, tvStateName, tvDistrictName, tvBookingDate, tvBookedTill, tvStatus;
+        Button btnConfirm, btnCancelOrder;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -101,8 +141,9 @@ public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersFor
             tvDistrictName = itemView.findViewById(R.id.tvDistrictName);
             tvBookingDate = itemView.findViewById(R.id.tvBookingDate);
             tvBookedTill = itemView.findViewById(R.id.tvBookedTill);
-            tvDistance = itemView.findViewById(R.id.tvDistance);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
             btnConfirm = itemView.findViewById(R.id.btnConfirm);
+            btnCancelOrder = itemView.findViewById(R.id.btnCancelOrder);
         }
     }
 
@@ -111,14 +152,62 @@ public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersFor
         pd = ProgressDialog.show(mContext, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("OrderId", "");
-            jsonObject.put("Status", "");
+            jsonObject.put("OrderId", mOrderId);
             Log.d(TAG, "UpdateOrderStatus: " + jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
 
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d(TAG, response.toString());
+                pd.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    String status = jsonObject.getString("d");
+                    if (status.equalsIgnoreCase("true")) {
+                        mContext.startActivity(new Intent(mContext, DashboardActivity.class));
+                    } else {
+                        Toast.makeText(mContext, "No Data Found", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Error: " + error.getMessage());
+                pd.dismiss();
+                Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/json";
+            }
+        };
+        jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(50000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+        requestQueue.add(jsonObjReq);
+    }
+
+    private void CancelOrderByRenter() {
+        String url = Cons.CANCEL_ORDER_BY_RENTER;
+        pd = ProgressDialog.show(mContext, "Please Wait...");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            String mRenteeId = getPreference(mContext, "Id");
+            if (mRenteeId != null) {
+                jsonObject.put("UserId", mRenteeId);
+            }
+            jsonObject.put("OrderId", mOrderIdCancel);
+            Log.d(TAG, "CancelOrderByRenter: " + jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());

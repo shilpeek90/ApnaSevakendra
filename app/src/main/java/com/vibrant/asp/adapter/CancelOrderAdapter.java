@@ -11,16 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.vibrant.asp.R;
 import com.vibrant.asp.activity.AllProductImagViewActivity;
+import com.vibrant.asp.model.CancelOrderModel;
 import com.vibrant.asp.model.GetAllProductsForRenter;
+
 import java.util.List;
 
-public class AllProductsForRenterAdapter extends RecyclerView.Adapter<AllProductsForRenterAdapter.MyHolder> {
+public class CancelOrderAdapter extends RecyclerView.Adapter<CancelOrderAdapter.MyHolder> {
     Context mContext;
-    private List<GetAllProductsForRenter> arrayList;
+    private List<CancelOrderModel> arrayList;
 
-    public AllProductsForRenterAdapter(Context mContext, List<GetAllProductsForRenter> arrayList) {
+    public CancelOrderAdapter(Context mContext, List<CancelOrderModel> arrayList) {
         this.mContext = mContext;
         this.arrayList = arrayList;
     }
@@ -29,7 +32,7 @@ public class AllProductsForRenterAdapter extends RecyclerView.Adapter<AllProduct
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_product_renter_item_row, parent, false);
-        return new AllProductsForRenterAdapter.MyHolder(itemView);
+        return new CancelOrderAdapter.MyHolder(itemView);
     }
 
     @Override

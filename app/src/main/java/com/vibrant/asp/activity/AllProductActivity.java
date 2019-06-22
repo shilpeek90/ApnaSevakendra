@@ -101,11 +101,8 @@ public class AllProductActivity extends AppCompatActivity {
         ivBack = findViewById(R.id.ivBack);
         ivBack.setVisibility(View.VISIBLE);
         tvNoRecord = findViewById(R.id.tvNoRecord);
-
         spinnerRange = findViewById(R.id.spinnerRange);
         recyclerView = findViewById(R.id.recyclerView);
-
-
         editSearch = findViewById(R.id.editSearch);
 
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -124,9 +121,6 @@ public class AllProductActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.d(TAG, "onTextChanged: " + s);
-                /*if (s.length()>0) {
-                    mAdapter.getFilter().filter(s);
-                }*/
             }
 
             @Override
@@ -189,7 +183,6 @@ public class AllProductActivity extends AppCompatActivity {
                 if (rangeMainArray.size() > 0) {
                     rangeAdapter = new RangeAdapter(getApplicationContext(), rangeMainArray);
                     spinnerRange.setAdapter(rangeAdapter);
-                    // rangeAdapter.notifyDataSetChanged();
                 }
             } else {
                 showToast(AllProductActivity.this, "Data not found");

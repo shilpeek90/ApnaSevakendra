@@ -1,5 +1,4 @@
 package com.vibrant.asp.activity;
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -17,10 +16,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.vibrant.asp.R;
-import com.vibrant.asp.adapter.GetOrdersForRenterAdapter;
+import com.vibrant.asp.adapter.CancelOrderAdapter;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
-import com.vibrant.asp.model.GetOrdersForRenter;
+import com.vibrant.asp.model.CancelOrderModel;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,25 +29,25 @@ import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
 
-public class OrdersForRenterActivity extends AppCompatActivity {
-    private static final String TAG = "OrdersForRenterActivity";
+public class CancelOrderActivity extends AppCompatActivity {
+    private static final String TAG = "CancelOrderActivity";
     TextView tvHeader, tvNoRecord;
     ImageView ivBack;
     ProgressDialog pd;
-    List<GetOrdersForRenter> getOrdersForRenters = new ArrayList<>();
+    List<CancelOrderModel> cancelOrderArray = new ArrayList<>();
     RecyclerView recyclerView;
-    GetOrdersForRenterAdapter mAdapter;
+    CancelOrderAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orders_for_renter);
+        setContentView(R.layout.activity_cancel_order);
         init();
     }
 
     private void init() {
         tvHeader = findViewById(R.id.tvHeader);
-        tvHeader.setText(getString(R.string.all_order));
+        tvHeader.setText(getString(R.string.cancel_orders));
         ivBack = findViewById(R.id.ivBack);
         ivBack.setVisibility(View.VISIBLE);
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -60,18 +59,18 @@ public class OrdersForRenterActivity extends AppCompatActivity {
         tvNoRecord = findViewById(R.id.tvNoRecord);
         recyclerView = findViewById(R.id.recyclerView);
         if (isInternetConnected(getApplicationContext())) {
-            getOrderForRenter();
+            getCancelOrder();
         } else {
-            showToast(OrdersForRenterActivity.this, getResources().getString(R.string.check_network));
+            showToast(CancelOrderActivity.this, getResources().getString(R.string.check_network));
         }
     }
 
-    private void getOrderForRenter() {
-        String url = Cons.GET_ORDER_FOR_RENTER;
-        pd = ProgressDialog.show(OrdersForRenterActivity.this, "Please Wait...");
+    private void getCancelOrder() {
+        String url = Cons.GET_CANCEL_ORDER;
+        pd = ProgressDialog.show(CancelOrderActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            String mRenteeId = getPreference(OrdersForRenterActivity.this, "Id");
+            String mRenteeId = getPreference(CancelOrderActivity.this, "Id");
             if (mRenteeId != null) {
                 jsonObject.put("RenterId", mRenteeId);
             }
@@ -79,7 +78,6 @@ public class OrdersForRenterActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
 
             @Override
@@ -90,26 +88,19 @@ public class OrdersForRenterActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     JSONArray jsonArray = jsonObject.getJSONArray("d");
-                    getOrdersForRenters.clear();
+                    cancelOrderArray.clear();
                     if (jsonArray.length() > 0) {
                         for (int i = 0; i < jsonArray.length(); i++) {
-                            GetOrdersForRenter getOrdersForRenter = new GetOrdersForRenter();
-                            getOrdersForRenter.setOrderId(jsonArray.getJSONObject(i).getInt("OrderId"));
-                            getOrdersForRenter.setRentee(jsonArray.getJSONObject(i).getString("Rentee"));
-                            getOrdersForRenter.setMobno(jsonArray.getJSONObject(i).getString("Mobno"));
-                            getOrdersForRenter.setAmount(jsonArray.getJSONObject(i).getString("Amount"));
-                            getOrdersForRenter.setBookingDate(jsonArray.getJSONObject(i).getString("BookingDate"));
-                            getOrdersForRenter.setStateName(jsonArray.getJSONObject(i).getString("StateName"));
-                            getOrdersForRenter.setDistrictName(jsonArray.getJSONObject(i).getString("DistrictName"));
+                            CancelOrderModel getOrdersForRenter = new CancelOrderModel();
                             getOrdersForRenter.setBookedTill(jsonArray.getJSONObject(i).getString("BookedTill"));
                             getOrdersForRenter.setConfirmed(jsonArray.getJSONObject(i).getString("Confirmed"));
-                            getOrdersForRenters.add(getOrdersForRenter);
+                            cancelOrderArray.add(getOrdersForRenter);
                         }
 
-                        if (getOrdersForRenters.size() > 0) {
+                        if (cancelOrderArray.size() > 0) {
                             tvNoRecord.setVisibility(View.GONE);
-                            mAdapter = new GetOrdersForRenterAdapter(OrdersForRenterActivity.this, getOrdersForRenters);
-                            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(OrdersForRenterActivity.this);
+                            mAdapter = new CancelOrderAdapter(CancelOrderActivity.this, cancelOrderArray);
+                            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(CancelOrderActivity.this);
                             recyclerView.setLayoutManager(mLayoutManager);
                             recyclerView.setItemAnimator(new DefaultItemAnimator());
                             recyclerView.setAdapter(mAdapter);
@@ -130,7 +121,7 @@ public class OrdersForRenterActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Error: " + error.getMessage());
                 pd.dismiss();
-                showToast(OrdersForRenterActivity.this, "Something went wrong");
+                showToast(CancelOrderActivity.this, "Something went wrong");
             }
         }) {
             @Override
@@ -148,3 +139,4 @@ public class OrdersForRenterActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 }
+

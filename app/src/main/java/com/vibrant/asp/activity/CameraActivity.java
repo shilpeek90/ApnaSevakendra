@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -333,8 +334,10 @@ public class CameraActivity extends AppCompatActivity {
         } else if (TextUtils.isEmpty(editRent.getText().toString().trim())) {
             error_message = getString(R.string.please_enter_rate);
             return false;
-        }
-        else if (TextUtils.isEmpty(editDiscription.getText().toString().trim())) {
+        }else if (Patterns.PHONE.matcher(editRent.getText().toString().trim()).matches()) {
+            error_message = getString(R.string.please_enter_num);
+            return false;
+        }  else if (TextUtils.isEmpty(editDiscription.getText().toString().trim())) {
             error_message = getString(R.string.please_enter_dis);
             return false;
         }else {
@@ -661,7 +664,6 @@ public class CameraActivity extends AppCompatActivity {
             startActivityForResult(pictureIntent, PERMISSION_REQUEST_CODE_1);
         }
     }
-
     //For Camera Image 2
     public void doPermissionGrantedCamera2() {
         Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

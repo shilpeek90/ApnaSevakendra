@@ -123,7 +123,6 @@
                         android:maxLength="10"
                         android:textSize="@dimen/_14sdp" />
 
-<!---->
                     <com.vibrant.asp.customtext.MyTextLight
                         android:id="@+id/tvPass"
                         android:layout_width="match_parent"
@@ -143,8 +142,6 @@
                         android:inputType="textPassword"
                         android:maxLength="20"
                         android:textSize="@dimen/_14sdp" />
-
-
 
                     <com.vibrant.asp.customtext.MyTextLight
                         android:id="@+id/tvAddress"
@@ -173,7 +170,6 @@
 
                     </EditText>
 
-
                     <com.vibrant.asp.customtext.MyButtonBold
                         android:id="@+id/btnSubmit"
                         android:layout_width="match_parent"
@@ -188,7 +184,6 @@
                         android:textColor="@color/white" />
 
                 </LinearLayout>
-
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
