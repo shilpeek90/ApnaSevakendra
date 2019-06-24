@@ -26,6 +26,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -171,7 +172,8 @@ public class DashboardActivity extends AppCompatActivity
         rlHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast(DashboardActivity.this,"Coming Soon");
+                startActivity(new Intent(DashboardActivity.this,HelpActivity.class));
+               // showToast(DashboardActivity.this,"Coming Soon");
             }
         });
     }

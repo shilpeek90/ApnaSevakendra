@@ -17,6 +17,8 @@ import android.view.ContextThemeWrapper;
 
 import com.vibrant.asp.R;
 
+import static android.content.Context.LOCATION_SERVICE;
+
 
 public final class GPSTracker implements LocationListener {
 
@@ -59,17 +61,19 @@ public final class GPSTracker implements LocationListener {
 	}
 
 	public String getGPS_Location() {
+
 		String exp=null;
 		try {
-			locationManager = (LocationManager) mContext.getSystemService(mContext.LOCATION_SERVICE);
+			locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
 			// showDialog("GPS Enabled.");
+			// getting gps status
 			isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 		} catch (Exception ex) {
 			showDialog("GPS Disabled." + ex.getMessage());
 			exp = ex.getMessage();
 		}
-		if (isGPSEnabled) {
 
+		if (isGPSEnabled) {
 			try {
 				locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 200, 0, this);
 				locationManager.addGpsStatusListener(new Listener() {
@@ -105,9 +109,7 @@ public final class GPSTracker implements LocationListener {
 			}
 		} else {
 			setLoc(null);
-
 			return "Your GPS module is disabled. Would you like to enable it ?";
-
 		}
 	}
 
@@ -133,7 +135,7 @@ public final class GPSTracker implements LocationListener {
 	public Location getLocation() {
 		try {
 			locationManager = (LocationManager) mContext
-					.getSystemService(Context.LOCATION_SERVICE);
+					.getSystemService(LOCATION_SERVICE);
 
 			// getting GPS status
 			isGPSEnabled = locationManager
@@ -233,7 +235,7 @@ public final class GPSTracker implements LocationListener {
 
 	/**
 	 * Function to check GPS/wifi enabled
-	 * 
+	 *
 	 * @return boolean
 	 * */
 	public boolean canGetLocation() {
@@ -278,6 +280,9 @@ public final class GPSTracker implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
+		this.location = location;
+		getLatitude();
+		getLongitude();
 	}
 
 	@Override
@@ -299,6 +304,5 @@ public final class GPSTracker implements LocationListener {
 	public void setLoc(Location loc) {
 		this.loc = loc;
 	}
-
 
 }

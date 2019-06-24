@@ -20,11 +20,19 @@ private String longitude;
 private double distance;
 private String Status;
 private String BookedTill;
+private int BalanceQuantity;
 
 
     public AllProductModel() {
     }
 
+    public int getBalanceQuantity() {
+        return BalanceQuantity;
+    }
+
+    public void setBalanceQuantity(int balanceQuantity) {
+        BalanceQuantity = balanceQuantity;
+    }
 
     public String getRenterId() {
         return renterId;

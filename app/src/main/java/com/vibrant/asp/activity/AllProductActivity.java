@@ -243,6 +243,7 @@ public class AllProductActivity extends AppCompatActivity {
                             allProductModel.setDistance(jsonArray.getJSONObject(i).getDouble("Distance"));
                             allProductModel.setStatus(jsonArray.getJSONObject(i).getString("Status"));
                             allProductModel.setBookedTill(jsonArray.getJSONObject(i).getString("BookedTill"));
+                            allProductModel.setBalanceQuantity(jsonArray.getJSONObject(i).getInt("BalanceQuantity"));
                             allProductArrayList.add(allProductModel);
                         }
                         Log.d(TAG, "onResponse: " + allProductArrayList.size());

@@ -209,7 +209,7 @@ public class RegistrationActivity extends AppCompatActivity {
             // ACCESS_FINE_LOCATION permission has not been granted.
             requestReadPhoneStatePermission();
         } else {
-            // READ_PHONE_STATE permission is already been granted.
+            // ACCESS_FINE_LOCATION permission is already been granted.
             doPermissionGrantedStuffs();
         }
 

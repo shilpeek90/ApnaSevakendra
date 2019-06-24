@@ -26,25 +26,61 @@ import java.util.Map;
 
 public class PermissionActivity extends AppCompatActivity {
     private static final String TAG = "PermissionActivity";
-    Button btnPermission;
-    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
-
+    Button btnPermission,btnPermi;
+  //  public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+  private final static int REQUEST_ID_MULTIPLE_PERMISSIONS=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_permission);
         btnPermission = findViewById(R.id.btnPermission);
-        btnPermission.setOnClickListener(new View.OnClickListener() {
+        btnPermi = findViewById(R.id.btnPermi);
+       /* btnPermission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkAndRequestPermissions()) {
+               *//* if (checkAndRequestPermissions()) {
                     Log.d(TAG, "onClick: " + "permission granted");
-                }
+                }*//*
+            }
+        });*/
+
+
+        btnPermi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkPermissions();
             }
         });
     }
 
-    private boolean checkAndRequestPermissions() {
+    private void checkPermissions() {
+        int permissionLocation = ContextCompat.checkSelfPermission(PermissionActivity.this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (permissionLocation != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
+            if (!listPermissionsNeeded.isEmpty()) {
+                ActivityCompat.requestPermissions(this,
+                        listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
+            }
+        }else{
+          //  getMyLocation();
+        }
+
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        int permissionLocation = ContextCompat.checkSelfPermission(PermissionActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
+           // getMyLocation();
+
+            Log.d(TAG, "onRequestPermissionsResult: "+">>>>>>>>>>");
+        }
+    }
+   /* private boolean checkAndRequestPermissions() {
         int cameraPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
         int writepPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
@@ -151,5 +187,5 @@ public class PermissionActivity extends AppCompatActivity {
                     }
                 });
         dialog.show();
-    }
+    }*/
 }

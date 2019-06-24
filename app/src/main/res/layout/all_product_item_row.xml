@@ -274,11 +274,40 @@
 
             </RelativeLayout>
 
+
+            <RelativeLayout
+                android:id="@+id/rlayoutQuantity"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlayoutBookT">
+
+                <com.vibrant.asp.customtext.MyTextLight
+                    android:id="@+id/tvQuant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quantity :"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+
+                <com.vibrant.asp.customtext.MyTextLight
+                    android:id="@+id/tvQuantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/tvQuant"
+                    android:text=""
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+
+            </RelativeLayout>
+            <!---->
+
             <RelativeLayout
                 android:id="@+id/rlayoutStatus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rlayoutBookT">
+                android:layout_below="@+id/rlayoutQuantity">
 
                 <com.vibrant.asp.customtext.MyTextLight
                     android:id="@+id/tvStatu"

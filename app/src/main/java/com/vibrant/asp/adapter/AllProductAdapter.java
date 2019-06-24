@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.vibrant.asp.R;
@@ -19,6 +20,7 @@ import com.vibrant.asp.activity.BookNowActivity;
 import com.vibrant.asp.activity.MapActivity;
 import com.vibrant.asp.activity.ViewImageActivity;
 import com.vibrant.asp.model.AllProductModel;
+
 import java.util.List;
 
 import static com.vibrant.asp.constants.Util.roundTwoDecimals;
@@ -52,17 +54,23 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
         // holder.tvDistrict.setText(arrayList.get(position).getDistrictName());
         // holder.tvAddress.setText(arrayList.get(position).getAddress());
         //  holder.tvSubscription.setText(arrayList.get(position).getSubName());
-          holder.tvBookedTill.setText(arrayList.get(position).getBookedTill());
+        holder.tvBookedTill.setText(arrayList.get(position).getBookedTill());
 
-          if (arrayList.get(position).getStatus().equalsIgnoreCase("Available")){
-              holder.tvStatus.setText(arrayList.get(position).getStatus());
-              //holder.tvStatus.setTextColor(Color.parseColor("#FF3AFD42"));
-              //holder.tvStatus.setTextColor(Color.parseColor("#228B22"));
-              holder.tvStatus.setTextColor(Color.parseColor("#17a75f"));
-          }else {
-              holder.tvStatus.setText(arrayList.get(position).getStatus());
-              holder.tvStatus.setTextColor(Color.parseColor("#808080"));
-          }
+        if (arrayList.get(position).getBalanceQuantity() > 0) {
+            holder.rlayoutQuantity.setVisibility(View.VISIBLE);
+            holder.tvQuantity.setText(String.valueOf(arrayList.get(position).getBalanceQuantity()));
+        } else {
+            holder.rlayoutQuantity.setVisibility(View.GONE);
+        }
+        if (arrayList.get(position).getStatus().equalsIgnoreCase("Available")) {
+            holder.tvStatus.setText(arrayList.get(position).getStatus());
+            //holder.tvStatus.setTextColor(Color.parseColor("#FF3AFD42"));
+            //holder.tvStatus.setTextColor(Color.parseColor("#228B22"));
+            holder.tvStatus.setTextColor(Color.parseColor("#17a75f"));
+        } else {
+            holder.tvStatus.setText(arrayList.get(position).getStatus());
+            holder.tvStatus.setTextColor(Color.parseColor("#808080"));
+        }
         holder.tvRate.setText(String.valueOf(arrayList.get(position).getRate()) + " " + arrayList.get(position).getSubName());
         holder.tvDistance.setText(String.valueOf(roundTwoDecimals((arrayList.get(position).getDistance()))) + " " + "km");
 
@@ -121,8 +129,10 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvMobileNumber, tvStateName, tvDistrict, tvAddress, tvSubscription, tvRate, tvDistance, tvBookedTill,tvStatus;
+        TextView tvName, tvMobileNumber, tvStateName, tvDistrict, tvAddress, tvSubscription,
+                tvRate, tvDistance, tvBookedTill, tvStatus, tvQuantity;
         LinearLayout llViewMap, llViewImage, llBookNow;
+        RelativeLayout rlayoutQuantity;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -139,6 +149,8 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
             llBookNow = itemView.findViewById(R.id.llBookNow);
             tvBookedTill = itemView.findViewById(R.id.tvBookedTill);
             tvStatus = itemView.findViewById(R.id.tvStatus);
+            tvQuantity = itemView.findViewById(R.id.tvQuantity);
+            rlayoutQuantity = itemView.findViewById(R.id.rlayoutQuantity);
         }
     }
 

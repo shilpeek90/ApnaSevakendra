@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.vibrant.asp">
 
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="true" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <!--If you are targeting API Level 21 (5.0) or higher-->
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -23,10 +23,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.PendingOrdersActivity"></activity>
+        <activity android:name=".activity.HelpActivity"></activity>
+        <activity android:name=".activity.PendingOrdersActivity" />
         <activity android:name=".activity.ConfirmedOrdersActivity" />
         <activity android:name=".activity.CancelOrderActivity" />
-        <activity android:name=".activity.PermissionActivity" />
+        <activity android:name=".activity.PermissionActivity" >
+        </activity>
         <activity android:name=".activity.AllProductImagViewActivity" />
         <activity android:name=".activity.AllProductsForRenterActivity" />
         <activity android:name=".activity.OrdersForRenteeActivity" />
@@ -45,8 +47,7 @@
 
         <activity
             android:name=".activity.CameraActivity"
-            android:configChanges="keyboardHidden">
-        </activity>
+            android:configChanges="keyboardHidden"></activity>
         <activity
             android:name=".activity.RegistrationActivity"
             android:configChanges="keyboardHidden" />
@@ -56,6 +57,7 @@
             android:theme="@style/AppFullScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

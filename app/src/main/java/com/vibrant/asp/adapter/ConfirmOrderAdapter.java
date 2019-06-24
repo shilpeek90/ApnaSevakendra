@@ -1,5 +1,4 @@
 package com.vibrant.asp.adapter;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -48,7 +47,7 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<ConfirmOrderAdapte
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvRate, tvProductName, tvBookedTill, tvDescription, tvConfirmed, tvStatus;
+        TextView tvName,tvRate,tvProductName,tvBookedTill,tvDescription,tvConfirmed,tvStatus;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
