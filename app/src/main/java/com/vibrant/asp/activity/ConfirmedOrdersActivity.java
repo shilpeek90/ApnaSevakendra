@@ -44,7 +44,6 @@ public class ConfirmedOrdersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_confirmed_orders);
         init();
     }
-
     private void init() {
         tvHeader = findViewById(R.id.tvHeader);
         tvHeader.setText(getString(R.string.confirmed_orders));
@@ -64,7 +63,6 @@ public class ConfirmedOrdersActivity extends AppCompatActivity {
             showToast(ConfirmedOrdersActivity.this, getResources().getString(R.string.check_network));
         }
     }
-
     private void getConfirmedOrder() {
         String url = Cons.GET_CONFIRMED_ORDER;
         pd = ProgressDialog.show(ConfirmedOrdersActivity.this, "Please Wait...");
@@ -80,12 +78,10 @@ public class ConfirmedOrdersActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
                 pd.dismiss();
-
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     JSONArray jsonArray = jsonObject.getJSONArray("d");
@@ -97,7 +93,6 @@ public class ConfirmedOrdersActivity extends AppCompatActivity {
                             confirmOrderModel.setConfirmed(jsonArray.getJSONObject(i).getString("Confirmed"));
                             confirmOrderArrayList.add(confirmOrderModel);
                         }
-
                         if (confirmOrderArrayList.size() > 0) {
                             tvNoRecord.setVisibility(View.GONE);
                             mAdapter = new ConfirmOrderAdapter(ConfirmedOrdersActivity.this, confirmOrderArrayList);
@@ -111,7 +106,6 @@ public class ConfirmedOrdersActivity extends AppCompatActivity {
                         }
                     } else {
                         tvNoRecord.setVisibility(View.VISIBLE);
-                        // showToast(OrdersForRenterActivity.this, "No Record Found");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

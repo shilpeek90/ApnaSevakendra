@@ -44,7 +44,6 @@ public class CancelOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cancel_order);
         init();
     }
-
     private void init() {
         tvHeader = findViewById(R.id.tvHeader);
         tvHeader.setText(getString(R.string.cancel_orders));
@@ -79,12 +78,10 @@ public class CancelOrderActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
                 pd.dismiss();
-
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     JSONArray jsonArray = jsonObject.getJSONArray("d");
@@ -101,7 +98,6 @@ public class CancelOrderActivity extends AppCompatActivity {
                             getOrdersForRenter.setDistrictName(jsonArray.getJSONObject(i).getString("DistrictName"));
                             cancelOrderArray.add(getOrdersForRenter);
                         }
-
                         if (cancelOrderArray.size() > 0) {
                             tvNoRecord.setVisibility(View.GONE);
                             mAdapter = new CancelOrderAdapter(CancelOrderActivity.this, cancelOrderArray);
@@ -115,7 +111,6 @@ public class CancelOrderActivity extends AppCompatActivity {
                         }
                     } else {
                         tvNoRecord.setVisibility(View.VISIBLE);
-                        // showToast(OrdersForRenterActivity.this, "No Record Found");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
