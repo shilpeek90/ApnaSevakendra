@@ -1,6 +1,7 @@
 package com.vibrant.asp.model;
 
 public class GetAllProductsForRenter {
+
     private String name;
     private String SubName;
     private String Rate;
@@ -14,6 +15,7 @@ public class GetAllProductsForRenter {
 
     public GetAllProductsForRenter() {
     }
+
 
     public String getName() {
         return name;

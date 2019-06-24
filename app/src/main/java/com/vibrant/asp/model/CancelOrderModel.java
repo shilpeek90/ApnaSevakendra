@@ -1,42 +1,41 @@
 package com.vibrant.asp.model;
 
 public class CancelOrderModel {
-    private String name;
-    private String SubName;
-    private String Rate;
+    private String CancelledBy;
+    private String RenteeName;
+    private String Amount;
     private String ProductName;
-    private String BookedTill;
-    private String Image1;
-    private String Image2;
-    private String Description;
-    private String Confirmed;
-    private String Status;
+    private String OrderQuantity;
+    private String CommissionAmount;
+    private String DistrictName;
+    private String Subname;
+    private String SubscriptionCount;
 
     public CancelOrderModel() {
     }
 
-    public String getName() {
-        return name;
+    public String getCancelledBy() {
+        return CancelledBy;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCancelledBy(String cancelledBy) {
+        CancelledBy = cancelledBy;
     }
 
-    public String getSubName() {
-        return SubName;
+    public String getRenteeName() {
+        return RenteeName;
     }
 
-    public void setSubName(String subName) {
-        SubName = subName;
+    public void setRenteeName(String renteeName) {
+        RenteeName = renteeName;
     }
 
-    public String getRate() {
-        return Rate;
+    public String getAmount() {
+        return Amount;
     }
 
-    public void setRate(String rate) {
-        Rate = rate;
+    public void setAmount(String amount) {
+        Amount = amount;
     }
 
     public String getProductName() {
@@ -47,51 +46,43 @@ public class CancelOrderModel {
         ProductName = productName;
     }
 
-    public String getBookedTill() {
-        return BookedTill;
+    public String getOrderQuantity() {
+        return OrderQuantity;
     }
 
-    public void setBookedTill(String bookedTill) {
-        BookedTill = bookedTill;
+    public void setOrderQuantity(String orderQuantity) {
+        OrderQuantity = orderQuantity;
     }
 
-    public String getImage1() {
-        return Image1;
+    public String getCommissionAmount() {
+        return CommissionAmount;
     }
 
-    public void setImage1(String image1) {
-        Image1 = image1;
+    public void setCommissionAmount(String commissionAmount) {
+        CommissionAmount = commissionAmount;
     }
 
-    public String getImage2() {
-        return Image2;
+    public String getDistrictName() {
+        return DistrictName;
     }
 
-    public void setImage2(String image2) {
-        Image2 = image2;
+    public void setDistrictName(String districtName) {
+        DistrictName = districtName;
     }
 
-    public String getDescription() {
-        return Description;
+    public String getSubname() {
+        return Subname;
     }
 
-    public void setDescription(String description) {
-        Description = description;
+    public void setSubname(String subname) {
+        Subname = subname;
     }
 
-    public String getConfirmed() {
-        return Confirmed;
+    public String getSubscriptionCount() {
+        return SubscriptionCount;
     }
 
-    public void setConfirmed(String confirmed) {
-        Confirmed = confirmed;
-    }
-
-    public String getStatus() {
-        return Status;
-    }
-
-    public void setStatus(String status) {
-        Status = status;
+    public void setSubscriptionCount(String subscriptionCount) {
+        SubscriptionCount = subscriptionCount;
     }
 }

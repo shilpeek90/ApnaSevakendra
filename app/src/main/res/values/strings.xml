@@ -76,14 +76,16 @@
     <string name="ordersforrenter">Orders For Renter</string>
     <string name="getordersforrentee">Orders For Rentee</string>
     <string name="log_out">Log out</string>
-    <string name="my_orders">My Orders</string>
+
 
     <string name="confirmed_orders">Confirmed Orders</string>
     <string name="pending_orders">Pending Orders</string>
-    <string name="cancel_orders">Cancel Orders</string>
+    <string name="cancel_orders">Cancelled Orders</string>
     <string name="sale">Sale</string>
     <string name="wallet_recharge">Wallet Recharge</string>
     <string name="quantity">Quantity :</string>
     <string name="cancel">Cancel</string>
+    <string name="my_products">My Products</string>
+
 
 </resources>

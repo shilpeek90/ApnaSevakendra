@@ -49,7 +49,7 @@ public class AllProductsForRenterActivity extends AppCompatActivity {
 
     private void init() {
         tvHeader = findViewById(R.id.tvHeader);
-        tvHeader.setText(getString(R.string.my_orders));
+        tvHeader.setText(getString(R.string.my_products));
         ivBack = findViewById(R.id.ivBack);
         ivBack.setVisibility(View.VISIBLE);
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -74,8 +74,8 @@ public class AllProductsForRenterActivity extends AppCompatActivity {
         try {
             String mRenteeId = getPreference(AllProductsForRenterActivity.this, "Id");
             if (mRenteeId != null) {
-                //jsonObject.put("RenterId", mRenteeId);
-                jsonObject.put("RenterId", "1");
+                jsonObject.put("RenterId", mRenteeId);
+                //jsonObject.put("RenterId", "1");
             }
             Log.d(TAG, "GetAllProductsForRenter: "+jsonObject);
 

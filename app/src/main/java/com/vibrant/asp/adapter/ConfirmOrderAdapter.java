@@ -52,19 +52,7 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<ConfirmOrderAdapte
         }
         holder.tvRate.setText(String.valueOf(arrayList.get(position).getRate()) + " " + arrayList.get(position).getSubName());
 
-        holder.llViewImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String mImage1 = arrayList.get(position).getImage1();
-                String mImage2 = arrayList.get(position).getImage2();
-                Intent intent = new Intent(mContext, AllProductImagViewActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("image1", mImage1);
-                bundle.putString("image2", mImage2);
-                intent.putExtra("bundle", bundle);
-                mContext.startActivity(intent);
-            }
-        });
+
     }
 
     @Override
@@ -74,7 +62,6 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<ConfirmOrderAdapte
 
     public class MyHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvRate, tvProductName, tvBookedTill, tvDescription, tvConfirmed, tvStatus;
-        LinearLayout llViewImg;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -85,7 +72,7 @@ public class ConfirmOrderAdapter extends RecyclerView.Adapter<ConfirmOrderAdapte
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvConfirmed = itemView.findViewById(R.id.tvConfirmed);
             tvStatus = itemView.findViewById(R.id.tvStatus);
-            llViewImg = itemView.findViewById(R.id.llViewImg);
+
         }
     }
 }

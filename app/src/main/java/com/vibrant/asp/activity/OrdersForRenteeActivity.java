@@ -43,7 +43,6 @@ public class OrdersForRenteeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_orders_for_rentee);
         init();
     }
-
     private void init() {
         tvHeader = findViewById(R.id.tvHeader);
         tvHeader.setText(getString(R.string.all_order_for_rantee));
@@ -71,8 +70,8 @@ public class OrdersForRenteeActivity extends AppCompatActivity {
         try {
             String mRenteeId = getPreference(OrdersForRenteeActivity.this, "Id");
             if (mRenteeId != null) {
-               // jsonObject.put("RenteeId", mRenteeId);
-                jsonObject.put("RenteeId", "1");
+               jsonObject.put("RenteeId", mRenteeId);
+               // jsonObject.put("RenteeId", "2");
             }
             Log.d(TAG, "getOrderForRentee: " + jsonObject);
         } catch (JSONException e) {
@@ -91,6 +90,7 @@ public class OrdersForRenteeActivity extends AppCompatActivity {
                     if (jsonArray.length() > 0) {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             GetOrdersForRentee getOrdersForRentee = new GetOrdersForRentee();
+                            getOrdersForRentee.setOrderId(jsonArray.getJSONObject(i).getInt("OrderId"));
                             getOrdersForRentee.setRenter(jsonArray.getJSONObject(i).getString("Renter"));
                             getOrdersForRentee.setMobno(jsonArray.getJSONObject(i).getString("Mobno"));
                             getOrdersForRentee.setAmount(jsonArray.getJSONObject(i).getString("Amount"));
@@ -99,6 +99,8 @@ public class OrdersForRenteeActivity extends AppCompatActivity {
                             getOrdersForRentee.setDistrictName(jsonArray.getJSONObject(i).getString("DistrictName"));
                             getOrdersForRentee.setBookingDate(jsonArray.getJSONObject(i).getString("BookingDate"));
                             getOrdersForRentee.setBookedTill(jsonArray.getJSONObject(i).getString("BookedTill"));
+                            getOrdersForRentee.setCancelledBy(jsonArray.getJSONObject(i).getString("CancelledBy"));
+                            getOrdersForRentee.setConfirmed(jsonArray.getJSONObject(i).getString("Confirmed"));
                             getOrdersForRenters.add(getOrdersForRentee);
                         }
                         if (getOrdersForRenters.size() > 0) {

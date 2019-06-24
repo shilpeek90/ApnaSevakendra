@@ -92,8 +92,13 @@ public class CancelOrderActivity extends AppCompatActivity {
                     if (jsonArray.length() > 0) {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             CancelOrderModel getOrdersForRenter = new CancelOrderModel();
-                            getOrdersForRenter.setBookedTill(jsonArray.getJSONObject(i).getString("BookedTill"));
-                            getOrdersForRenter.setConfirmed(jsonArray.getJSONObject(i).getString("Confirmed"));
+                            getOrdersForRenter.setRenteeName(jsonArray.getJSONObject(i).getString("RenteeName"));
+                            getOrdersForRenter.setCancelledBy(jsonArray.getJSONObject(i).getString("CancelledBy"));
+                            getOrdersForRenter.setProductName(jsonArray.getJSONObject(i).getString("ProductName"));
+                            getOrdersForRenter.setAmount(jsonArray.getJSONObject(i).getString("Amount"));
+                            getOrdersForRenter.setOrderQuantity(jsonArray.getJSONObject(i).getString("OrderQuantity"));
+                            getOrdersForRenter.setCommissionAmount(jsonArray.getJSONObject(i).getString("CommissionAmount"));
+                            getOrdersForRenter.setDistrictName(jsonArray.getJSONObject(i).getString("DistrictName"));
                             cancelOrderArray.add(getOrdersForRenter);
                         }
 

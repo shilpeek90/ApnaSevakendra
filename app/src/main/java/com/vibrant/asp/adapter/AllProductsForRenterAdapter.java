@@ -1,5 +1,4 @@
 package com.vibrant.asp.adapter;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -34,12 +33,12 @@ public class AllProductsForRenterAdapter extends RecyclerView.Adapter<AllProduct
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-
         holder.tvName.setText(arrayList.get(position).getName().toUpperCase());
         holder.tvProductName.setText(arrayList.get(position).getProductName());
         holder.tvBookedTill.setText(arrayList.get(position).getBookedTill());
         holder.tvDescription.setText(arrayList.get(position).getDescription());
         holder.tvConfirmed.setText(arrayList.get(position).getConfirmed());
+
         if (arrayList.get(position).getStatus().equalsIgnoreCase("Available")) {
             holder.tvStatus.setText(arrayList.get(position).getStatus());
             holder.tvStatus.setTextColor(Color.parseColor("#228B22"));

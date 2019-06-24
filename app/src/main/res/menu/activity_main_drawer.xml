@@ -16,7 +16,7 @@
         <item
             android:id="@+id/nav_AllProductsForRenter"
             android:icon="@drawable/file_error"
-            android:title="@string/my_orders" />
+            android:title="@string/my_products" />
 
         <item
             android:id="@+id/nav_logout"

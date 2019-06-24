@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.content.DialogInterface;
 import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,12 +26,9 @@ import com.vibrant.asp.activity.DashboardActivity;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.model.GetOrdersForRenter;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.List;
-
 import static com.vibrant.asp.constants.Util.getPreference;
 
 public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersForRenterAdapter.MyHolder> {

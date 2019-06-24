@@ -16,10 +16,13 @@ public class Cons {
     public static final String CANCEL_ORDER_BY_RENTEE =BASE_URL+"CancelOrderByRentee";
 
     public static final String GET_ALL_PRODUCT_FOR_RENTER =BASE_URL+"GetAllProductsForRenter";
+    public static final String GET_CANCELLED_ORDERS_FOR_RENTER =BASE_URL+"GetCancelledOrdersForRenter";
+
+
     public static final String GET_RENTER_WALLET_BALANCE =BASE_URL+"GetRenterWalletBalance";
    // public static final String GET_UPDATE_ORDER_STATUS =BASE_URL+"UpdateOrderStatus";
     public static final String GET_UPDATE_ORDER_STATUS =BASE_URL+"UpdateOrderStatusByRenter";
-    public static final String GET_CANCEL_ORDER =BASE_URL+"";
+    public static final String GET_CANCEL_ORDER =BASE_URL+"GetCancelledOrdersForRenter";
     public static final String GET_CONFIRMED_ORDER =BASE_URL+"";
     public static final String GET_PENDING_ORDER =BASE_URL+"";
 

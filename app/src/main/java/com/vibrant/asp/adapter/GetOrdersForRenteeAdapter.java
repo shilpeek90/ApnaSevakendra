@@ -1,5 +1,4 @@
 package com.vibrant.asp.adapter;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,12 +24,9 @@ import com.vibrant.asp.activity.DashboardActivity;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.model.GetOrdersForRentee;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.List;
-
 import static com.vibrant.asp.constants.Util.getPreference;
 
 public class GetOrdersForRenteeAdapter extends RecyclerView.Adapter<GetOrdersForRenteeAdapter.MyHolder> {
@@ -64,9 +59,15 @@ public class GetOrdersForRenteeAdapter extends RecyclerView.Adapter<GetOrdersFor
         holder.tvDistrictName.setText(arrayList.get(position).getDistrictName());
         holder.tvBookingDate.setText(arrayList.get(position).getBookingDate());
         holder.tvBookedTill.setText(arrayList.get(position).getBookedTill());
+
+        holder.tvCanceledBy.setText(arrayList.get(position).getCancelledBy());
+        holder.tvConfirmed.setText(arrayList.get(position).getConfirmed());
+
         holder.btnCancelOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mOrderId =String.valueOf(arrayList.get(position).getOrderId());
+
                 builderCancel = new AlertDialog.Builder(mContext);
                 builderCancel.setMessage(R.string.dialog_message_cancel)
                         .setCancelable(false)
@@ -87,14 +88,14 @@ public class GetOrdersForRenteeAdapter extends RecyclerView.Adapter<GetOrdersFor
         });
     }
 
-
     @Override
     public int getItemCount() {
         return arrayList.size();
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvMobileNumber, tvAmount, tvCommitAmount, tvStateName, tvDistrictName, tvBookingDate, tvBookedTill;
+        TextView tvName, tvMobileNumber, tvAmount, tvCommitAmount, tvStateName, tvDistrictName, tvBookingDate,
+                tvBookedTill,tvCanceledBy,tvConfirmed;
         Button btnCancelOrder;
 
         public MyHolder(@NonNull View itemView) {
@@ -108,6 +109,8 @@ public class GetOrdersForRenteeAdapter extends RecyclerView.Adapter<GetOrdersFor
             tvBookingDate = itemView.findViewById(R.id.tvBookingDate);
             tvBookedTill = itemView.findViewById(R.id.tvBookedTill);
             btnCancelOrder = itemView.findViewById(R.id.btnCancelOrder);
+            tvCanceledBy = itemView.findViewById(R.id.tvCanceledBy);
+            tvConfirmed = itemView.findViewById(R.id.tvConfirmed);
         }
     }
 
@@ -120,7 +123,7 @@ public class GetOrdersForRenteeAdapter extends RecyclerView.Adapter<GetOrdersFor
             if (mRenteeId != null) {
                 jsonObject.put("UserId", mRenteeId);
             }
-            jsonObject.put("OrderId", "");
+            jsonObject.put("OrderId", mOrderId);
             Log.d(TAG, "CancelOrderByRentee: " + jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -2,6 +2,7 @@ package com.vibrant.asp.model;
 
 public class GetOrdersForRentee {
 
+    private int OrderId;
     private String Renter;
     private String Mobno;
     private String Amount;
@@ -10,8 +11,34 @@ public class GetOrdersForRentee {
     private String DistrictName;
     private String BookingDate;
     private String BookedTill;
+    private String CancelledBy;
+    private String Confirmed;
 
     public GetOrdersForRentee() {
+    }
+
+    public int getOrderId() {
+        return OrderId;
+    }
+
+    public void setOrderId(int orderId) {
+        OrderId = orderId;
+    }
+
+    public String getCancelledBy() {
+        return CancelledBy;
+    }
+
+    public void setCancelledBy(String cancelledBy) {
+        CancelledBy = cancelledBy;
+    }
+
+    public String getConfirmed() {
+        return Confirmed;
+    }
+
+    public void setConfirmed(String confirmed) {
+        Confirmed = confirmed;
     }
 
     public String getRenter() {

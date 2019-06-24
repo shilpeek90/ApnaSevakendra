@@ -31,40 +31,20 @@ public class CancelOrderAdapter extends RecyclerView.Adapter<CancelOrderAdapter.
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.all_product_renter_item_row, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.cancel_order_item_row, parent, false);
         return new CancelOrderAdapter.MyHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
 
-        holder.tvName.setText(arrayList.get(position).getName().toUpperCase());
+        holder.tvName.setText(arrayList.get(position).getRenteeName().toUpperCase());
+        holder.tvCancelledBy.setText(arrayList.get(position).getCancelledBy());
         holder.tvProductName.setText(arrayList.get(position).getProductName());
-        holder.tvBookedTill.setText(arrayList.get(position).getBookedTill());
-        holder.tvDescription.setText(arrayList.get(position).getDescription());
-        holder.tvConfirmed.setText(arrayList.get(position).getConfirmed());
-        if (arrayList.get(position).getStatus().equalsIgnoreCase("Available")) {
-            holder.tvStatus.setText(arrayList.get(position).getStatus());
-            holder.tvStatus.setTextColor(Color.parseColor("#228B22"));
-        } else {
-            holder.tvStatus.setText(arrayList.get(position).getStatus());
-            holder.tvStatus.setTextColor(Color.parseColor("#808080"));
-        }
-        holder.tvRate.setText(String.valueOf(arrayList.get(position).getRate()) + " " + arrayList.get(position).getSubName());
-
-        holder.llViewImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String mImage1 = arrayList.get(position).getImage1();
-                String mImage2 = arrayList.get(position).getImage2();
-                Intent intent = new Intent(mContext, AllProductImagViewActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("image1", mImage1);
-                bundle.putString("image2", mImage2);
-                intent.putExtra("bundle", bundle);
-                mContext.startActivity(intent);
-            }
-        });
+        holder.tvAmount.setText(arrayList.get(position).getAmount());
+        holder.tvOrderQuantity.setText(arrayList.get(position).getOrderQuantity());
+        holder.tvComminAmount.setText(arrayList.get(position).getCommissionAmount());
+        holder.tvDistrictName.setText(arrayList.get(position).getDistrictName());
     }
 
     @Override
@@ -73,19 +53,17 @@ public class CancelOrderAdapter extends RecyclerView.Adapter<CancelOrderAdapter.
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvRate, tvProductName, tvBookedTill, tvDescription, tvConfirmed, tvStatus;
-        LinearLayout llViewImg;
+        TextView tvName,tvCancelledBy,tvProductName,tvAmount,tvOrderQuantity,tvComminAmount,tvDistrictName;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
-            tvRate = itemView.findViewById(R.id.tvRate);
             tvProductName = itemView.findViewById(R.id.tvProductName);
-            tvBookedTill = itemView.findViewById(R.id.tvBookedTill);
-            tvDescription = itemView.findViewById(R.id.tvDescription);
-            tvConfirmed = itemView.findViewById(R.id.tvConfirmed);
-            tvStatus = itemView.findViewById(R.id.tvStatus);
-            llViewImg = itemView.findViewById(R.id.llViewImg);
+            tvCancelledBy = itemView.findViewById(R.id.tvCancelledBy);
+            tvAmount = itemView.findViewById(R.id.tvAmount);
+            tvOrderQuantity = itemView.findViewById(R.id.tvOrderQuantity);
+            tvComminAmount = itemView.findViewById(R.id.tvComminAmount);
+            tvDistrictName = itemView.findViewById(R.id.tvDistrictName);
         }
     }
 }
