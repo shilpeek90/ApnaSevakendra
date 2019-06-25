@@ -1,16 +1,12 @@
 package com.vibrant.asp.activity;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,8 +21,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -46,16 +40,13 @@ import com.vibrant.asp.constants.Util;
 import com.vibrant.asp.gps.GPSTracker1;
 import com.vibrant.asp.model.DistrictModel;
 import com.vibrant.asp.model.StateModel;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.setPreference;
@@ -195,7 +186,6 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (Util.checkRequestPermiss(getApplicationContext(), RegistrationActivity.this)) {
                     // carry on the normal flow, as the case of  permissions  granted.
-                    Log.d(TAG, "onClick: " + "permission already granted");
                     doPermissionGranted();
                 }
             }
