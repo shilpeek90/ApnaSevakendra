@@ -58,14 +58,14 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
 
         if (arrayList.get(position).getBalanceQuantity() > 0) {
             holder.rlayoutQuantity.setVisibility(View.VISIBLE);
+            holder.llBookNow.setEnabled(true);
             holder.tvQuantity.setText(String.valueOf(arrayList.get(position).getBalanceQuantity()));
         } else {
+            holder.llBookNow.setEnabled(false);
             holder.rlayoutQuantity.setVisibility(View.GONE);
         }
         if (arrayList.get(position).getStatus().equalsIgnoreCase("Available")) {
             holder.tvStatus.setText(arrayList.get(position).getStatus());
-            //holder.tvStatus.setTextColor(Color.parseColor("#FF3AFD42"));
-            //holder.tvStatus.setTextColor(Color.parseColor("#228B22"));
             holder.tvStatus.setTextColor(Color.parseColor("#17a75f"));
         } else {
             holder.tvStatus.setText(arrayList.get(position).getStatus());

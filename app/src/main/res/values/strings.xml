@@ -52,6 +52,8 @@
     <string name="permission_read_phone_state_rationale1">Permission previously Denied</string>
     <string name="permissions_not_granted_read_phone_state1">Permission denied</string>
     <string name="permision_available_read_phone_state1">Permission granted</string>
+    <string name="permision_granted">Permission granted</string>
+    <string name="permissions_denied">Permission denied</string>
     <string name="rate">Rate</string>
     <string name="password">Password</string>
     <string name="description">Description</string>
@@ -87,6 +89,7 @@
     <string name="quantity">Quantity :</string>
     <string name="cancel">Cancel</string>
     <string name="my_products">My Products</string>
+    <string name="buy">Buy</string>
 
 
 </resources>

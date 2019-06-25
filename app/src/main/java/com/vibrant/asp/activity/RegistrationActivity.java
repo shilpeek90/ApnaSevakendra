@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
@@ -40,7 +42,9 @@ import com.vibrant.asp.adapter.AutoSuggestDistrictAdapter;
 import com.vibrant.asp.adapter.AutoSuggestStateAdapter;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
+import com.vibrant.asp.constants.Util;
 import com.vibrant.asp.gps.GPSTracker;
+import com.vibrant.asp.gps.GPSTracker1;
 import com.vibrant.asp.model.DistrictModel;
 import com.vibrant.asp.model.StateModel;
 
@@ -50,6 +54,8 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
@@ -77,9 +83,9 @@ public class RegistrationActivity extends AppCompatActivity {
     String mSelectedState = "";
     String mSelectedDistrict = "";
     String error_message = "";
-    private static final int PERMISSION_REQUEST_CODE = 1;
     private double latitude;
     private double longitude;
+    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,132 +190,130 @@ public class RegistrationActivity extends AppCompatActivity {
         editMobile = findViewById(R.id.editMobile);
         editAddress = findViewById(R.id.editAddress);
 
-
         btnSubmit = findViewById(R.id.btnSubmit);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isInternetConnected(getApplicationContext())) {
-                    if (Validation()) {
-                        getPermissionGPS();
-                    } else {
-                        showToast(RegistrationActivity.this, error_message);
-                    }
-                } else {
-                    showToast(RegistrationActivity.this, getResources().getString(R.string.check_network));
+                if (Util.checkRequestPermiss(getApplicationContext(), RegistrationActivity.this)) {
+                    // carry on the normal flow, as the case of  permissions  granted.
+                    Log.d(TAG, "onClick: " + "permission already granted");
+                    doPermissionGranted();
                 }
             }
         });
     }
 
-
-    private void getPermissionGPS() {
-        // Check if the ACCESS_FINE_LOCATION permission is already available.
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // ACCESS_FINE_LOCATION permission has not been granted.
-            requestReadPhoneStatePermission();
+    private void doPermissionGranted() {
+        if (isInternetConnected(getApplicationContext())) {
+            if (Validation()) {
+                try {
+                    GPSTracker1 gpsTracker = new GPSTracker1(RegistrationActivity.this);
+                    // check if GPS enabled
+                    if(gpsTracker.canGetLocation()){
+                        latitude = gpsTracker.getLatitude();
+                        longitude = gpsTracker.getLongitude();
+                        getRegister();
+                    }else{
+                        // can't get location
+                        // GPS or Network is not enabled
+                        // Ask user to enable GPS/network in settings
+                        gpsTracker.showSettingsAlert();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                showToast(RegistrationActivity.this, error_message);
+            }
         } else {
-            // ACCESS_FINE_LOCATION permission is already been granted.
-            doPermissionGrantedStuffs();
-        }
-
-    }
-
-    private void requestReadPhoneStatePermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            new AlertDialog.Builder(RegistrationActivity.this)
-                    .setTitle("Permission Request")
-                    .setMessage(getString(R.string.permission_read_phone_state_rationale1))
-                    .setCancelable(false)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            //re-request
-                            ActivityCompat.requestPermissions(RegistrationActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
-
-                            //ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},
-                        }
-                    })
-                    .show();
-        } else {
-            // READ_PHONE_STATE permission has not been granted yet. Request it directly.
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
+            showToast(RegistrationActivity.this, getResources().getString(R.string.check_network));
         }
     }
-
-    /**
-     * Callback received when a permissions request has been completed.
-     */
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        Log.d(TAG, "Permission callback called-------");
+        switch (requestCode) {
+            case REQUEST_ID_MULTIPLE_PERMISSIONS: {
+                Map<String, Integer> perms = new HashMap<>();
+                // Initialize the map with both permissions
+                perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.ACCESS_COARSE_LOCATION, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+                // Fill with actual results from user
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < permissions.length; i++)
+                        perms.put(permissions[i], grantResults[i]);
+                    // Check for all permissions
+                    if (perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
 
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            // Received permission result for  permission.est.");
-            // Check if the only required permission has been granted
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // permission has been granted,
-                alertAlert(getString(R.string.permision_available_read_phone_state1));
-                doPermissionGrantedStuffs();
-            } else {
-                alertAlert(getString(R.string.permissions_not_granted_read_phone_state1));
+                        Log.d(TAG, "CAMERA & location services permission granted");
+                        doPermissionGranted();
+                        // process the normal flow
+                        //else any one or both the permissions are not granted
+                    } else {
+                        Log.d(TAG, "Camera and Location Services Permission are not granted ask again ");
+                        //permission is denied (this is the first time, when "never ask again" is not checked) so ask again explaining the usage of permission
+                        // shouldShowRequestPermissionRationale will return true
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            showDialogOK("Camera and Location Services Permission required for this app",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            switch (which) {
+                                                case DialogInterface.BUTTON_POSITIVE:
+                                                    Util.checkRequestPermiss(getApplicationContext(), RegistrationActivity.this);
+                                                    break;
+                                                case DialogInterface.BUTTON_NEGATIVE:
+                                                    // proceed with logic by disabling the related features or quit the app.
+                                                    break;
+                                            }
+                                        }
+                                    });
+                        }
+                        //permission is denied (and never ask again is checked)
+                        //shouldShowRequestPermissionRationale will return false
+                        else {
+                            explain("Go to settings and enable permissions");
+                            //  Toast.makeText(this, "Go to settings and enable permissions", Toast.LENGTH_LONG).show();
+                            //                            //proceed with logic by disabling the related features or quit the app.
+                        }
+                    }
+                }
             }
         }
     }
 
-    private void alertAlert(String msg) {
-        new AlertDialog.Builder(RegistrationActivity.this)
-                .setTitle("Permission Request")
-                .setMessage(msg)
-                .setCancelable(false)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do something here
-                    }
-                })
-                //	.setIcon(R.drawable.onlinlinew_warning_sign)
+    private void showDialogOK(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", okListener)
+                .create()
                 .show();
     }
 
-    public void doPermissionGrantedStuffs() {
-        try {
-            GPSTracker gpsTracker = new GPSTracker(RegistrationActivity.this);
-            String msg = gpsTracker.getGPS_Location();
-            Log.d(TAG, "doPermissionGrantedStuffs:---" + msg);
-            if (msg == null) {
-                showDialog("GPS Location not found,Please move to open sky and try again");
-            } else if (msg.equals("Location not found,Please move to open sky and try again")) {
-                showDialog("GPS Location not found,Please move to open sky and try again");
-            } else if (msg.equals("Your GPS module is disabled. Would you like to enable it ?")) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(RegistrationActivity.this, android.R.style.Theme_DeviceDefault_Dialog));
-                builder.setMessage("Your GPS module is disabled. Would you like to enable it ?")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // Sent user to GPS settings screen
-                                        startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
-                                        dialog.dismiss();
-                                    }
-                                })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.setTitle(getResources().getString(R.string.app_name));
-                alert.show();
-            } else if (msg.equals("Location Found")) {
-                Location location = gpsTracker.getLocation();
-                if (location != null) {
-                    latitude = location.getLatitude();
-                    longitude = location.getLongitude();
-                    getRegister();
-                }
-            }
-        } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
-        }
+    private void explain(String msg) {
+        final android.support.v7.app.AlertDialog.Builder dialog = new android.support.v7.app.AlertDialog.Builder(this);
+        dialog.setMessage(msg)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        //  permissionsclass.requestPermission(type,code);
+                        startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:com.vibrant.asp")));
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        finish();
+                    }
+                });
+        dialog.show();
     }
 
     private void getRegister() {
@@ -367,7 +371,6 @@ public class RegistrationActivity extends AppCompatActivity {
         jsonObjReq.setRetryPolicy(new DefaultRetryPolicy(50000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(jsonObjReq);
-
     }
 
     private void getGrowerProfile(String mob, String pass) {
@@ -436,7 +439,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
-
     private boolean Validation() {
         if (TextUtils.isEmpty(editGrowerName.getText().toString().trim())) {
             error_message = getString(R.string.please_enter_name);
@@ -503,9 +505,6 @@ public class RegistrationActivity extends AppCompatActivity {
                         autoSuggestAdapter.setData(stateArray);
                         autoSuggestAdapter.notifyDataSetChanged();
                     }
-                    /*} else {
-                        showToast(RegistrationActivity.this, "Data not found");
-                    }*/
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

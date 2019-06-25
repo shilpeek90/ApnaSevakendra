@@ -61,7 +61,7 @@ public class DashboardActivity extends AppCompatActivity
     private double longitude;
     TextView tvName, tvWallet;
     ProgressDialog pd;
-    LinearLayout rlayLend, rlRent, llrow1, llrow2, llrow3, llrow4,llaySale,llConfirmedOrder, llayCancelOrder, llayPendingOrder, rlWalletRecharge, rlHelp;
+    LinearLayout rlayLend, rlRent, llrow1, llrow2, llrow3, llrow4,llaySale,llConfirmedOrder, llayBuyOrder, llayPendingOrder, rlWalletRecharge, rlHelp;
     Animation leftSide, rightSide;
 
     @Override
@@ -107,7 +107,7 @@ public class DashboardActivity extends AppCompatActivity
         llrow2 = findViewById(R.id.llrow2);
         llrow3 = findViewById(R.id.llrow3);
         llrow4 = findViewById(R.id.llrow4);
-        llayCancelOrder = findViewById(R.id.llayCancelOrder);
+        llayBuyOrder = findViewById(R.id.llayBuyOrder);
         llConfirmedOrder = findViewById(R.id.llConfirmedOrder);
         llayPendingOrder = findViewById(R.id.llayPendingOrder);
         rlWalletRecharge = findViewById(R.id.rlWalletRecharge);
@@ -135,13 +135,13 @@ public class DashboardActivity extends AppCompatActivity
             }
         });
 
-        llayCancelOrder.setOnClickListener(new View.OnClickListener() {
+        llayBuyOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DashboardActivity.this, CancelOrderActivity.class));
+                showToast(DashboardActivity.this,"Coming Soon");
             }
         });
-        llConfirmedOrder.setOnClickListener(new View.OnClickListener() {
+       /* llConfirmedOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showToast(DashboardActivity.this,"Coming Soon");
@@ -154,7 +154,7 @@ public class DashboardActivity extends AppCompatActivity
             public void onClick(View v) {
                 showToast(DashboardActivity.this,"Coming Soon");
             }
-        });
+        });*/
 
         llaySale.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +173,6 @@ public class DashboardActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(DashboardActivity.this,HelpActivity.class));
-               // showToast(DashboardActivity.this,"Coming Soon");
             }
         });
     }
@@ -411,14 +410,15 @@ public class DashboardActivity extends AppCompatActivity
             startActivity(new Intent(DashboardActivity.this, OrdersForRenteeActivity.class));
         } else if (id == R.id.nav_AllProductsForRenter) {
             startActivity(new Intent(DashboardActivity.this, AllProductsForRenterActivity.class));
+        }else if (id == R.id.nav_cancel_order) {
+            startActivity(new Intent(DashboardActivity.this, CancelOrderActivity.class));
+        }else if (id == R.id.nav_confirmed_order) {
+            showToast(DashboardActivity.this,"Coming Soon");
+        }else if (id == R.id.nav_pending_orders) {
+            showToast(DashboardActivity.this,"Coming Soon");
         } else if (id == R.id.nav_logout) {
 
-        } /* else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }*/
-
+        }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

@@ -139,7 +139,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:id="@+id/llayCancelOrder"
+                        android:id="@+id/llayBuyOrder"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/_5sdp"
@@ -162,13 +162,13 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="center"
-                            android:text="@string/cancel_orders"
+                            android:text="@string/buy"
                             android:textColor="@color/gray"
                             android:textSize="@dimen/_14sdp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/llConfirmedOrder"
+                        android:id="@+id/llaySale"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_5sdp"
@@ -179,26 +179,26 @@
                         android:padding="@dimen/_8sdp">
 
                         <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/ivConfirmedOr"
+                            android:id="@+id/ivSale"
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="@dimen/_100sdp"
-                            android:src="@drawable/confirmed"
+                            android:src="@drawable/sale"
                             app:civ_border_color="@color/colorPrimaryDark"
                             app:civ_border_width="@dimen/_2sdp" />
 
                         <com.vibrant.asp.customtext.MyTextLight
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="center"
-                            android:text="@string/confirmed_orders"
+                            android:text="@string/sale"
                             android:textColor="@color/gray"
                             android:textSize="@dimen/_14sdp" />
-
                     </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/llrow3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -235,7 +235,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/llaySale"
+                        android:id="@+id/llConfirmedOrder"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_5sdp"
@@ -246,22 +246,24 @@
                         android:padding="@dimen/_8sdp">
 
                         <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/ivSale"
+                            android:id="@+id/ivConfirmedOr"
                             android:layout_width="@dimen/_100sdp"
                             android:layout_height="@dimen/_100sdp"
-                            android:src="@drawable/sale"
+                            android:src="@drawable/confirmed"
                             app:civ_border_color="@color/colorPrimaryDark"
                             app:civ_border_width="@dimen/_2sdp" />
 
                         <com.vibrant.asp.customtext.MyTextLight
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="center"
-                            android:text="@string/sale"
+                            android:text="@string/confirmed_orders"
                             android:textColor="@color/gray"
                             android:textSize="@dimen/_14sdp" />
+
                     </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout

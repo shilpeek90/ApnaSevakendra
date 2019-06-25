@@ -19,24 +19,37 @@
             android:title="@string/my_products" />
 
         <item
-            android:id="@+id/nav_logout"
-            android:icon="@drawable/logout"
-            android:title="@string/log_out" />
+            android:id="@+id/nav_cancel_order"
+            android:icon="@drawable/file_error"
+            android:title="@string/cancel_orders" />
 
+         <item
+            android:id="@+id/nav_confirmed_order"
+            android:icon="@drawable/file_error"
+            android:title="@string/confirmed_orders" />
 
+         <item
+            android:id="@+id/nav_pending_orders"
+            android:icon="@drawable/file_error"
+            android:title="@string/pending_orders" />
     </group>
 
-   <!-- <item android:title="Communicate">
+   <item android:title="Setting">
         <menu>
             <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/logout"
+                android:title="@string/log_out" />
+
+            <!--<item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
                 android:title="@string/menu_share" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
-                android:title="@string/menu_send" />
+                android:title="@string/menu_send" />-->
         </menu>
-    </item>-->
+    </item>
 
 </menu>

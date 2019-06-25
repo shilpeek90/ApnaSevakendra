@@ -1,4 +1,5 @@
 package com.vibrant.asp.activity;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +32,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -43,27 +47,34 @@ import com.vibrant.asp.adapter.SubscriptionAdapter;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ImageFilePath;
 import com.vibrant.asp.constants.ProgressDialog;
+import com.vibrant.asp.constants.Util;
 import com.vibrant.asp.gps.GPSTracker;
+import com.vibrant.asp.gps.GPSTracker1;
 import com.vibrant.asp.model.CameraQuantityModel;
 import com.vibrant.asp.model.SubscriptionModel;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
 
 public class CameraActivity extends AppCompatActivity {
     private static final String TAG = "CameraActivity";
-   // private boolean doubleBackToExitPressedOnce = false;
+    // private boolean doubleBackToExitPressedOnce = false;
     ProgressDialog pd;
     TextView tvHeader;
-    EditText editResName, editRent,editDiscription;
+    EditText editResName, editRent, editDiscription;
     Button btnChoose1, btnChoose2, btnSubmit, btnCancel, btnCancel2;
     ImageView ivImage1, ivImage2;
     LinearLayout lLayRentCatgry, lLayGallery, lLayCamera, lLayRemove, lLayGallery2, lLayCamera2, lLayRemove2;
@@ -87,10 +98,10 @@ public class CameraActivity extends AppCompatActivity {
     GPSTracker gpsTracker;
     Spinner spinnerQuantity;
     List<CameraQuantityModel> quantityArray = new ArrayList<>();
-    String selectedQuantity="";
+    String selectedQuantity = "";
     CameraQuantityAdapter adapter;
     ImageView ivBack;
-    String mResponse ="{\"d\":[  \n" +
+    String mResponse = "{\"d\":[  \n" +
             "    {\"quantity\":\"1\"},  \n" +
             "    {\"quantity\":\"2\"},  \n" +
             "    {\"quantity\":\"3\"},  \n" +
@@ -192,6 +203,9 @@ public class CameraActivity extends AppCompatActivity {
             "    {\"quantity\":\"100\"} \n" +
             "]}  ";
 
+    private final static int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+    private final static int REQUEST_ID_MULTIPLE_PERMISSIONS1 = 2;
+    String isClicked ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,14 +213,13 @@ public class CameraActivity extends AppCompatActivity {
         setContentView(R.layout.activity_camera);
         hideKeyboard(CameraActivity.this);
         gpsTracker = new GPSTracker(CameraActivity.this);
-
         init();
     }
 
     private void init() {
         tvHeader = findViewById(R.id.tvHeader);
         tvHeader.setText(getString(R.string.camera));
-        ivBack =findViewById(R.id.ivBack);
+        ivBack = findViewById(R.id.ivBack);
         ivBack.setVisibility(View.VISIBLE);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -257,6 +270,7 @@ public class CameraActivity extends AppCompatActivity {
                 Log.d(TAG, "onItemSelected: " + cameraQuantityModel.getQuantity());
 
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -268,11 +282,21 @@ public class CameraActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (isInternetConnected(getApplicationContext())) {
                     if (Validation()) {
-                        Location location = gpsTracker.getLocation();
-                        if (location != null) {
-                            latitude = location.getLatitude();
-                            longitude = location.getLongitude();
-                            getUploadProduct();
+                        try {
+                            GPSTracker1 gpsTracker = new GPSTracker1(CameraActivity.this);
+                            // check if GPS enabled
+                            if(gpsTracker.canGetLocation()){
+                                latitude = gpsTracker.getLatitude();
+                                longitude = gpsTracker.getLongitude();
+                                getUploadProduct();
+                            }else{
+                                // can't get location
+                                // GPS or Network is not enabled
+                                // Ask user to enable GPS/network in settings
+                                gpsTracker.showSettingsAlert();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     } else {
                         showToast(CameraActivity.this, error_message);
@@ -294,6 +318,7 @@ public class CameraActivity extends AppCompatActivity {
                     selectedSubId = subModel.getSubID();
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -334,13 +359,13 @@ public class CameraActivity extends AppCompatActivity {
         } else if (TextUtils.isEmpty(editRent.getText().toString().trim())) {
             error_message = getString(R.string.please_enter_rate);
             return false;
-        }else if (Patterns.PHONE.matcher(editRent.getText().toString().trim()).matches()) {
+        } else if (Patterns.PHONE.matcher(editRent.getText().toString().trim()).matches()) {
             error_message = getString(R.string.please_enter_num);
             return false;
-        }  else if (TextUtils.isEmpty(editDiscription.getText().toString().trim())) {
+        } else if (TextUtils.isEmpty(editDiscription.getText().toString().trim())) {
             error_message = getString(R.string.please_enter_dis);
             return false;
-        }else {
+        } else {
             return true;
         }
     }
@@ -477,7 +502,10 @@ public class CameraActivity extends AppCompatActivity {
         lLayCamera2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPermission2();
+                if (Util.checkRequestPermiss(getApplicationContext(), CameraActivity.this)) {
+                    isClicked ="camera2";
+                    doPermissionGranted();
+                }
             }
         });
 
@@ -496,16 +524,6 @@ public class CameraActivity extends AppCompatActivity {
             }
         });
         dialog2.show();
-    }
-
-    private void getPermission2() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            // CAMERA permission has not been granted.
-            requestCameraPermission2();
-        } else {
-            // CAMERA permission is already been granted.
-            doPermissionGrantedCamera2();
-        }
     }
 
     private void getBottomSheet1() {
@@ -527,7 +545,11 @@ public class CameraActivity extends AppCompatActivity {
         lLayCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPermissionCamera1();   //For permission
+                if (Util.checkRequestPermiss(getApplicationContext(), CameraActivity.this)) {
+                    Log.d(TAG, "onClick: " + "permission already granted");
+                    isClicked ="camera1";
+                    doPermissionGranted();
+                }
             }
         });
 
@@ -549,6 +571,22 @@ public class CameraActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    private void doPermissionGranted() {
+        if (isClicked.equals("camera1")) {
+            Log.d(TAG, "doPermissionGranted: "+"1 clicked");
+            Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (pictureIntent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(pictureIntent, PERMISSION_REQUEST_CODE_1);
+            }
+        }else if (isClicked.equals("camera2")) {
+            Log.d(TAG, "doPermissionGranted: "+"2 clicked");
+            Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (pictureIntent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(pictureIntent, PERMISSION_REQUEST_CODE_2);
+            }
+        }
+    }
+
     private void choosePhotoFromGallary() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -563,115 +601,6 @@ public class CameraActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_GALLERY_2);
     }
 
-    private void getPermissionCamera1() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            // CAMERA permission has not been granted.
-            requestCameraPermission1();
-        } else {
-            // CAMERA permission is already been granted.
-            doPermissionGrantedCamera1();
-        }
-    }
-
-    private void requestCameraPermission1() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-            new AlertDialog.Builder(CameraActivity.this)
-                    .setTitle("Permission Request")
-                    .setMessage(getString(R.string.permission_need_allowed))
-                    .setCancelable(false)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            //re-request
-                            ActivityCompat.requestPermissions(CameraActivity.this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE_1);
-                        }
-                    })
-                    .show();
-        } else {
-            // CAMERA permission has not been granted yet. Request it directly.
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE_1);
-        }
-    }
-
-    private void requestCameraPermission2() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-            new AlertDialog.Builder(CameraActivity.this)
-                    .setTitle("Permission Request")
-                    .setMessage(getString(R.string.permission_need_allowed))
-                    .setCancelable(false)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            //re-request
-                            ActivityCompat.requestPermissions(CameraActivity.this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE_2);
-                        }
-                    })
-                    .show();
-        } else {
-            // CAMERA permission has not been granted yet. Request it directly.
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE_2);
-        }
-    }
-
-    /**
-     * Callback received when a permissions request has been completed.
-     */
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        //For Camera Image 1
-        if (requestCode == PERMISSION_REQUEST_CODE_1) {
-            if (grantResults.length > 0) {
-                // Check if the only required permission has been granted
-                if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Camera permission has been granted
-                    alertAlert(getString(R.string.permissions_granted));
-                    doPermissionGrantedCamera1();
-                } else {
-                    alertAlert(getString(R.string.permissions_not_granted));
-                }
-            }
-        } else if (requestCode == PERMISSION_REQUEST_CODE_2) {
-            //For Camera Image 2
-            if (grantResults.length > 0) {
-                // Check if the only required permission has been granted
-                if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Camera permission has been granted
-                    alertAlert(getString(R.string.permissions_granted));
-                    doPermissionGrantedCamera2();
-                } else {
-                    alertAlert(getString(R.string.permissions_not_granted));
-                }
-            }
-        }
-    }
-
-    private void alertAlert(String msg) {
-        new AlertDialog.Builder(CameraActivity.this)
-                .setTitle("Permission Request")
-                .setMessage(msg)
-                .setCancelable(false)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do something here
-                    }
-                })
-                .show();
-    }
-
-    //For Camera Image 1
-    public void doPermissionGrantedCamera1() {
-        Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (pictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(pictureIntent, PERMISSION_REQUEST_CODE_1);
-        }
-    }
-    //For Camera Image 2
-    public void doPermissionGrantedCamera2() {
-        Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (pictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(pictureIntent, PERMISSION_REQUEST_CODE_2);
-        }
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -680,7 +609,7 @@ public class CameraActivity extends AppCompatActivity {
             if (data != null && data.getData() != null) {
                 final Uri imageUri = data.getData();
                 String path = ImageFilePath.getPath(CameraActivity.this, imageUri);
-                Log.d(TAG, "onActivityResult: "+path);
+                Log.d(TAG, "onActivityResult: " + path);
                 imgExtension = path.substring(path.lastIndexOf("."));
                 if (imgExtension.equalsIgnoreCase(".jpg")) {
                     Bitmap bitmap = BitmapFactory.decodeFile(path);
@@ -750,7 +679,7 @@ public class CameraActivity extends AppCompatActivity {
 
                 Log.d(TAG, "onActivityResult:" + finalFileImg2);
                 Log.d(TAG, "onActivityResult:" + imgExtension);
-                Log.d(TAG, "onActivityResult:" + tempUriImg2);
+                Log.d(TAG, "onActivityResult:" +">>>>>>2>" +tempUriImg2);
                 Log.d(TAG, "onActivityResult:" + mConvertedImg1);
 
                 ivImage2.setImageBitmap(imageBitmap);
@@ -803,20 +732,93 @@ public class CameraActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
-    
-    /* @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
-        }
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        Log.d(TAG, "Permission callback called-------");
+        switch (requestCode) {
+            case REQUEST_ID_MULTIPLE_PERMISSIONS: {
+                Log.d(TAG, "onRequestPermissionsResult: "+"case1");
+                Map<String, Integer> perms = new HashMap<>();
+                // Initialize the map with both permissions
+                perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.ACCESS_COARSE_LOCATION, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+                // Fill with actual results from user
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < permissions.length; i++)
+                        perms.put(permissions[i], grantResults[i]);
+                    // Check for all permissions
+                    if (perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+                        Log.d(TAG, "CAMERA & location services permission granted");
+                        doPermissionGranted();
+                        // process the normal flow
+                        //else any one or both the permissions are not granted
+                    } else {
+                        Log.d(TAG, "Camera and Location Services Permission are not granted ask again ");
+                        //permission is denied (this is the first time, when "never ask again" is not checked) so ask again explaining the usage of permission
+                        // shouldShowRequestPermissionRationale will return true
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            showDialogOK("Camera and Location Services Permission required for this app",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            switch (which) {
+                                                case DialogInterface.BUTTON_POSITIVE:
+                                                    Util.checkRequestPermiss(getApplicationContext(), CameraActivity.this);
+                                                    break;
+                                                case DialogInterface.BUTTON_NEGATIVE:
+                                                    // proceed with logic by disabling the related features or quit the app.
+                                                    break;
+                                            }
+                                        }
+                                    });
+                        }
+                        //permission is denied (and never ask again is checked)
+                        //shouldShowRequestPermissionRationale will return false
+                        else {
+                            explain("Go to settings and enable permissions");
+                            //  Toast.makeText(this, "Go to settings and enable permissions", Toast.LENGTH_LONG).show();
+                            //                            //proceed with logic by disabling the related features or quit the app.
+                        }
+                    }
+                }
             }
-        }, 2000);
-    }*/
+        }
+    }
+
+    private void showDialogOK(String message, DialogInterface.OnClickListener okListener) {
+        new android.app.AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", okListener)
+                .create()
+                .show();
+    }
+
+    private void explain(String msg) {
+        final android.support.v7.app.AlertDialog.Builder dialog = new android.support.v7.app.AlertDialog.Builder(this);
+        dialog.setMessage(msg)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        //  permissionsclass.requestPermission(type,code);
+                        startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:com.vibrant.asp")));
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        finish();
+                    }
+                });
+        dialog.show();
+    }
+
 }
