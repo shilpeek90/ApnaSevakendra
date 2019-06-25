@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -42,7 +41,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
-
         init();
     }
 
@@ -59,11 +57,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 onBackPressed();
             }
         });
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-
     }
 
 
@@ -71,7 +66,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -87,11 +81,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         uiSettings.setMyLocationButtonEnabled(true);
         uiSettings.setAllGesturesEnabled(true);
 
-
         LatLng latLngCurrent = new LatLng(mLatCurrent, mLngCurrent);
         Marker mMaker = mMap.addMarker(new MarkerOptions().position(latLngCurrent).title(mName));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatCurrent, mLngCurrent), 12.0f));
-
     }
 
     @Override
