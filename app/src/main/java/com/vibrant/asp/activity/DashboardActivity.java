@@ -5,15 +5,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -26,7 +21,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -38,15 +32,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.vibrant.asp.R;
-import com.vibrant.asp.adapter.GetOrdersForRenteeAdapter;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
-import com.vibrant.asp.gps.GPSTracker;
-import com.vibrant.asp.model.GetOrdersForRentee;
+import com.vibrant.asp.constants.Util;
+import com.vibrant.asp.gps.GPSTracker1;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
@@ -56,13 +51,13 @@ public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "DashboardActivity";
     private boolean doubleBackToExitPressedOnce = false;
-    private static final int PERMISSION_REQUEST_CODE = 1;
     private double latitude;
     private double longitude;
     TextView tvName, tvWallet;
     ProgressDialog pd;
-    LinearLayout rlayLend, rlRent, llrow1, llrow2, llrow3, llrow4,llaySale,llConfirmedOrder, llayBuyOrder, llayPendingOrder, rlWalletRecharge, rlHelp;
+    LinearLayout rlayLend, rlRent, llrow1, llrow2, llrow3, llrow4, llaySale, llConfirmedOrder, llayBuyOrder, llayPendingOrder, rlWalletRecharge, rlHelp;
     Animation leftSide, rightSide;
+    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +78,6 @@ public class DashboardActivity extends AppCompatActivity
         if (mName != null && !mName.isEmpty()) {
             tvName.setText(mName);
         }
-
-        //tvWallet.setText(getResources().getString(R.string.wallet) + " " + "0");
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -124,7 +116,12 @@ public class DashboardActivity extends AppCompatActivity
         rlRent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPermissionGPS();
+                if (Util.checkRequestPermiss(getApplicationContext(), DashboardActivity.this)) {
+                    // carry on the normal flow, as the case of  permissions  granted.
+                    Log.d(TAG, "onClick: " + "permission already granted");
+                    doPermissionGranted();
+                }
+                // getPermissionGPS();
             }
         });
 
@@ -138,7 +135,7 @@ public class DashboardActivity extends AppCompatActivity
         llayBuyOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast(DashboardActivity.this,"Coming Soon");
+                showToast(DashboardActivity.this, "Coming Soon");
             }
         });
        /* llConfirmedOrder.setOnClickListener(new View.OnClickListener() {
@@ -159,25 +156,136 @@ public class DashboardActivity extends AppCompatActivity
         llaySale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast(DashboardActivity.this,"Coming Soon");
+                showToast(DashboardActivity.this, "Coming Soon");
             }
         });
 
         rlWalletRecharge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast(DashboardActivity.this,"Coming Soon");
+                showToast(DashboardActivity.this, "Coming Soon");
             }
         });
         rlHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DashboardActivity.this,HelpActivity.class));
+                startActivity(new Intent(DashboardActivity.this, HelpActivity.class));
             }
         });
     }
 
-    private void getPermissionGPS() {
+    private void doPermissionGranted() {
+        try {
+            GPSTracker1 gpsTracker = new GPSTracker1(DashboardActivity.this);
+            // check if GPS enabled
+            if (gpsTracker.canGetLocation()) {
+                latitude = gpsTracker.getLatitude();
+                longitude = gpsTracker.getLongitude();
+                Intent intent = new Intent(DashboardActivity.this, AllProductActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("mLatCurrent", String.valueOf(latitude));
+                bundle.putString("mLngCurrent", String.valueOf(longitude));
+                intent.putExtra("bundle", bundle);
+                startActivity(intent);
+            } else {
+                // can't get location
+                // GPS or Network is not enabled
+                // Ask user to enable GPS/network in settings
+                gpsTracker.showSettingsAlert();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        Log.d(TAG, "Permission callback called-------");
+        switch (requestCode) {
+            case REQUEST_ID_MULTIPLE_PERMISSIONS: {
+                Map<String, Integer> perms = new HashMap<>();
+                // Initialize the map with both permissions
+                perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.ACCESS_COARSE_LOCATION, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+                // Fill with actual results from user
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < permissions.length; i++)
+                        perms.put(permissions[i], grantResults[i]);
+                    // Check for all permissions
+                    if (perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                            && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+                        Log.d(TAG, "CAMERA & location services permission granted");
+                        doPermissionGranted();
+                        // process the normal flow
+                        //else any one or both the permissions are not granted
+                    } else {
+                        Log.d(TAG, "Camera and Location Services Permission are not granted ask again ");
+                        //permission is denied (this is the first time, when "never ask again" is not checked) so ask again explaining the usage of permission
+                        // shouldShowRequestPermissionRationale will return true
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            showDialogOK("Camera and Location Services Permission required for this app",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            switch (which) {
+                                                case DialogInterface.BUTTON_POSITIVE:
+                                                    Util.checkRequestPermiss(getApplicationContext(), DashboardActivity.this);
+                                                    break;
+                                                case DialogInterface.BUTTON_NEGATIVE:
+                                                    // proceed with logic by disabling the related features or quit the app.
+                                                    break;
+                                            }
+                                        }
+                                    });
+                        }
+                        //permission is denied (and never ask again is checked)
+                        //shouldShowRequestPermissionRationale will return false
+                        else {
+                            explain("Go to settings and enable permissions");
+                            //  Toast.makeText(this, "Go to settings and enable permissions", Toast.LENGTH_LONG).show();
+                            //                            //proceed with logic by disabling the related features or quit the app.
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void showDialogOK(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", okListener)
+                .create()
+                .show();
+    }
+
+    private void explain(String msg) {
+        final android.support.v7.app.AlertDialog.Builder dialog = new android.support.v7.app.AlertDialog.Builder(this);
+        dialog.setMessage(msg)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        //  permissionsclass.requestPermission(type,code);
+                        startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:com.vibrant.asp")));
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        finish();
+                    }
+                });
+        dialog.show();
+    }
+
+    //////////////////
+  /*  private void getPermissionGPS() {
         // Check if the ACCESS_FINE_LOCATION permission is already available.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // ACCESS_FINE_LOCATION permission has not been granted.
@@ -209,9 +317,11 @@ public class DashboardActivity extends AppCompatActivity
         }
     }
 
+    */
+
     /**
      * Callback received when a permissions request has been completed.
-     */
+     *//*
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -287,8 +397,7 @@ public class DashboardActivity extends AppCompatActivity
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
         }
-    }
-
+    }*/
     public void showDialog(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(DashboardActivity.this, android.R.style.Theme_DeviceDefault_Dialog));
         builder.setMessage(message)
@@ -410,12 +519,12 @@ public class DashboardActivity extends AppCompatActivity
             startActivity(new Intent(DashboardActivity.this, OrdersForRenteeActivity.class));
         } else if (id == R.id.nav_AllProductsForRenter) {
             startActivity(new Intent(DashboardActivity.this, AllProductsForRenterActivity.class));
-        }else if (id == R.id.nav_cancel_order) {
+        } else if (id == R.id.nav_cancel_order) {
             startActivity(new Intent(DashboardActivity.this, CancelOrderActivity.class));
-        }else if (id == R.id.nav_confirmed_order) {
-            showToast(DashboardActivity.this,"Coming Soon");
-        }else if (id == R.id.nav_pending_orders) {
-            showToast(DashboardActivity.this,"Coming Soon");
+        } else if (id == R.id.nav_confirmed_order) {
+            showToast(DashboardActivity.this, "Coming Soon");
+        } else if (id == R.id.nav_pending_orders) {
+            showToast(DashboardActivity.this, "Coming Soon");
         } else if (id == R.id.nav_logout) {
 
         }

@@ -48,7 +48,6 @@ import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ImageFilePath;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.constants.Util;
-import com.vibrant.asp.gps.GPSTracker;
 import com.vibrant.asp.gps.GPSTracker1;
 import com.vibrant.asp.model.CameraQuantityModel;
 import com.vibrant.asp.model.SubscriptionModel;
@@ -95,7 +94,6 @@ public class CameraActivity extends AppCompatActivity {
     BottomSheetDialog dialog2;
     private double latitude;
     private double longitude;
-    GPSTracker gpsTracker;
     Spinner spinnerQuantity;
     List<CameraQuantityModel> quantityArray = new ArrayList<>();
     String selectedQuantity = "";
@@ -204,15 +202,13 @@ public class CameraActivity extends AppCompatActivity {
             "]}  ";
 
     private final static int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
-    private final static int REQUEST_ID_MULTIPLE_PERMISSIONS1 = 2;
-    String isClicked ="";
+    String isClicked = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         hideKeyboard(CameraActivity.this);
-        gpsTracker = new GPSTracker(CameraActivity.this);
         init();
     }
 
@@ -285,11 +281,19 @@ public class CameraActivity extends AppCompatActivity {
                         try {
                             GPSTracker1 gpsTracker = new GPSTracker1(CameraActivity.this);
                             // check if GPS enabled
-                            if(gpsTracker.canGetLocation()){
+                            if (gpsTracker.canGetLocation()) {
                                 latitude = gpsTracker.getLatitude();
                                 longitude = gpsTracker.getLongitude();
-                                getUploadProduct();
-                            }else{
+                                if (mConvertedImg1 != null && !mConvertedImg1.isEmpty()) {
+                                    if (mConvertedImg2 != null &&!mConvertedImg2.isEmpty()) {
+                                        getUploadProduct();
+                                    } else {
+                                        showToast(CameraActivity.this, "Please select image2");
+                                    }
+                                } else {
+                                    showToast(CameraActivity.this, "Please select image1");
+                                }
+                            } else {
                                 // can't get location
                                 // GPS or Network is not enabled
                                 // Ask user to enable GPS/network in settings
@@ -503,7 +507,7 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (Util.checkRequestPermiss(getApplicationContext(), CameraActivity.this)) {
-                    isClicked ="camera2";
+                    isClicked = "camera2";
                     doPermissionGranted();
                 }
             }
@@ -513,6 +517,7 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ivImage2.setImageDrawable(getResources().getDrawable(R.drawable.file));
+                mConvertedImg2 ="";
                 showToast(CameraActivity.this, "Successfully Removed photo");
                 dialog2.dismiss();
             }
@@ -547,7 +552,7 @@ public class CameraActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (Util.checkRequestPermiss(getApplicationContext(), CameraActivity.this)) {
                     Log.d(TAG, "onClick: " + "permission already granted");
-                    isClicked ="camera1";
+                    isClicked = "camera1";
                     doPermissionGranted();
                 }
             }
@@ -557,6 +562,7 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ivImage1.setImageDrawable(getResources().getDrawable(R.drawable.file));
+                mConvertedImg1="";
                 showToast(CameraActivity.this, "Successfully Removed photo");
                 dialog.dismiss();
             }
@@ -573,13 +579,13 @@ public class CameraActivity extends AppCompatActivity {
 
     private void doPermissionGranted() {
         if (isClicked.equals("camera1")) {
-            Log.d(TAG, "doPermissionGranted: "+"1 clicked");
+            Log.d(TAG, "doPermissionGranted: " + "1 clicked");
             Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (pictureIntent.resolveActivity(getPackageManager()) != null) {
                 startActivityForResult(pictureIntent, PERMISSION_REQUEST_CODE_1);
             }
-        }else if (isClicked.equals("camera2")) {
-            Log.d(TAG, "doPermissionGranted: "+"2 clicked");
+        } else if (isClicked.equals("camera2")) {
+            Log.d(TAG, "doPermissionGranted: " + "2 clicked");
             Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             if (pictureIntent.resolveActivity(getPackageManager()) != null) {
                 startActivityForResult(pictureIntent, PERMISSION_REQUEST_CODE_2);
@@ -679,7 +685,7 @@ public class CameraActivity extends AppCompatActivity {
 
                 Log.d(TAG, "onActivityResult:" + finalFileImg2);
                 Log.d(TAG, "onActivityResult:" + imgExtension);
-                Log.d(TAG, "onActivityResult:" +">>>>>>2>" +tempUriImg2);
+                Log.d(TAG, "onActivityResult:" + ">>>>>>2>" + tempUriImg2);
                 Log.d(TAG, "onActivityResult:" + mConvertedImg1);
 
                 ivImage2.setImageBitmap(imageBitmap);
@@ -739,7 +745,7 @@ public class CameraActivity extends AppCompatActivity {
         Log.d(TAG, "Permission callback called-------");
         switch (requestCode) {
             case REQUEST_ID_MULTIPLE_PERMISSIONS: {
-                Log.d(TAG, "onRequestPermissionsResult: "+"case1");
+                Log.d(TAG, "onRequestPermissionsResult: " + "case1");
                 Map<String, Integer> perms = new HashMap<>();
                 // Initialize the map with both permissions
                 perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);

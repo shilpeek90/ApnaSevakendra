@@ -43,7 +43,6 @@ import com.vibrant.asp.adapter.AutoSuggestStateAdapter;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.constants.Util;
-import com.vibrant.asp.gps.GPSTracker;
 import com.vibrant.asp.gps.GPSTracker1;
 import com.vibrant.asp.model.DistrictModel;
 import com.vibrant.asp.model.StateModel;
