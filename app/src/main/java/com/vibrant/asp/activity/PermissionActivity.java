@@ -10,15 +10,23 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.vibrant.asp.BuildConfig;
 import com.vibrant.asp.R;
 import com.vibrant.asp.constants.Util;
 import com.vibrant.asp.gps.GPSTracker1;
-import android.app.AlertDialog;
+
 import android.widget.Toast;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +45,11 @@ public class PermissionActivity extends AppCompatActivity {
     private double longitude;
     private static final int REQUEST_CODE_PERMISSION = 2;
     String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
+    private HashMap<String, Object> firebaseDefaultMap;
+    public static final String KEY_UPDATE_REQUIRED = "force_update_required";
+    public static final String KEY_CURRENT_VERSION = "force_update_current_version";
+    public static final String KEY_UPDATE_URL = "force_update_store_url";
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +57,9 @@ public class PermissionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_permission);
         btnPermission = findViewById(R.id.btnPermission);
         btnPermi = findViewById(R.id.btnPermi);
+
+        getUpdate();
+
        /* btnPermission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +76,7 @@ public class PermissionActivity extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
 
-        btnPermi.setOnClickListener(new View.OnClickListener() {
+      /*  btnPermi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Util.checkRequestPermiss(getApplicationContext(), PermissionActivity.this)) {
@@ -69,12 +85,110 @@ public class PermissionActivity extends AppCompatActivity {
                     doPermissionGranted();
                 }
             }
-        });
+        });*/
 
 
     }
 
-    private void doPermissionGranted() {
+
+
+     private void getUpdate() {
+         try {
+             FirebaseApp.initializeApp(getApplicationContext());
+            mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "getUpdate: " + e);
+        }
+        if (mFirebaseRemoteConfig == null) {
+            return;
+        }
+        //This is default Map Setting the Default Map Value with the current version code
+        firebaseDefaultMap = new HashMap<>();
+        firebaseDefaultMap.put(KEY_UPDATE_REQUIRED, false);
+        firebaseDefaultMap.put(KEY_CURRENT_VERSION, getCurrentVersionCode());
+        firebaseDefaultMap.put(KEY_UPDATE_URL, "https://play.google.com/store/apps/details?id=com.vibrant.asp&hl=en");
+        mFirebaseRemoteConfig.setDefaults(firebaseDefaultMap);
+        Log.d(TAG, "getUpdate: " + firebaseDefaultMap.values());
+        //Setting that default Map to Firebase Remote Config
+
+        //Setting Developer Mode enabled to fast retrieve the values
+        mFirebaseRemoteConfig.setConfigSettings(new FirebaseRemoteConfigSettings.Builder().setDeveloperModeEnabled(BuildConfig.DEBUG).build());
+
+        //Fetching the values here
+        mFirebaseRemoteConfig.fetch(60).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    mFirebaseRemoteConfig.activateFetched();
+                    Log.d(TAG, "Fetched value: " + mFirebaseRemoteConfig.getString(KEY_CURRENT_VERSION));
+                    Log.d(TAG, "Fetched value: " + mFirebaseRemoteConfig.getString(KEY_UPDATE_REQUIRED));
+                    Log.d(TAG, "Fetched value: " + mFirebaseRemoteConfig.getString(KEY_UPDATE_URL));
+                    //calling function to check if new version is available or not
+                    checkForUpdate();
+                } else {
+                    Toast.makeText(PermissionActivity.this, "Something went wrong please try again",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Log.d(TAG, "Default value: " + mFirebaseRemoteConfig.getString(KEY_CURRENT_VERSION));
+
+    }
+
+    //  @Override
+    public void onUpdateNeeded(final String updateUrl) {
+        android.support.v7.app.AlertDialog dialog = new android.support.v7.app.AlertDialog.Builder(this)
+                .setTitle("Please Update your App")
+                .setMessage("A new version of this app is available. Please update it")
+                .setPositiveButton("Update",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                redirectStore(updateUrl);
+                            }
+                        }).setNegativeButton("No, thanks",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        }).create();
+        dialog.show();
+    }
+
+    private void redirectStore(String updateUrl) {
+        final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    private void checkForUpdate() {
+        int latestAppVersion = (int) mFirebaseRemoteConfig.getDouble(KEY_CURRENT_VERSION);
+        if (latestAppVersion > getCurrentVersionCode()) {
+            new AlertDialog.Builder(this).setTitle("Please Update the App")
+                    .setMessage("A new version of this app is available. Please update it").setPositiveButton(
+                    "OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(PermissionActivity.this, "Take user to Google Play Store", Toast.LENGTH_SHORT).show();
+                        }
+                    }).setCancelable(false).show();
+        } else {
+            Toast.makeText(this, "This app is already up to date", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private int getCurrentVersionCode() {
+        try {
+            return getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+   /* private void doPermissionGranted() {
         if (isInternetConnected(getApplicationContext())) {
                 try {
                     GPSTracker1 gpsTracker = new GPSTracker1(PermissionActivity.this);
@@ -184,7 +298,7 @@ public class PermissionActivity extends AppCompatActivity {
                 });
         dialog.show();
     }
-
+*/
 
 
 

@@ -106,14 +106,14 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
             @Override
             public void onClick(View v) {
                 String mSubscriptionId = arrayList.get(position).getSubscriptionId();
-                String mRenterId = arrayList.get(position).getRenterId();
+                String mRenteeId = arrayList.get(position).getRenterId();
                 String mProductId = arrayList.get(position).getProductId();
                 int mRate = arrayList.get(position).getRate();
                 String subName = arrayList.get(position).getSubName();
                 Intent intent = new Intent(mContext, BookNowActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("SubscriptionId", mSubscriptionId);
-                bundle.putString("mRenterId", mRenterId);
+                bundle.putString("mRenteeId", mRenteeId);
                 bundle.putString("mProductId", mProductId);
                 bundle.putInt("mRate", mRate);
                 bundle.putString("subName", subName);

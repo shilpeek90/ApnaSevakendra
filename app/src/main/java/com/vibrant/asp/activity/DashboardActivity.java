@@ -420,9 +420,9 @@ public class DashboardActivity extends AppCompatActivity
         pd = ProgressDialog.show(DashboardActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            String mRenteeId = getPreference(DashboardActivity.this, "Id");
-            if (mRenteeId != null) {
-                jsonObject.put("RenterId", mRenteeId);
+            String mRenteerId = getPreference(DashboardActivity.this, "renterId");
+            if (mRenteerId != null) {
+                jsonObject.put("RenterId", mRenteerId);
             }
             Log.d(TAG, "getOrderForRentee: " + jsonObject);
         } catch (JSONException e) {
@@ -522,9 +522,9 @@ public class DashboardActivity extends AppCompatActivity
         } else if (id == R.id.nav_cancel_order) {
             startActivity(new Intent(DashboardActivity.this, CancelOrderActivity.class));
         } else if (id == R.id.nav_confirmed_order) {
-            showToast(DashboardActivity.this, "Coming Soon");
+            startActivity(new Intent(DashboardActivity.this, ConfirmedOrdersActivity.class));
         } else if (id == R.id.nav_pending_orders) {
-            showToast(DashboardActivity.this, "Coming Soon");
+            startActivity(new Intent(DashboardActivity.this, PendingOrdersActivity.class));
         } else if (id == R.id.nav_logout) {
 
         }

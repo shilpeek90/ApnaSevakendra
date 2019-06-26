@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "619636051893",
+    "firebase_url": "https://agriresources-21ad5.firebaseio.com",
+    "project_id": "agriresources-21ad5",
+    "storage_bucket": "agriresources-21ad5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619636051893:android:c874811c84aab68b",
+        "android_client_info": {
+          "package_name": "com.vibrant.asp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619636051893-oreqjq2088f1cfog39bijv9da3srd6v1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.vibrant.asp",
+            "certificate_hash": "405afd3caf2eaddc6c900727f056dd27060f2c1c"
+          }
+        },
+        {
+          "client_id": "619636051893-s59ogp29uor1eg0tu8lqgui6i3khd0ih.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdmSMAKsjXcaYs_R5NAVPcyYuofHqIWyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619636051893-s59ogp29uor1eg0tu8lqgui6i3khd0ih.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

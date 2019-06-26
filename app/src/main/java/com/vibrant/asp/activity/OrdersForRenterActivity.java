@@ -71,9 +71,9 @@ public class OrdersForRenterActivity extends AppCompatActivity {
         pd = ProgressDialog.show(OrdersForRenterActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            String mRenteeId = getPreference(OrdersForRenterActivity.this, "Id");
-            if (mRenteeId != null) {
-                jsonObject.put("RenterId", mRenteeId);
+            String mRenterId = getPreference(OrdersForRenterActivity.this, "renterId");
+            if (mRenterId != null) {
+                jsonObject.put("RenterId", mRenterId);
             }
             Log.d(TAG, "getOrderForRenter: " + jsonObject);
         } catch (JSONException e) {

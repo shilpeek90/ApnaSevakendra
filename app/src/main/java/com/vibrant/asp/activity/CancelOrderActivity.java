@@ -69,9 +69,9 @@ public class CancelOrderActivity extends AppCompatActivity {
         pd = ProgressDialog.show(CancelOrderActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            String mRenteeId = getPreference(CancelOrderActivity.this, "Id");
-            if (mRenteeId != null) {
-                jsonObject.put("RenterId", mRenteeId);
+            String mRenterId = getPreference(CancelOrderActivity.this, "renterId");
+            if (mRenterId != null) {
+                jsonObject.put("RenterId", mRenterId);
             }
             Log.d(TAG, "getOrderForRenter: " + jsonObject);
         } catch (JSONException e) {

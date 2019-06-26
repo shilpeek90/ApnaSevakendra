@@ -70,9 +70,10 @@ public class PendingOrdersActivity extends AppCompatActivity {
         pd = ProgressDialog.show(PendingOrdersActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            String mRenteeId = getPreference(PendingOrdersActivity.this, "Id");
-            if (mRenteeId != null) {
-                jsonObject.put("RenterId", mRenteeId);
+            String mRenterId = getPreference(PendingOrdersActivity.this, "renterId");
+            if (mRenterId != null) {
+                jsonObject.put("RenterId", mRenterId);
+               // jsonObject.put("RenterId", "1");
             }
             Log.d(TAG, "getPendingOrder: " + jsonObject);
         } catch (JSONException e) {
@@ -92,11 +93,14 @@ public class PendingOrdersActivity extends AppCompatActivity {
                     if (jsonArray.length() > 0) {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             PendingOrdersModel pendingOrdersModel = new PendingOrdersModel();
-                            pendingOrdersModel.setBookedTill(jsonArray.getJSONObject(i).getString("BookedTill"));
-                            pendingOrdersModel.setConfirmed(jsonArray.getJSONObject(i).getString("Confirmed"));
+                            pendingOrdersModel.setRentee(jsonArray.getJSONObject(i).getString("Rentee"));
+                            pendingOrdersModel.setProductName(jsonArray.getJSONObject(i).getString("ProductName"));
+                            pendingOrdersModel.setSubName(jsonArray.getJSONObject(i).getString("SubName"));
+                            pendingOrdersModel.setQuantity(jsonArray.getJSONObject(i).getString("Quantity"));
+                            pendingOrdersModel.setImage1(jsonArray.getJSONObject(i).getString("Image1"));
+                            pendingOrdersModel.setImage2(jsonArray.getJSONObject(i).getString("Image2"));
                             pendingOrderArray.add(pendingOrdersModel);
                         }
-
                         if (pendingOrderArray.size() > 0) {
                             tvNoRecord.setVisibility(View.GONE);
                             mAdapter = new PendingOrdersAdapter(PendingOrdersActivity.this, pendingOrderArray);
@@ -110,7 +114,6 @@ public class PendingOrdersActivity extends AppCompatActivity {
                         }
                     } else {
                         tvNoRecord.setVisibility(View.VISIBLE);
-                        // showToast(OrdersForRenterActivity.this, "No Record Found");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

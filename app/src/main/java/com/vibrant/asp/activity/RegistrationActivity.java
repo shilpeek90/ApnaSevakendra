@@ -328,7 +328,6 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
                 pd.dismiss();
-
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     String status = jsonObject.getString("d");
@@ -385,17 +384,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jobj = jsonArray.getJSONObject(0);
-                            String Id = jobj.getString("Id");
+                            String renterId = jobj.getString("Id");
                             String name = jobj.getString("Name");
-                            // String mobno = jobj.getString("Mobno");
-                            //String address = jobj.getString("Address");
-                            // String latitude = jobj.getString("Latitude");
-                            // String longitude = jobj.getString("Longitude");
-                            //  String districtId = jobj.getString("DistrictId");
-                            // String stateId = jobj.getString("StateId");
-                            // String tstamp = jobj.getString("Tstamp");
-
-                            setPreference(RegistrationActivity.this, "Id", Id);
+                            setPreference(RegistrationActivity.this, "renterId", renterId);
                             setPreference(RegistrationActivity.this, "name", name);
                         }
                         editGrowerName.setText("");

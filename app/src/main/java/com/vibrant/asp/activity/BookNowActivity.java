@@ -47,7 +47,7 @@ public class BookNowActivity extends AppCompatActivity {
     Button btnSubmit;
     String SubscriptionId = "";
     String mProductId = "";
-    String mRenterId = "";
+    String mRenteeId = "";
     String mSubName = "";
     int mRate = 0;
     String entered="";
@@ -167,7 +167,7 @@ public class BookNowActivity extends AppCompatActivity {
             Bundle bundle = getIntent().getBundleExtra("bundle");
             if (bundle != null) {
                 SubscriptionId = bundle.getString("SubscriptionId");
-                mRenterId = bundle.getString("mRenterId");
+                mRenteeId = bundle.getString("mRenteeId");
                 mProductId = bundle.getString("mProductId");
                 mSubName = bundle.getString("subName");
                 mRate = bundle.getInt("mRate");
@@ -286,11 +286,11 @@ public class BookNowActivity extends AppCompatActivity {
         pd = ProgressDialog.show(BookNowActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            String mRenteeId = getPreference(BookNowActivity.this, "Id");
-            if (mRenteeId != null) {
-                jsonObject.put("RenteeId", mRenteeId);
+            String mRenteerId = getPreference(BookNowActivity.this, "renterId");
+            if (mRenteerId != null) {
+                jsonObject.put("RenterId", mRenteerId);
             }
-            jsonObject.put("RenterId", mRenterId);
+            jsonObject.put("RenteeId", mRenteeId);
             jsonObject.put("ProductId", mProductId);
             jsonObject.put("Amount", tvAmount.getText().toString());
             jsonObject.put("Count", editSubscription.getText().toString());

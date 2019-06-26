@@ -8,16 +8,12 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -32,8 +28,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -51,11 +45,9 @@ import com.vibrant.asp.constants.Util;
 import com.vibrant.asp.gps.GPSTracker1;
 import com.vibrant.asp.model.CameraQuantityModel;
 import com.vibrant.asp.model.SubscriptionModel;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -63,7 +55,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
@@ -233,9 +225,7 @@ public class CameraActivity extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
         spinnerSub = findViewById(R.id.spinnerSub);
         spinnerQuantity = findViewById(R.id.spinnerQuantity);
-
         lLayRentCatgry = findViewById(R.id.lLayRentCatgry);
-
         lLayRentCatgry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -379,7 +369,11 @@ public class CameraActivity extends AppCompatActivity {
         pd = ProgressDialog.show(CameraActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("UserId", "1");
+            String mRenteerId = getPreference(CameraActivity.this, "renterId");
+            if (mRenteerId != null) {
+                jsonObject.put("UserId", mRenteerId);
+            }
+            //jsonObject.put("UserId", "1");
             jsonObject.put("ProductName", editResName.getText().toString().trim());
             jsonObject.put("Latitude", latitude);
             jsonObject.put("Longitude", longitude);

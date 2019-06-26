@@ -68,9 +68,9 @@ public class ConfirmedOrdersActivity extends AppCompatActivity {
         pd = ProgressDialog.show(ConfirmedOrdersActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            String mRenteeId = getPreference(ConfirmedOrdersActivity.this, "Id");
-            if (mRenteeId != null) {
-                jsonObject.put("RenterId", mRenteeId);
+            String mRenterId = getPreference(ConfirmedOrdersActivity.this, "renterId");
+            if (mRenterId != null) {
+                jsonObject.put("RenterId", mRenterId);
             }
             Log.d(TAG, "getConfirmedOrder: "+jsonObject);
 
