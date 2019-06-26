@@ -113,7 +113,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void getUpdateApp() {
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("Please Update your App")
+                .setTitle("Please Update Your App")
                 .setMessage("A new version of this app is available. Please update it")
                 .setCancelable(false)
                 .setPositiveButton("Update",
