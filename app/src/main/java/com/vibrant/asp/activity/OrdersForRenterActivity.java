@@ -105,7 +105,6 @@ public class OrdersForRenterActivity extends AppCompatActivity {
                             getOrdersForRenter.setConfirmed(jsonArray.getJSONObject(i).getString("Confirmed"));
                             getOrdersForRenters.add(getOrdersForRenter);
                         }
-
                         if (getOrdersForRenters.size() > 0) {
                             tvNoRecord.setVisibility(View.GONE);
                             mAdapter = new GetOrdersForRenterAdapter(OrdersForRenterActivity.this, getOrdersForRenters);

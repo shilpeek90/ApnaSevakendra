@@ -23,7 +23,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,13 +35,10 @@ import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.constants.Util;
 import com.vibrant.asp.gps.GPSTracker1;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
@@ -138,20 +134,6 @@ public class DashboardActivity extends AppCompatActivity
                 showToast(DashboardActivity.this, "Coming Soon");
             }
         });
-       /* llConfirmedOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showToast(DashboardActivity.this,"Coming Soon");
-
-            }
-        });
-
-        llayPendingOrder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showToast(DashboardActivity.this,"Coming Soon");
-            }
-        });*/
 
         llaySale.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -284,137 +266,6 @@ public class DashboardActivity extends AppCompatActivity
         dialog.show();
     }
 
-    //////////////////
-  /*  private void getPermissionGPS() {
-        // Check if the ACCESS_FINE_LOCATION permission is already available.
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // ACCESS_FINE_LOCATION permission has not been granted.
-            requestReadPhoneStatePermission();
-        } else {
-            // READ_PHONE_STATE permission is already been granted.
-            doPermissionGrantedStuffs();
-        }
-    }
-
-    private void requestReadPhoneStatePermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            new AlertDialog.Builder(DashboardActivity.this)
-                    .setTitle("Permission Request")
-                    .setMessage(getString(R.string.permission_read_phone_state_rationale1))
-                    .setCancelable(false)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            //re-request
-                            ActivityCompat.requestPermissions(DashboardActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
-
-                            //ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},
-                        }
-                    })
-                    .show();
-        } else {
-            // READ_PHONE_STATE permission has not been granted yet. Request it directly.
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_CODE);
-        }
-    }
-
-    */
-
-    /**
-     * Callback received when a permissions request has been completed.
-     *//*
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            // Received permission result for  permission.est.");
-            // Check if the only required permission has been granted
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // permission has been granted,
-                alertAlert(getString(R.string.permision_available_read_phone_state1));
-                doPermissionGrantedStuffs();
-            } else {
-                alertAlert(getString(R.string.permissions_not_granted_read_phone_state1));
-            }
-        }
-    }
-
-    private void alertAlert(String msg) {
-        new AlertDialog.Builder(DashboardActivity.this)
-                .setTitle("Permission Request")
-                .setMessage(msg)
-                .setCancelable(false)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // do something here
-                    }
-                })
-                .show();
-    }
-
-    public void doPermissionGrantedStuffs() {
-        try {
-            GPSTracker gpsTracker = new GPSTracker(DashboardActivity.this);
-            String msg = gpsTracker.getGPS_Location();
-            Log.d(TAG, "doPermissionGrantedStuffs:---" + msg);
-            if (msg == null) {
-                showDialog("GPS Location not found,Please move to open sky and try again");
-            } else if (msg.equals("Location not found,Please move to open sky and try again")) {
-                showDialog("GPS Location not found,Please move to open sky and try again");
-            } else if (msg.equals("Your GPS module is disabled. Would you like to enable it ?")) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(DashboardActivity.this, android.R.style.Theme_DeviceDefault_Dialog));
-                builder.setMessage("Your GPS module is disabled. Would you like to enable it ?")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        // Sent user to GPS settings screen
-                                        startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
-                                        dialog.dismiss();
-                                    }
-                                })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.setTitle(getResources().getString(R.string.app_name));
-                alert.show();
-            } else if (msg.equals("Location Found")) {
-                Location location = gpsTracker.getLocation();
-                if (location != null) {
-                    latitude = location.getLatitude();
-                    longitude = location.getLongitude();
-                    Intent intent = new Intent(DashboardActivity.this, AllProductActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("mLatCurrent", String.valueOf(latitude));
-                    bundle.putString("mLngCurrent", String.valueOf(longitude));
-                    intent.putExtra("bundle", bundle);
-                    startActivity(intent);
-                }
-            }
-        } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
-        }
-    }*/
-    public void showDialog(String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(DashboardActivity.this, android.R.style.Theme_DeviceDefault_Dialog));
-        builder.setMessage(message)
-                .setCancelable(false)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-
-                    }
-                });
-        AlertDialog alert = builder.create();
-        //alert.setIcon(R.drawable.logodlg);
-        alert.setTitle(getResources().getString(R.string.app_name));
-        alert.show();
-    }
-
-
     private void GetRenterWalletBalance() {
         String url = Cons.GET_RENTER_WALLET_BALANCE;
         pd = ProgressDialog.show(DashboardActivity.this, "Please Wait...");
@@ -461,7 +312,6 @@ public class DashboardActivity extends AppCompatActivity
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(jsonObjReq);
     }
-
 
     @Override
     public void onBackPressed() {

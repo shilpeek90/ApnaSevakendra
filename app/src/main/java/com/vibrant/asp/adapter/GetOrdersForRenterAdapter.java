@@ -163,9 +163,10 @@ public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersFor
                     JSONObject jsonObject = new JSONObject(response.toString());
                     String status = jsonObject.getString("d");
                     if (status.equalsIgnoreCase("true")) {
+                        Toast.makeText(mContext, "Your order is successfully confirmed", Toast.LENGTH_SHORT).show();
                         mContext.startActivity(new Intent(mContext, DashboardActivity.class));
                     } else {
-                        Toast.makeText(mContext, "No Data Found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "Your order is not confirmed", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -194,9 +195,9 @@ public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersFor
         pd = ProgressDialog.show(mContext, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            String mRenteeId = getPreference(mContext, "Id");
-            if (mRenteeId != null) {
-                jsonObject.put("UserId", mRenteeId);
+            String mRenterId = getPreference(mContext, "renterId");
+            if (mRenterId != null) {
+                jsonObject.put("UserId", mRenterId);
             }
             jsonObject.put("OrderId", mOrderIdCancel);
             Log.d(TAG, "CancelOrderByRenter: " + jsonObject);
@@ -212,9 +213,10 @@ public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersFor
                     JSONObject jsonObject = new JSONObject(response.toString());
                     String status = jsonObject.getString("d");
                     if (status.equalsIgnoreCase("true")) {
+                        Toast.makeText(mContext, "Your order is successfully cancelled", Toast.LENGTH_SHORT).show();
                         mContext.startActivity(new Intent(mContext, DashboardActivity.class));
                     } else {
-                        Toast.makeText(mContext, "No Data Found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "Your order is not cancelled", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

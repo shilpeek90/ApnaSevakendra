@@ -119,9 +119,9 @@ public class GetOrdersForRenteeAdapter extends RecyclerView.Adapter<GetOrdersFor
         pd = ProgressDialog.show(mContext, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            String mRenteeId = getPreference(mContext, "Id");
-            if (mRenteeId != null) {
-                jsonObject.put("UserId", mRenteeId);
+            String mRenterId = getPreference(mContext, "renterId");
+            if (mRenterId != null) {
+                jsonObject.put("UserId", mRenterId);
             }
             jsonObject.put("OrderId", mOrderId);
             Log.d(TAG, "CancelOrderByRentee: " + jsonObject);

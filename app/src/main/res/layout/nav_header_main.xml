@@ -72,7 +72,7 @@
         android:layout_width="@dimen/_70sdp"
         android:layout_height="@dimen/_70sdp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@drawable/user_profile2" />
+        android:src="@drawable/profile" />
 
     <com.vibrant.asp.customtext.MyTextBold
         android:id="@+id/tvName"

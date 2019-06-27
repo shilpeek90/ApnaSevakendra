@@ -24,17 +24,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.PendingImageActivity"></activity>
+        <activity android:name=".activity.ConfirmedImageViewActivity"></activity>
+        <activity android:name=".activity.PendingImageActivity" />
         <activity android:name=".activity.HelpActivity" />
         <activity android:name=".activity.PendingOrdersActivity" />
         <activity android:name=".activity.ConfirmedOrdersActivity" />
         <activity android:name=".activity.CancelOrderActivity" />
-        <activity android:name=".activity.PermissionActivity" >
-           <!-- <intent-filter>
+        <activity android:name=".activity.PermissionActivity">
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
         <activity android:name=".activity.AllProductImagViewActivity" />
         <activity android:name=".activity.AllProductsForRenterActivity" />

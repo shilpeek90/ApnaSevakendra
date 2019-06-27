@@ -70,7 +70,7 @@ public class ConfirmedOrdersActivity extends AppCompatActivity {
         try {
             String mRenterId = getPreference(ConfirmedOrdersActivity.this, "renterId");
             if (mRenterId != null) {
-                jsonObject.put("RenterId", mRenterId);
+               jsonObject.put("RenterId", mRenterId);
             }
             Log.d(TAG, "getConfirmedOrder: "+jsonObject);
 
@@ -89,8 +89,12 @@ public class ConfirmedOrdersActivity extends AppCompatActivity {
                     if (jsonArray.length() > 0) {
                         for (int i = 0; i < jsonArray.length(); i++) {
                             ConfirmOrderModel confirmOrderModel = new ConfirmOrderModel();
-                            confirmOrderModel.setBookedTill(jsonArray.getJSONObject(i).getString("BookedTill"));
-                            confirmOrderModel.setConfirmed(jsonArray.getJSONObject(i).getString("Confirmed"));
+                            confirmOrderModel.setRentee(jsonArray.getJSONObject(i).getString("Rentee"));
+                            confirmOrderModel.setProductName(jsonArray.getJSONObject(i).getString("ProductName"));
+                            confirmOrderModel.setSubName(jsonArray.getJSONObject(i).getString("SubName"));
+                            confirmOrderModel.setQuantity(jsonArray.getJSONObject(i).getString("Quantity"));
+                            confirmOrderModel.setImage1(jsonArray.getJSONObject(i).getString("Image1"));
+                            confirmOrderModel.setImage2(jsonArray.getJSONObject(i).getString("Image2"));
                             confirmOrderArrayList.add(confirmOrderModel);
                         }
                         if (confirmOrderArrayList.size() > 0) {

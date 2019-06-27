@@ -32,7 +32,6 @@ public class PendingOrdersAdapter extends RecyclerView.Adapter<PendingOrdersAdap
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-
         holder.tvName.setText(arrayList.get(position).getRentee().toUpperCase());
         holder.tvProductName.setText(arrayList.get(position).getProductName());
         holder.tvQuantity.setText(arrayList.get(position).getQuantity());

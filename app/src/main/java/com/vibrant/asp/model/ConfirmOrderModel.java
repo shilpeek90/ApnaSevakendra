@@ -1,42 +1,22 @@
 package com.vibrant.asp.model;
 
 public class ConfirmOrderModel {
-    private String name;
-    private String SubName;
-    private String Rate;
+    private String Rentee;
     private String ProductName;
-    private String BookedTill;
+    private String SubName;
+    private String Quantity;
     private String Image1;
     private String Image2;
-    private String Description;
-    private String Confirmed;
-    private String Status;
 
     public ConfirmOrderModel() {
     }
 
-    public String getName() {
-        return name;
+    public String getRentee() {
+        return Rentee;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSubName() {
-        return SubName;
-    }
-
-    public void setSubName(String subName) {
-        SubName = subName;
-    }
-
-    public String getRate() {
-        return Rate;
-    }
-
-    public void setRate(String rate) {
-        Rate = rate;
+    public void setRentee(String rentee) {
+        Rentee = rentee;
     }
 
     public String getProductName() {
@@ -47,12 +27,20 @@ public class ConfirmOrderModel {
         ProductName = productName;
     }
 
-    public String getBookedTill() {
-        return BookedTill;
+    public String getSubName() {
+        return SubName;
     }
 
-    public void setBookedTill(String bookedTill) {
-        BookedTill = bookedTill;
+    public void setSubName(String subName) {
+        SubName = subName;
+    }
+
+    public String getQuantity() {
+        return Quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        Quantity = quantity;
     }
 
     public String getImage1() {
@@ -69,29 +57,5 @@ public class ConfirmOrderModel {
 
     public void setImage2(String image2) {
         Image2 = image2;
-    }
-
-    public String getDescription() {
-        return Description;
-    }
-
-    public void setDescription(String description) {
-        Description = description;
-    }
-
-    public String getConfirmed() {
-        return Confirmed;
-    }
-
-    public void setConfirmed(String confirmed) {
-        Confirmed = confirmed;
-    }
-
-    public String getStatus() {
-        return Status;
-    }
-
-    public void setStatus(String status) {
-        Status = status;
     }
 }

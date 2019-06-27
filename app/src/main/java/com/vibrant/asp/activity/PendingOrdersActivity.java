@@ -44,7 +44,6 @@ public class PendingOrdersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pending_orders);
         init();
     }
-
     private void init() {
         tvHeader = findViewById(R.id.tvHeader);
         tvHeader.setText(getString(R.string.pending_orders));
@@ -73,7 +72,6 @@ public class PendingOrdersActivity extends AppCompatActivity {
             String mRenterId = getPreference(PendingOrdersActivity.this, "renterId");
             if (mRenterId != null) {
                 jsonObject.put("RenterId", mRenterId);
-               // jsonObject.put("RenterId", "1");
             }
             Log.d(TAG, "getPendingOrder: " + jsonObject);
         } catch (JSONException e) {
