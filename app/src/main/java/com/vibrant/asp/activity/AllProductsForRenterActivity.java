@@ -1,5 +1,4 @@
 package com.vibrant.asp.activity;
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -21,7 +20,6 @@ import com.vibrant.asp.adapter.AllProductsForRenterAdapter;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.model.GetAllProductsForRenter;
-import com.vibrant.asp.model.GetOrdersForRentee;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +37,6 @@ public class AllProductsForRenterActivity extends AppCompatActivity {
     List<GetAllProductsForRenter> getOrdersForRenters = new ArrayList<>();
     RecyclerView recyclerView;
     AllProductsForRenterAdapter mAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,10 +72,8 @@ public class AllProductsForRenterActivity extends AppCompatActivity {
             String mRenterId = getPreference(AllProductsForRenterActivity.this, "renterId");
             if (mRenterId != null) {
                 jsonObject.put("RenterId", mRenterId);
-                //jsonObject.put("RenterId", "1");
             }
             Log.d(TAG, "GetAllProductsForRenter: "+jsonObject);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
