@@ -37,6 +37,7 @@ public class AllProductsForRenterActivity extends AppCompatActivity {
     List<GetAllProductsForRenter> getOrdersForRenters = new ArrayList<>();
     RecyclerView recyclerView;
     AllProductsForRenterAdapter mAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

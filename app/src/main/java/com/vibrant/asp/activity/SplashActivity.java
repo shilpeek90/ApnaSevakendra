@@ -1,8 +1,6 @@
 package com.vibrant.asp.activity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -11,13 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.vibrant.asp.BuildConfig;
 import com.vibrant.asp.R;
 import org.jsoup.Jsoup;
 import java.io.IOException;
-import java.util.HashMap;
 import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
@@ -26,11 +21,6 @@ public class SplashActivity extends AppCompatActivity {
     private static final String TAG = "SplashActivity";
     public final int SPLASH_DISPLAY_LENGTH = 1500;
     TextView tvVersion, tvMess;
-    private HashMap<String, Object> firebaseDefaultMap;
-    public static final String KEY_UPDATE_REQUIRED = "force_update_required";
-    public static final String KEY_CURRENT_VERSION = "force_update_current_version";
-    public static final String KEY_UPDATE_URL = "force_update_store_url";
-    private FirebaseRemoteConfig mFirebaseRemoteConfig;
     String newVersion = "";
     String versionName = "";
 
@@ -40,12 +30,8 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         tvMess = findViewById(R.id.tvMess);
         tvVersion = findViewById(R.id.tvVersion);
-
-        // getUpdate();
         checkForNetwork();
     }
-
-
 
     private void checkForNetwork() {
         try {
@@ -110,7 +96,6 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-
     private void getUpdateApp() {
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Please Update Your App")
@@ -133,9 +118,5 @@ public class SplashActivity extends AppCompatActivity {
                         }).create();
         dialog.show();
     }
-    /*
-    * .setTitle("New version available")
-                .setMessage("Please, update app to new version to continue reposting.")*/
-
 
 }
