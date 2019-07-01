@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.BuyActivity">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/header" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header">
+
+        <LinearLayout
+            android:id="@+id/lLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_marginBottom="5dp"
+            android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/spinnerRange"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_45sdp"
+                android:background="@android:drawable/btn_dropdown"
+                android:dropDownWidth="fill_parent"
+                android:spinnerMode="dropdown" />
+
+        </LinearLayout>
+
+        <com.vibrant.asp.customtext.MyTextLight
+            android:id="@+id/tvNoRecord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="No Record found"
+            android:textSize="15dp"
+            android:visibility="gone" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/lLayout"
+            android:layout_margin="@dimen/_5sdp"
+            android:visibility="visible"></android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+</RelativeLayout>

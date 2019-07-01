@@ -1,5 +1,4 @@
 package com.vibrant.asp.activity;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -131,14 +129,14 @@ public class DashboardActivity extends AppCompatActivity
         llayBuyOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast(DashboardActivity.this, "Coming Soon");
+                startActivity(new Intent(DashboardActivity.this, BuyActivity.class));
             }
         });
 
         llaySale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast(DashboardActivity.this, "Coming Soon");
+                startActivity(new Intent(DashboardActivity.this, SaleActivity.class));
             }
         });
 

@@ -24,7 +24,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.ConfirmedImageViewActivity"></activity>
+        <activity android:name=".activity.BuyImageViewActivity"></activity>
+        <activity android:name=".activity.BuyActivity" />
+        <activity android:name=".activity.SaleActivity" />
+        <activity android:name=".activity.ConfirmedImageViewActivity" />
         <activity android:name=".activity.PendingImageActivity" />
         <activity android:name=".activity.HelpActivity" />
         <activity android:name=".activity.PendingOrdersActivity" />

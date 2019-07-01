@@ -303,12 +303,12 @@
                     android:id="@+id/btnCancelOrder"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:background="@drawable/custom_ripple_button"
+                    android:background="@drawable/custom_ripple_white_button"
                     android:layout_marginRight="30dp"
                     android:layout_marginLeft="30dp"
                     android:text="@string/cancel"
                     android:textAllCaps="false"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black_txt"
                     android:textSize="@dimen/_12sdp" />
             </RelativeLayout>
 

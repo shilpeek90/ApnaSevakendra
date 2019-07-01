@@ -16,11 +16,12 @@ public class Cons {
     public static final String CANCEL_ORDER_BY_RENTEE =BASE_URL+"CancelOrderByRentee";
     public static final String GET_ALL_PRODUCT_FOR_RENTER =BASE_URL+"GetAllProductsForRenter";
     public static final String GET_RENTER_WALLET_BALANCE =BASE_URL+"GetRenterWalletBalance";
-
-   // public static final String GET_UPDATE_ORDER_STATUS =BASE_URL+"UpdateOrderStatus";
     public static final String GET_UPDATE_ORDER_STATUS =BASE_URL+"UpdateOrderStatusByRenter";
     public static final String GET_CANCEL_ORDER =BASE_URL+"GetCancelledOrdersForRenter";
     public static final String GET_CONFIRMED_ORDER =BASE_URL+"GetConfirmedBookingsForRenter";
     public static final String GET_PENDING_ORDER =BASE_URL+"GetPendingBookingsForRenter";
+    public static final String GET_FOR_BUY =BASE_URL+"GetNearByProductsForSale";
+    public static final String GET_BUY_BOOK_PRODUCT =BASE_URL+"BookProduct";
+    public static final String GET_FOR_SALE =BASE_URL+"";
 
 }

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
@@ -43,69 +44,14 @@
 
             </RelativeLayout>
 
-
             <RelativeLayout
-                android:id="@+id/rlayoutMob"
+                android:id="@+id/rlayoutStateName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rlayoutName">
 
                 <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvMob"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mobile No. :"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
-
-                <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvMobileNumber"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/tvMob"
-                    android:text=""
-                    android:textAllCaps="false"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/_12sdp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlayoutAmount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rlayoutMob">
-
-                <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvSName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Amount :"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
-
-                <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/tvSName"
-                    android:text=""
-                    android:textAllCaps="false"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/_12sdp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rlayoutStateName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rlayoutAmount">
-
-                <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvAdd"
+                    android:id="@+id/tvState"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="State Name :"
@@ -117,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/tvAdd"
+                    android:layout_toRightOf="@+id/tvState"
                     android:text=""
                     android:textAllCaps="false"
                     android:textColor="@color/gray"
@@ -152,25 +98,25 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rlayoutBookDate"
+                android:id="@+id/rlayoutAdd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rlayoutDistrict">
 
                 <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvBookDat"
+                    android:id="@+id/tvAddr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Booking Date :"
+                    android:text="Address :"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp" />
 
                 <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvBookingDate"
+                    android:id="@+id/tvAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/tvBookDat"
+                    android:layout_toRightOf="@+id/tvAddr"
                     android:text=""
                     android:textAllCaps="false"
                     android:textColor="@color/gray"
@@ -179,28 +125,28 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rlayoutBookD"
+                android:id="@+id/rlayoutProduct"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rlayoutBookDate">
+                android:layout_below="@+id/rlayoutAdd">
 
                 <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvBookD"
+                    android:id="@+id/tvProductN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerInParent="true"
-                    android:text="Booked Till :"
+                    android:text="Product Name :"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp" />
 
 
                 <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvBookedTill"
+                    android:id="@+id/tvProductName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_toRightOf="@+id/tvBookD"
+                    android:layout_toRightOf="@+id/tvProductN"
                     android:text=""
                     android:textAllCaps="false"
                     android:textColor="@color/gray"
@@ -209,73 +155,117 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rlayoutStatus"
+                android:id="@+id/rlayoutRate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rlayoutBookD">
+                android:layout_below="@+id/rlayoutProduct">
 
                 <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvStat"
+                    android:id="@+id/tvRat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Status :"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:text="Rate :"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+
+                <ImageView
+                    android:id="@+id/ivRupee"
+                    android:layout_width="@dimen/_8sdp"
+                    android:layout_height="@dimen/_8sdp"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_toRightOf="@+id/tvRat"
+                    android:src="@drawable/rupee" />
+
+                <com.vibrant.asp.customtext.MyTextLight
+                    android:id="@+id/tvRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_1sdp"
+                    android:layout_toRightOf="@+id/ivRupee"
+                    android:text=""
+                    android:textAllCaps="false"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlayoutBal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlayoutRate">
+
+                <com.vibrant.asp.customtext.MyTextLight
+                    android:id="@+id/tvBalance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Balanced Qty :"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_12sdp" />
 
                 <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvStatus"
+                    android:id="@+id/tvBalanceQuantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/tvStat"
+                    android:layout_toRightOf="@+id/tvBalance"
                     android:text=""
                     android:textColor="@color/gray"
                     android:textSize="@dimen/_12sdp" />
             </RelativeLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rlayoutStatus"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="1">
+                android:layout_below="@+id/rlayoutBal"
+                android:layout_marginTop="@dimen/_5sdp">
+
+                <com.vibrant.asp.customtext.MyButtonBold
+                    android:id="@+id/btnBookProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_toLeftOf="@+id/llViewImg"
+                    android:background="@drawable/custom_ripple_white_button"
+                    android:text="@string/add_to_card"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black_txt"
+                    android:textSize="@dimen/_12sdp" />
 
                 <LinearLayout
-                    android:layout_weight=".5"
+                    android:id="@+id/llViewImg"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/_5sdp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_5sdp">
 
-                    <com.vibrant.asp.customtext.MyButtonBold
-                        android:id="@+id/btnCancelOrder"
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:gravity="center"
+                        android:src="@drawable/gallery"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <com.vibrant.asp.customtext.MyTextLight
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="@drawable/custom_ripple_white_button"
-                        android:text="@string/cancel"
-                        android:textAllCaps="false"
-                        android:textColor="@color/black_txt"
-                        android:textSize="@dimen/_12sdp" />
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        android:text="View Image"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_8sdp"
+                        android:visibility="gone" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_weight=".5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <com.vibrant.asp.customtext.MyButtonBold
-                        android:id="@+id/btnConfirm"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="@drawable/custom_ripple_white_button"
-                        android:text="@string/confirm"
-                        android:textAllCaps="false"
-                        android:textColor="@color/black_txt"
-                        android:textSize="@dimen/_12sdp" />
-                </LinearLayout>
-            </LinearLayout>
+            </RelativeLayout>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

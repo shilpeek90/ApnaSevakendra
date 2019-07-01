@@ -25,7 +25,8 @@ public class MyButtonBold extends Button {
     }
 
     private void applyCustomFont(Context context) {
-        Typeface customFont = FontCache.getTypeface("icon_blck.ttf", context);
+        //Typeface customFont = FontCache.getTypeface("icon_blck.ttf", context);
+        Typeface customFont = FontCache.getTypeface("icon_txt.ttf", context);
         setTypeface(customFont);
     }
 }
