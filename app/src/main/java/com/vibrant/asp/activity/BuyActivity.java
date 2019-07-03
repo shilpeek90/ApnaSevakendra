@@ -66,6 +66,7 @@ public class BuyActivity extends AppCompatActivity {
     BuyRangeAdapter rangeAdapter;
     RecyclerView recyclerView;
     ProductsForBuyAdapter mAdapter;
+
     String mResponse = "{\"d\":[  \n" +
             "    {\"range\":\"0 to 5\"},  \n" +
             "    {\"range\":\"5 to 10\"},        \n" +

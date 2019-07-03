@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_2"
     tools:context=".activity.BuyActivity">
 
     <include
@@ -15,25 +16,57 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/header">
 
-        <LinearLayout
-            android:id="@+id/lLayout"
+
+        <RelativeLayout
+            android:id="@+id/rQuantity"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_8sdp"
-            android:layout_marginRight="@dimen/_8sdp"
-            android:layout_marginBottom="5dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:background="@color/white"
+            android:padding="10dp">
 
-            <Spinner
-                android:id="@+id/spinnerRange"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_45sdp"
-                android:background="@android:drawable/btn_dropdown"
-                android:dropDownWidth="fill_parent"
-                android:spinnerMode="dropdown" />
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-        </LinearLayout>
+                <com.vibrant.asp.customtext.MyTextLight
+                    android:id="@+id/tvRange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="Range "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+
+
+                <RelativeLayout
+                    android:id="@+id/lLQuanty"
+                    android:layout_toRightOf="@+id/tvRange"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:background="@drawable/custom_ripple_white_button"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/spinnerRange"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:dropDownWidth="fill_parent"
+                        android:spinnerMode="dropdown" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
 
         <com.vibrant.asp.customtext.MyTextLight
             android:id="@+id/tvNoRecord"
@@ -49,7 +82,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/lLayout"
+            android:layout_below="@+id/rQuantity"
             android:layout_margin="@dimen/_5sdp"
             android:visibility="visible"></android.support.v7.widget.RecyclerView>
     </RelativeLayout>

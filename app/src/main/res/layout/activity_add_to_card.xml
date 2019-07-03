@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_2"
+    tools:context=".activity.AddToCardActivity">
+
+    <include
+        android:id="@+id/header"
+        layout="@layout/header" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:padding="@dimen/_5sdp">
+
+            <RelativeLayout
+                android:id="@+id/rQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@color/white"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/lLQuanty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.vibrant.asp.customtext.MyTextLight
+                            android:id="@+id/editQuanty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:text="Quantity :"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <Spinner
+                            android:id="@+id/spinnerQuantity"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_45sdp"
+                            android:layout_marginLeft="@dimen/_8sdp"
+                            android:layout_toRightOf="@+id/editQuanty"
+                            android:background="@android:drawable/btn_dropdown"
+                            android:dropDownWidth="fill_parent"
+                            android:spinnerMode="dropdown" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rQuantity"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:padding="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.vibrant.asp.customtext.MyTextLight
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:paddingLeft="10dp"
+                            android:text="Amount"
+                            android:textColor="@color/gray_text_dark"
+                            android:textSize="14sp" />
+
+                        <com.vibrant.asp.customtext.MyTextLight
+                            android:id="@+id/tvRupee"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/tvAmount"
+                            android:text="\u20b9"
+                            android:textColor="@color/gray_text_dark"
+                            android:textSize="14sp" />
+
+                        <com.vibrant.asp.customtext.MyTextLight
+                            android:id="@+id/tvAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:paddingLeft="3dp"
+                            android:text=""
+                            android:textColor="@color/gray_text_dark"
+                            android:textSize="14sp" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="8"
+                        android:orientation="horizontal">
+
+                        <com.vibrant.asp.customtext.MyTextLight
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:paddingLeft="10dp"
+                            android:text="CGST"
+                            android:textColor="@color/green"
+                            android:textSize="14sp" />
+
+                        <com.vibrant.asp.customtext.MyTextLight
+                            android:id="@+id/tvRupeeg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/tvCGST"
+                            android:text="\u20b9"
+                            android:textColor="@color/green"
+                            android:textSize="14sp" />
+
+                        <com.vibrant.asp.customtext.MyTextLight
+                            android:id="@+id/tvCGST"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="3dp"
+                            android:text=""
+                            android:textColor="@color/green"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="8"
+                        android:orientation="horizontal">
+
+                        <com.vibrant.asp.customtext.MyTextLight
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:paddingLeft="10dp"
+                            android:text="SGST"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+
+                        <com.vibrant.asp.customtext.MyTextLight
+                            android:id="@+id/tvRupees"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/tvSGST"
+                            android:text="\u20b9"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <com.vibrant.asp.customtext.MyTextLight
+                            android:id="@+id/tvSGST"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="3dp"
+                            android:text=""
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <com.vibrant.asp.customtext.MyButtonBold
+                android:id="@+id/btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/rLayout"
+                android:layout_centerInParent="true"
+                android:layout_margin="@dimen/_30sdp"
+                android:background="@drawable/custom_ripple_button"
+                android:gravity="center"
+                android:paddingLeft="@dimen/_30sdp"
+                android:paddingRight="@dimen/_30sdp"
+                android:text="@string/submit"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

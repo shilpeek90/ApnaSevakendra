@@ -1,14 +1,12 @@
 package com.vibrant.asp.activity;
+
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -20,41 +18,25 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.vibrant.asp.R;
-import com.vibrant.asp.adapter.QuantityAdapter;
+import com.vibrant.asp.adapter.AddToCardQuantityAdapter;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
-import com.vibrant.asp.model.QuantityModel;
-import com.vibrant.asp.model.RangeModel;
-
+import com.vibrant.asp.model.AddToCardQuantityModel;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.vibrant.asp.constants.Util.getPreference;
-import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
 
-public class BookNowActivity extends AppCompatActivity {
-    private static final String TAG = "BookNowActivity";
-    TextView tvHeader, tvCommission, tvAmount,tvSubName;
+public class AddToCardActivity extends AppCompatActivity {
+    private static final String TAG = "AddToCardActivity";
+    TextView tvHeader, tvCGST, tvSGST, tvAmount, tvSubName;
     ImageView ivBack;
-    ProgressDialog pd;
-    EditText editSubscription;
-    Button btnSubmit;
-    String SubscriptionId = "";
+    String mSellerId = "";
     String mProductId = "";
-    String mRenteeId = "";
-    String mSubName = "";
-    int mRate = 0;
-    String entered="";
-    int calAmount =0;
-    Spinner spinnerQuantity;
-    QuantityAdapter adapter;
-    List<QuantityModel> quantityArray = new ArrayList<>();
     String mResponse = "{\"d\":[  \n" +
             "    {\"quantity\":\"1\"},  \n" +
             "    {\"quantity\":\"2\"},  \n" +
@@ -156,20 +138,24 @@ public class BookNowActivity extends AppCompatActivity {
             "    {\"quantity\":\"99\"},  \n" +
             "    {\"quantity\":\"100\"} \n" +
             "]}  ";
-    private String selectedQuantity ="";
+    public String selectedQuantity = "";
+    Spinner spinnerQuantity;
+    AddToCardQuantityAdapter adapter;
+    List<AddToCardQuantityModel> quantityArray = new ArrayList<>();
+    int calAmount = 0;
+    ProgressDialog pd;
+    Button btnSubmit;
+    int mRate = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_now);
-        hideKeyboard(BookNowActivity.this);
+        setContentView(R.layout.activity_add_to_card);
         try {
             Bundle bundle = getIntent().getBundleExtra("bundle");
             if (bundle != null) {
-                SubscriptionId = bundle.getString("SubscriptionId");
-                mRenteeId = bundle.getString("mRenteeId");
-                mProductId = bundle.getString("mProductId");
-                mSubName = bundle.getString("subName");
+                mSellerId = bundle.getString("SellerId");
+                mProductId = bundle.getString("ProductId");
                 mRate = bundle.getInt("mRate");
             }
         } catch (NumberFormatException e) {
@@ -178,9 +164,9 @@ public class BookNowActivity extends AppCompatActivity {
         init();
     }
 
-    private void init() {
+    public void init() {
         tvHeader = findViewById(R.id.tvHeader);
-        tvHeader.setText(getString(R.string.book_now));
+        tvHeader.setText(getString(R.string.add_to_cart));
         ivBack = findViewById(R.id.ivBack);
         ivBack.setVisibility(View.VISIBLE);
         ivBack.setOnClickListener(new View.OnClickListener() {
@@ -190,36 +176,26 @@ public class BookNowActivity extends AppCompatActivity {
             }
         });
 
-        editSubscription = findViewById(R.id.editSubscription);
-        tvCommission = findViewById(R.id.tvCommission);
-        tvAmount = findViewById(R.id.tvAmount);
-        btnSubmit = findViewById(R.id.btnSubmit);
         spinnerQuantity = findViewById(R.id.spinnerQuantity);
+        tvCGST = findViewById(R.id.tvCGST);
+        tvSGST = findViewById(R.id.tvSGST);
+        tvAmount = findViewById(R.id.tvAmount);
         tvSubName = findViewById(R.id.tvSubName);
+        btnSubmit = findViewById(R.id.btnSubmit);
 
-        entered = editSubscription.getText().toString();
-
-        tvSubName.setText(mSubName);
-        tvAmount.setText(String.valueOf(getAmount(entered)));
-        tvCommission.setText(String.valueOf(getCommistion(getAmount(entered))));
-
-        editSubscription.addTextChangedListener(new TextWatcher() {
+        getQuantity();
+        spinnerQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                AddToCardQuantityModel quantityModel = adapter.getItem(position);
+                selectedQuantity = quantityModel.getQuantity();
+                tvAmount.setText(String.valueOf(getAmount(selectedQuantity)));
+                tvCGST.setText(String.valueOf(getCommistion(getAmount(selectedQuantity))));
+                tvSGST.setText(String.valueOf(getCommistion(getAmount(selectedQuantity))));
             }
-
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.d(TAG, "onTextChanged: " + s);
-                entered = s.toString();
-                Log.d(TAG, "onTextChanged: "+">>>>>"+entered);
-                tvAmount.setText(String.valueOf(getAmount(entered)));
-               tvCommission.setText(String.valueOf(getCommistion(getAmount(entered))));
-            }
+            public void onNothingSelected(AdapterView<?> parent) {
 
-            @Override
-            public void afterTextChanged(Editable s) {
             }
         });
 
@@ -227,34 +203,27 @@ public class BookNowActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isInternetConnected(getApplicationContext())) {
-                    getBookNow();
+                    getAddToCard();
                 } else {
-                    showToast(BookNowActivity.this, getResources().getString(R.string.check_network));
+                    showToast(AddToCardActivity.this, getResources().getString(R.string.check_network));
                 }
-            }
-        });
-        getQuantity();
-        spinnerQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                QuantityModel quantityModel = adapter.getItem(position);
-                selectedQuantity = quantityModel.getQuantity();
-                Log.d(TAG, "onItemSelected: " + quantityModel.getQuantity());
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
 
     private int getAmount(String entered) {
-        int amt=0;
-        if (entered.length()>0){
-           amt= Integer.parseInt(entered);
+        int amt = 0;
+        if (entered.length() > 0) {
+            amt = Integer.parseInt(entered);
         }
-         calAmount = (Integer.valueOf(mRate)*amt);
+        calAmount = (Integer.valueOf(mRate) * amt);
         return calAmount;
+    }
+
+    public double getCommistion(int amount) {
+        int commit = (amount * 18);
+        double total = Double.valueOf((double) commit / 100);
+        return total;
     }
 
     private void getQuantity() {
@@ -265,41 +234,40 @@ public class BookNowActivity extends AppCompatActivity {
 
             if (jsonArray.length() > 0) {
                 for (int i = 0; i < jsonArray.length(); i++) {
-                    QuantityModel quantityModel = new QuantityModel();
+                    AddToCardQuantityModel quantityModel = new AddToCardQuantityModel();
                     quantityModel.setQuantity(jsonArray.getJSONObject(i).getString("quantity"));
                     quantityArray.add(quantityModel);
                 }
                 if (quantityArray.size() > 0) {
-                    adapter = new QuantityAdapter(getApplicationContext(), quantityArray);
+                    adapter = new AddToCardQuantityAdapter(getApplicationContext(), quantityArray);
                     spinnerQuantity.setAdapter(adapter);
-                    // rangeAdapter.notifyDataSetChanged();
                 }
             } else {
-                showToast(BookNowActivity.this, "Data not found");
+                showToast(AddToCardActivity.this, "Data not found");
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private void getBookNow() {
-        String url = Cons.GET_BOOK_PRODUCT;
-        pd = ProgressDialog.show(BookNowActivity.this, "Please Wait...");
+
+    private void getAddToCard() {
+        String url = Cons.GET_Add_TO_CARD;
+        pd = ProgressDialog.show(AddToCardActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            String mRenteerId = getPreference(BookNowActivity.this, "renterId");
+            String mRenteerId = getPreference(AddToCardActivity.this, "renterId");
             if (mRenteerId != null) {
-                jsonObject.put("RenterId", mRenteerId);
+                jsonObject.put("BuyerId", mRenteerId);
             }
-            jsonObject.put("RenteeId", mRenteeId);
-            jsonObject.put("ProductId", mProductId);
+            jsonObject.put("SellerId", mSellerId);
+            jsonObject.put("ProdId", mProductId);
             jsonObject.put("Amount", tvAmount.getText().toString());
-            jsonObject.put("Count", editSubscription.getText().toString());
-            jsonObject.put("SubscriptionId", SubscriptionId);
             jsonObject.put("Quantity", selectedQuantity);
-            jsonObject.put("CommissionAmount", tvCommission.getText().toString());
+            jsonObject.put("CGST", tvCGST.getText().toString());
+            jsonObject.put("SGST", tvSGST.getText().toString());
+            Log.d(TAG, "getAddToCard: " + jsonObject);
 
-            Log.d(TAG, "getBookNow: " + jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -315,11 +283,11 @@ public class BookNowActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     String status = jsonObject.getString("d");
                     if (status.equals("true")) {
-                        showToast(BookNowActivity.this, "Successfully Booked");
-                        startActivity(new Intent(BookNowActivity.this, DashboardActivity.class));
+                        showToast(AddToCardActivity.this, "Item Successfully Added");
+                        startActivity(new Intent(AddToCardActivity.this, DashboardActivity.class));
                         finish();
                     } else {
-                        showToast(BookNowActivity.this, "Something went wrong");
+                        showToast(AddToCardActivity.this, "Something went wrong");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -330,7 +298,7 @@ public class BookNowActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Error: " + error.getMessage());
                 pd.dismiss();
-                showToast(BookNowActivity.this, "Something went wrong");
+                showToast(AddToCardActivity.this, "Something went wrong");
             }
         }) {
             @Override
@@ -347,10 +315,5 @@ public class BookNowActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-    }
-    public double getCommistion(int amount) {
-        int commit =(amount*5);
-        double total= Double.valueOf((double)commit/100);
-        return total;
     }
 }

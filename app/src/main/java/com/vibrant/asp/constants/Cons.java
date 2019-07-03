@@ -20,8 +20,14 @@ public class Cons {
     public static final String GET_CANCEL_ORDER =BASE_URL+"GetCancelledOrdersForRenter";
     public static final String GET_CONFIRMED_ORDER =BASE_URL+"GetConfirmedBookingsForRenter";
     public static final String GET_PENDING_ORDER =BASE_URL+"GetPendingBookingsForRenter";
+
     public static final String GET_FOR_BUY =BASE_URL+"GetNearByProductsForSale";
+
     public static final String GET_BUY_BOOK_PRODUCT =BASE_URL+"BookProduct";
     public static final String GET_FOR_SALE =BASE_URL+"";
+    public static final String GET_Add_TO_CARD =BASE_URL+"AddToCart";
+    public static final String GET_SHOW_DEATIL_CART =BASE_URL+"ShowCartDetails";
+    public static final String GET_UPADATE_CART =BASE_URL+"UpdateCart";
+    public static final String GET_DELETE_CART =BASE_URL+"DeleteCart";
 
 }

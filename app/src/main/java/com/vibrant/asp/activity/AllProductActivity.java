@@ -1,5 +1,4 @@
 package com.vibrant.asp.activity;
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -35,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.hideKeyboard;
+import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
 
 public class AllProductActivity extends AppCompatActivity {
@@ -56,7 +56,7 @@ public class AllProductActivity extends AppCompatActivity {
     private double mLngCurrent;
     String mResponse = "{\"d\":[  \n" +
             "    {\"range\":\"0 to 5\"},  \n" +
-            "    {\"range\":\"5 to 10\"},        \n" +
+            "    {\"range\":\"5 to 10\"},  \n" +
             "    {\"range\":\"10 to 15\"},  \n" +
             "    {\"range\":\"15 to 20\"},  \n" +
             "    {\"range\":\"20 to 25\"},  \n" +
@@ -139,9 +139,13 @@ public class AllProductActivity extends AppCompatActivity {
                 mToKm = parts[1];
                 Log.d(TAG, "onItemSelected: " + mFromKm);
                 Log.d(TAG, "onItemSelected: " + mToKm);
-                getNearByProduct();
-            }
 
+                if (isInternetConnected(getApplicationContext())) {
+                    getNearByProduct();
+                } else {
+                    showToast(AllProductActivity.this, getResources().getString(R.string.check_network));
+                }
+            }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -166,13 +170,11 @@ public class AllProductActivity extends AppCompatActivity {
         mAdapter.updateList(filteredArray);
     }
 
-
     private void getRange() {
         try {
             JSONObject jsonObject = new JSONObject(mResponse);
             JSONArray jsonArray = jsonObject.getJSONArray("d");
             rangeMainArray.clear();
-
             if (jsonArray.length() > 0) {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     RangeModel rangeModel = new RangeModel();

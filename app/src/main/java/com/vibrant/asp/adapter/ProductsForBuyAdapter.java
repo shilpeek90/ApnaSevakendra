@@ -1,43 +1,26 @@
 package com.vibrant.asp.adapter;
-
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.vibrant.asp.R;
-import com.vibrant.asp.activity.BookNowActivity;
+import com.vibrant.asp.activity.AddToCardActivity;
 import com.vibrant.asp.activity.BuyImageViewActivity;
-import com.vibrant.asp.activity.MapActivity;
-import com.vibrant.asp.activity.ViewImageActivity;
-import com.vibrant.asp.constants.ProgressDialog;
-import com.vibrant.asp.model.AllProductModel;
 import com.vibrant.asp.model.ProductsForBuy;
-
 import java.util.List;
-
-import static com.vibrant.asp.constants.Util.roundTwoDecimals;
 
 public class ProductsForBuyAdapter extends RecyclerView.Adapter<ProductsForBuyAdapter.MyHolder> {
     private List<ProductsForBuy> arrayList;
     Context mContext;
     String mImage1 = "";
     String mImage2 = "";
-    AlertDialog.Builder builderCancel;
-    ProgressDialog pd;
-    String mOrderId = "";
-
     public ProductsForBuyAdapter(Context mContext, List<ProductsForBuy> arrayList) {
         this.mContext = mContext;
         this.arrayList = arrayList;
@@ -60,7 +43,6 @@ public class ProductsForBuyAdapter extends RecyclerView.Adapter<ProductsForBuyAd
         holder.tvProductName.setText(arrayList.get(position).getProductName());
         holder.tvBalanceQuantity.setText(String.valueOf(arrayList.get(position).getBalancedQty()));
 
-
         holder.llViewImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,27 +57,19 @@ public class ProductsForBuyAdapter extends RecyclerView.Adapter<ProductsForBuyAd
             }
         });
 
-        holder.btnBookProduct.setOnClickListener(new View.OnClickListener() {
+        holder.btnAddTOCARD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*mOrderId =String.valueOf(arrayList.get(position).getOrderId());
-
-                builderCancel = new AlertDialog.Builder(mContext);
-                builderCancel.setMessage(R.string.dialog_message_cancel)
-                        .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                CancelOrderByRentee();
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert = builderCancel.create();
-                alert.setTitle(R.string.app_name);
-                alert.show();*/
+                String mSellerId = String.valueOf(arrayList.get(position).getSellerId());
+                String mProductId =String.valueOf(arrayList.get(position).getProdId());
+                int mRate = arrayList.get(position).getRate();
+                Intent intent = new Intent(mContext, AddToCardActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("SellerId", mSellerId);
+                bundle.putString("ProductId", mProductId);
+                bundle.putInt("mRate", mRate);
+                intent.putExtra("bundle", bundle);
+                mContext.startActivity(intent);
             }
         });
     }
@@ -108,7 +82,7 @@ public class ProductsForBuyAdapter extends RecyclerView.Adapter<ProductsForBuyAd
     public class MyHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvStateName, tvDistrictName, tvAddress, tvProductName, tvRate, tvBalanceQuantity;
         LinearLayout llViewImg;
-        Button btnBookProduct;
+        Button btnAddTOCARD;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -120,7 +94,7 @@ public class ProductsForBuyAdapter extends RecyclerView.Adapter<ProductsForBuyAd
             tvRate = itemView.findViewById(R.id.tvRate);
             tvBalanceQuantity = itemView.findViewById(R.id.tvBalanceQuantity);
             llViewImg = itemView.findViewById(R.id.llViewImg);
-            btnBookProduct = itemView.findViewById(R.id.btnBookProduct);
+            btnAddTOCARD = itemView.findViewById(R.id.btnAddTOCARD);
         }
     }
 }

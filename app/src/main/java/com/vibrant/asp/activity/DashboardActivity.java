@@ -1,4 +1,5 @@
 package com.vibrant.asp.activity;
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,6 +23,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,10 +37,13 @@ import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.constants.Util;
 import com.vibrant.asp.gps.GPSTracker1;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
@@ -136,7 +143,8 @@ public class DashboardActivity extends AppCompatActivity
         llaySale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DashboardActivity.this, SaleActivity.class));
+                showToast(DashboardActivity.this, "Coming soon");
+                // startActivity(new Intent(DashboardActivity.this, SaleActivity.class));
             }
         });
 
@@ -333,7 +341,7 @@ public class DashboardActivity extends AppCompatActivity
         }
     }
 
-  /*  @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
@@ -348,14 +356,13 @@ public class DashboardActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_add_to_cart) {
+            startActivity(new Intent(DashboardActivity.this, ShowCartDetailsActivity.class));
             return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }*/
-
-
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

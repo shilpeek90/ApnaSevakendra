@@ -224,7 +224,7 @@
                 android:layout_marginTop="@dimen/_5sdp">
 
                 <com.vibrant.asp.customtext.MyButtonBold
-                    android:id="@+id/btnBookProduct"
+                    android:id="@+id/btnAddTOCARD"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_centerInParent="true"
@@ -232,7 +232,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_toLeftOf="@+id/llViewImg"
                     android:background="@drawable/custom_ripple_white_button"
-                    android:text="@string/add_to_card"
+                    android:text="@string/add_to_cart"
                     android:textAllCaps="false"
                     android:textColor="@color/black_txt"
                     android:textSize="@dimen/_12sdp" />
