@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
+    android:background="@color/gray_2"
     android:focusableInTouchMode="true"
     tools:context=".activity.AllProductActivity">
 
@@ -18,17 +19,26 @@
         android:layout_below="@+id/header"
         android:padding="@dimen/_5sdp">
 
-        <LinearLayout
+        <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/lLSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:background="@color/white"
+            android:padding="10dp">
+
+     <!--   <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1">
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_45sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:layout_marginRight="@dimen/_3sdp"
                 android:layout_weight=".5"
                 android:orientation="vertical">
@@ -36,7 +46,7 @@
                 <EditText
                     android:id="@+id/editSearch"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_45sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:background="@android:drawable/edit_text"
                     android:drawableRight="@drawable/ic_search_24dp"
                     android:ems="14"
@@ -49,24 +59,102 @@
 
             </LinearLayout>
 
-            <LinearLayout
+          &lt;!&ndash;  <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_45sdp"
+                android:layout_height="@dimen/_39sdp"
                 android:layout_marginLeft="@dimen/_3sdp"
                 android:layout_weight=".5"
+                android:background="@drawable/custom_ripple_white_button"
                 android:orientation="vertical">
 
                 <Spinner
                     android:id="@+id/spinnerRange"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_45sdp"
-                    android:background="@android:drawable/btn_dropdown"
+                    android:layout_height="@dimen/_39sdp"
                     android:dropDownWidth="fill_parent"
                     android:spinnerMode="dropdown" />
 
-            </LinearLayout>
+            </LinearLayout>&ndash;&gt;
 
-        </LinearLayout>
+        </LinearLayout>-->
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rRange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:background="@color/white"
+            android:padding="10dp">
+
+
+            <RelativeLayout
+                android:id="@+id/rlsearch"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/editSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@android:drawable/edit_text"
+                    android:drawableRight="@drawable/ic_search_24dp"
+                    android:ems="14"
+                    android:hint="Search here"
+                    android:maxLength="1"
+                    android:inputType="text"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false"
+                    android:textSize="@dimen/_14sdp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_below="@+id/rlsearch"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.vibrant.asp.customtext.MyTextLight
+                    android:id="@+id/tvRange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="Range "
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+
+
+                <RelativeLayout
+                    android:id="@+id/lLQuanty"
+                    android:layout_toRightOf="@+id/tvRange"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:background="@drawable/custom_ripple_white_button"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/spinnerRange"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:dropDownWidth="fill_parent"
+                        android:spinnerMode="dropdown" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tvNoRecord"
@@ -82,8 +170,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/_5sdp"
             android:layout_height="match_parent"
-            android:layout_below="@+id/lLSearch"
+            android:layout_below="@+id/rRange"
             android:visibility="visible">
 
         </android.support.v7.widget.RecyclerView>

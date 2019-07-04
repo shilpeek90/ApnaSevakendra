@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -170,6 +171,31 @@ public class Util {
             return false;
         }
         return true;
+    }
+
+
+    public static int getAmountIncre(int amount,int quantity) {
+        return amount*quantity;
+    }
+
+    public static double getCommissionIncr(int amount) {
+        int commit = (amount * 18);
+        double total = Double.valueOf((double) commit / 100);
+        return total;
+    }
+
+
+
+    public static int getAmountDecr(int amount,int quantity) {
+        int total =(amount/quantity);
+        Log.d(">>>", "getAmountDecr: "+total);
+        return amount*total;
+    }
+
+    public static double getCommissionDecr(int amount) {
+        int commit = (amount * 18);
+        double total = Double.valueOf((double) commit / 100);
+        return total;
     }
 }
 

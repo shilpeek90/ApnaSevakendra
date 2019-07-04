@@ -26,20 +26,19 @@
                     android:id="@+id/tvNam"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rentee Name :"
+                    android:text="Rentee Name "
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
+                    android:textSize="@dimen/_14sdp" />
 
                 <com.vibrant.asp.customtext.MyTextLight
                     android:id="@+id/tvName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/tvNam"
+                   android:layout_alignParentRight="true"
                     android:text=""
                     android:textAllCaps="false"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/_12sdp" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14sdp" />
 
             </RelativeLayout>
 
@@ -53,19 +52,18 @@
                     android:id="@+id/tvCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cancelled By :"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
+                    android:text="Cancelled By "
+                    android:textColor="@color/gray_text_dark"
+                    android:textSize="@dimen/_11sdp" />
 
                 <com.vibrant.asp.customtext.MyTextLight
                     android:id="@+id/tvCancelledBy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/tvCancel"
+                   android:layout_alignParentRight="true"
                     android:text=""
                     android:textAllCaps="false"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/gray_text_dark"
                     android:textSize="@dimen/_12sdp" />
 
             </RelativeLayout>
@@ -79,20 +77,19 @@
                     android:id="@+id/tvProductN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Product Name :"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
+                    android:text="Product Name "
+                    android:textColor="@color/gray_text_dark"
+                    android:textSize="@dimen/_11sdp" />
 
                 <com.vibrant.asp.customtext.MyTextLight
                     android:id="@+id/tvProductName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/tvProductN"
+                   android:layout_alignParentRight="true"
                     android:text=""
                     android:textAllCaps="false"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/_12sdp" />
+                    android:textColor="@color/gray_text_dark"
+                    android:textSize="@dimen/_11sdp" />
 
             </RelativeLayout>
 
@@ -109,29 +106,29 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerInParent="true"
-                    android:text="Amount :"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
+                    android:text="Amount "
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/_11sdp" />
 
-                <ImageView
-                    android:id="@+id/ivRupee"
-                    android:layout_width="@dimen/_8sdp"
-                    android:layout_height="@dimen/_8sdp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/tvAmt"
-                    android:src="@drawable/rupee" />
+                <com.vibrant.asp.customtext.MyTextLight
+                    android:id="@+id/tvAmtRupee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/tvAmount"
+                    android:text="\u20b9"
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/_11sdp" />
 
                 <com.vibrant.asp.customtext.MyTextLight
                     android:id="@+id/tvAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_1sdp"
-                    android:layout_toRightOf="@+id/ivRupee"
+                    android:paddingLeft="@dimen/_3sdp"
+                    android:layout_alignParentRight="true"
                     android:text=""
                     android:textAllCaps="false"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/_12sdp" />
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/_11sdp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -144,19 +141,18 @@
                     android:id="@+id/tvOrderQunt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Order Quantity :"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
+                    android:text="Order Quantity "
+                    android:textColor="@color/gray_text_dark"
+                    android:textSize="@dimen/_11sdp" />
 
                 <com.vibrant.asp.customtext.MyTextLight
                     android:id="@+id/tvOrderQuantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/tvOrderQunt"
+                    android:layout_alignParentRight="true"
                     android:text=""
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/_12sdp" />
+                    android:textColor="@color/gray_text_dark"
+                    android:textSize="@dimen/_11sdp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -169,20 +165,30 @@
                     android:id="@+id/tvCommision"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Commission Amount :"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
+                    android:text="Commission Amount "
+                    android:textColor="@color/gray_text_dark"
+                    android:textSize="@dimen/_11sdp" />
+
+
+                <com.vibrant.asp.customtext.MyTextLight
+                    android:id="@+id/tvAmtRupee1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/tvComminAmount"
+                    android:text="\u20b9"
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/_11sdp" />
 
                 <com.vibrant.asp.customtext.MyTextLight
                     android:id="@+id/tvComminAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/tvCommision"
+                    android:paddingLeft="@dimen/_3sdp"
+                   android:layout_alignParentRight="true"
                     android:text=""
                     android:textAllCaps="false"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/_12sdp" />
+                    android:textColor="@color/gray_text_dark"
+                    android:textSize="@dimen/_11sdp" />
 
             </RelativeLayout>
 
@@ -196,20 +202,19 @@
                     android:id="@+id/tvDistrictNam"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="District Name :"
+                    android:text="District Name "
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
+                    android:textSize="@dimen/_13sdp" />
 
                 <com.vibrant.asp.customtext.MyTextLight
                     android:id="@+id/tvDistrictName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/tvDistrictNam"
+                   android:layout_alignParentRight="true"
                     android:text=""
                     android:textAllCaps="false"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/_12sdp" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13sdp" />
             </RelativeLayout>
         </RelativeLayout>
     </android.support.v7.widget.CardView>

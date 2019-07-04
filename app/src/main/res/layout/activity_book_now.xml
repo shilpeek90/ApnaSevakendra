@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
+    android:background="@color/gray_2"
     android:focusableInTouchMode="true"
     tools:context=".activity.BookNowActivity">
 
@@ -13,9 +14,9 @@
         layout="@layout/header" />
 
     <RelativeLayout
-        android:layout_below="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,146 +24,214 @@
             android:layout_margin="@dimen/_10sdp"
             android:padding="@dimen/_5sdp">
 
+            <!--  <RelativeLayout
+                  android:id="@+id/lLQuanty"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="@dimen/_10sdp"
+                  android:orientation="horizontal">
+
+                  <com.vibrant.asp.customtext.MyTextLight
+                      android:id="@+id/editQuanty"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Quantity :"
+                      android:gravity="center"
+                      android:layout_alignParentLeft="true"
+                      android:layout_centerInParent="true"
+                      android:textColor="@color/black"
+                      android:textSize="@dimen/_12sdp"  />
+
+                      <Spinner
+                          android:id="@+id/spinnerQuantity"
+                          android:layout_marginLeft="@dimen/_8sdp"
+                          android:layout_toRightOf="@+id/editQuanty"
+                          android:layout_width="match_parent"
+                          android:layout_height="@dimen/_45sdp"
+                          android:background="@android:drawable/btn_dropdown"
+                          android:dropDownWidth="fill_parent"
+                          android:spinnerMode="dropdown" />
+
+              </RelativeLayout>
+  -->
+
+
             <RelativeLayout
-                android:id="@+id/lLQuanty"
+                android:id="@+id/rQuantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="horizontal">
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:background="@color/white"
+                android:padding="10dp">
 
-                <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/editQuanty"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Quantity :"
-                    android:gravity="center"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerInParent="true"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp"  />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                    <Spinner
-                        android:id="@+id/spinnerQuantity"
-                        android:layout_marginLeft="@dimen/_8sdp"
-                        android:layout_toRightOf="@+id/editQuanty"
+                    <com.vibrant.asp.customtext.MyTextLight
+                        android:id="@+id/editQuanty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:text="Quantity "
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+
+                    <RelativeLayout
+                        android:id="@+id/lLQuanty"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_45sdp"
-                        android:background="@android:drawable/btn_dropdown"
-                        android:dropDownWidth="fill_parent"
-                        android:spinnerMode="dropdown" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_toRightOf="@+id/editQuanty"
+                        android:background="@drawable/custom_ripple_white_button"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/_10sdp">
+
+                        <Spinner
+                            android:id="@+id/spinnerQuantity"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_40sdp"
+                            android:dropDownWidth="fill_parent"
+                            android:spinnerMode="dropdown" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
 
             </RelativeLayout>
 
+
             <RelativeLayout
-                android:id="@+id/rlayoutSubscription"
-                android:layout_below="@+id/lLQuanty"
+                android:id="@+id/rlayout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_marginTop="@dimen/_15sdp">
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rQuantity"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:background="@color/white"
+                android:padding="10dp">
 
-                <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvSubScr"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="For :"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
-
-                <EditText
-                    android:id="@+id/editSubscription"
-                    android:layout_width="@dimen/_160sdp"
-                    android:layout_toRightOf="@+id/tvSubScr"
+                <RelativeLayout
+                    android:id="@+id/rlayoutSubscription"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
-                    android:background="@android:drawable/edit_text"
-                    android:ems="14"
-                    android:text="1"
-                    android:layout_marginLeft="5dp"
-                    android:maxLength="30"
-                    android:inputType="number"
-                    android:scrollbars="vertical"
-                    android:scrollHorizontally="false"
-                    android:textSize="@dimen/_14sdp" />
+                    android:layout_marginTop="@dimen/_15sdp">
 
-                <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvSubName"
-                    android:layout_width="wrap_content"
+                    <com.vibrant.asp.customtext.MyTextLight
+                        android:id="@+id/tvSubScr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="For :"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <EditText
+                        android:id="@+id/editSubscription"
+                        android:layout_width="@dimen/_160sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/tvSubScr"
+                        android:background="@android:drawable/edit_text"
+                        android:ems="14"
+                        android:inputType="number"
+                        android:maxLength="30"
+                        android:scrollbars="vertical"
+                        android:scrollHorizontally="false"
+                        android:text="1"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <com.vibrant.asp.customtext.MyTextLight
+                        android:id="@+id/tvSubName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_toRightOf="@+id/editSubscription"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlayoutAmt"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/editSubscription"
-                    android:text=""
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
+                    android:layout_below="@+id/rlayoutSubscription"
+                    android:layout_marginTop="@dimen/_5sdp">
 
+                    <com.vibrant.asp.customtext.MyTextLight
+                        android:id="@+id/tvAmt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Amount :"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <com.vibrant.asp.customtext.MyTextLight
+                        android:id="@+id/tvAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_toRightOf="@+id/tvAmt"
+                        android:text=""
+                        android:textAllCaps="false"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_12sdp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlayoutCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rlayoutAmt"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:visibility="gone">
+
+                    <com.vibrant.asp.customtext.MyTextLight
+                        android:id="@+id/tvCnt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Commission Amount :"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <com.vibrant.asp.customtext.MyTextLight
+                        android:id="@+id/tvCommission"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/tvCnt"
+                        android:text=""
+                        android:textAllCaps="false"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_12sdp" />
+
+                </RelativeLayout>
             </RelativeLayout>
+            <!---->
 
-            <RelativeLayout
-                android:id="@+id/rlayoutAmt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rlayoutSubscription">
-
-                <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvAmt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Amount :"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
-
-                <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_toRightOf="@+id/tvAmt"
-                    android:text=""
-                    android:textAllCaps="false"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/_12sdp" />
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:visibility="gone"
-                android:id="@+id/rlayoutCount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rlayoutAmt">
-
-                <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvCnt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Commission Amount :"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12sdp" />
-
-                <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvCommission"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/tvCnt"
-                    android:text=""
-                    android:textAllCaps="false"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/_12sdp" />
-
-            </RelativeLayout>
 
             <com.vibrant.asp.customtext.MyButtonBold
                 android:id="@+id/btnSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:layout_below="@+id/rlayout"
                 android:layout_centerInParent="true"
-                android:layout_below="@+id/rlayoutCount"
-                android:gravity="center"
                 android:layout_margin="@dimen/_30sdp"
                 android:background="@drawable/custom_ripple_button"
+                android:gravity="center"
                 android:paddingLeft="@dimen/_30sdp"
                 android:paddingRight="@dimen/_30sdp"
                 android:text="@string/submit"

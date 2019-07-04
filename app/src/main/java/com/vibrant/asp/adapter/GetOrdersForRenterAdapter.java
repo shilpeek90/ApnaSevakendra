@@ -68,7 +68,7 @@ public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersFor
             holder.tvStatus.setTextColor(Color.parseColor("#17a75f"));
         } else {
             holder.tvStatus.setText(arrayList.get(position).getConfirmed());
-            holder.tvStatus.setTextColor(Color.parseColor("#808080"));
+            holder.tvStatus.setTextColor(Color.parseColor("#000000"));
         }
 
         holder.btnConfirm.setOnClickListener(new View.OnClickListener() {

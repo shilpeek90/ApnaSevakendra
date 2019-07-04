@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/_5sdp"
     android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray"
+        card_view:cardCornerRadius="@dimen/_2sdp"
+        card_view:contentPadding="@dimen/_5sdp">
 
     <com.vibrant.asp.customtext.MyTextLight
         android:id="@+id/tvSubName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="left|center"
+        android:singleLine="true"
         android:textSize="@dimen/_12sdp"
         android:textColor="@color/black_txt"
         android:text=""/>
+
+   </android.support.v7.widget.CardView>
 </RelativeLayout>

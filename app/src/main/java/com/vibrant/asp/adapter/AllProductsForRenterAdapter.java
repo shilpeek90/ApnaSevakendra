@@ -44,7 +44,7 @@ public class AllProductsForRenterAdapter extends RecyclerView.Adapter<AllProduct
             holder.tvStatus.setTextColor(Color.parseColor("#228B22"));
         } else {
             holder.tvStatus.setText(arrayList.get(position).getStatus());
-            holder.tvStatus.setTextColor(Color.parseColor("#808080"));
+            holder.tvStatus.setTextColor(Color.parseColor("#000000"));
         }
         holder.tvRate.setText(String.valueOf(arrayList.get(position).getRate()) + " " + arrayList.get(position).getSubName());
 

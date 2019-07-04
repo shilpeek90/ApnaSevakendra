@@ -1,5 +1,6 @@
 package com.vibrant.asp.activity;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -22,6 +23,7 @@ import com.vibrant.asp.adapter.ShowDetailsCartAdapter;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.model.ShowDetailCartModel;
+import com.vibrant.asp.myInterface.OnRefreshViewListner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +36,7 @@ import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
 
-public class ShowCartDetailsActivity extends AppCompatActivity {
+public class ShowCartDetailsActivity extends AppCompatActivity implements OnRefreshViewListner {
     private static final String TAG = "ShowCartDetailsActivity";
     TextView tvHeader, tvNoRecord;
     ImageView ivBack;
@@ -42,6 +44,8 @@ public class ShowCartDetailsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ShowDetailsCartAdapter mAdapter;
     List<ShowDetailCartModel> cartArrayList = new ArrayList<>();
+  //  private SwipeRefreshLayout mSwipeRefreshLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,16 +67,34 @@ public class ShowCartDetailsActivity extends AppCompatActivity {
         });
         tvNoRecord = findViewById(R.id.tvNoRecord);
         recyclerView = findViewById(R.id.recyclerView);
+       /* mSwipeRefreshLayout = (SwipeRefreshLayout)findViewById(R.id.swipeToRefresh);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+*/
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(ShowCartDetailsActivity.this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         if (isInternetConnected(getApplicationContext())) {
             getShowDetailCart();
+           /* mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    getShowDetailCart();
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            });*/
+
         } else {
             showToast(ShowCartDetailsActivity.this, getResources().getString(R.string.check_network));
         }
     }
+
+    @Override
+    public void refreshView() {
+        Log.d(TAG, "refreshView: "+"View Refreshing------");
+        getShowDetailCart();
+    }
+
 
     private void getShowDetailCart() {
         pd = ProgressDialog.show(ShowCartDetailsActivity.this, "Please Wait...");
@@ -145,4 +167,6 @@ public class ShowCartDetailsActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+
 }
