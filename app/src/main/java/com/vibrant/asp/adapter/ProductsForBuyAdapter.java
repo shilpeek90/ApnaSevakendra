@@ -1,19 +1,30 @@
 package com.vibrant.asp.adapter;
+
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.vibrant.asp.R;
 import com.vibrant.asp.activity.AddToCardActivity;
 import com.vibrant.asp.activity.BuyImageViewActivity;
 import com.vibrant.asp.model.ProductsForBuy;
+
 import java.util.List;
 
 public class ProductsForBuyAdapter extends RecyclerView.Adapter<ProductsForBuyAdapter.MyHolder> {
@@ -21,6 +32,9 @@ public class ProductsForBuyAdapter extends RecyclerView.Adapter<ProductsForBuyAd
     Context mContext;
     String mImage1 = "";
     String mImage2 = "";
+    private Dialog custom_view_balance;
+    ImageView ivClose;
+
     public ProductsForBuyAdapter(Context mContext, List<ProductsForBuy> arrayList) {
         this.mContext = mContext;
         this.arrayList = arrayList;
@@ -61,7 +75,7 @@ public class ProductsForBuyAdapter extends RecyclerView.Adapter<ProductsForBuyAd
             @Override
             public void onClick(View v) {
                 String mSellerId = String.valueOf(arrayList.get(position).getSellerId());
-                String mProductId =String.valueOf(arrayList.get(position).getProdId());
+                String mProductId = String.valueOf(arrayList.get(position).getProdId());
                 int mRate = arrayList.get(position).getRate();
                 Intent intent = new Intent(mContext, AddToCardActivity.class);
                 Bundle bundle = new Bundle();
@@ -95,6 +109,57 @@ public class ProductsForBuyAdapter extends RecyclerView.Adapter<ProductsForBuyAd
             tvBalanceQuantity = itemView.findViewById(R.id.tvBalanceQuantity);
             llViewImg = itemView.findViewById(R.id.llViewImg);
             btnAddTOCARD = itemView.findViewById(R.id.btnAddTOCARD);
+        }
+    }
+
+    //For Balance Dialog
+    private void showImageViewDialog(String mImage1, String mImage2) {
+        try {
+            custom_view_balance = new Dialog(mContext, R.style.CustomDialogTheme);
+            custom_view_balance.setCanceledOnTouchOutside(false);
+            custom_view_balance.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            custom_view_balance.setContentView(R.layout.buy_img_view_dialog);
+
+            custom_view_balance.setCanceledOnTouchOutside(false);
+            custom_view_balance.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            //=============================
+            ivClose = custom_view_balance.findViewById(R.id.ivClose);
+
+            ImageView image1 = custom_view_balance.findViewById(R.id.image1);
+            ImageView image2 = custom_view_balance.findViewById(R.id.image2);
+
+
+            Log.d(">>>>>>>", "showImageViewDialog: "+mImage1);
+
+            RequestOptions options = new RequestOptions()
+                    .centerCrop()
+                    .error(R.drawable.file_error)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .priority(Priority.HIGH);
+
+            Glide.with(mContext).load(mImage1)
+                    .apply(options)
+                    .into(image1);
+
+            RequestOptions options2 = new RequestOptions()
+                    .centerCrop()
+                    .error(R.drawable.file_error)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .priority(Priority.HIGH);
+
+            Glide.with(mContext).load(mImage2)
+                    .apply(options2)
+                    .into(image2);
+
+            custom_view_balance.show();
+            ivClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    custom_view_balance.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

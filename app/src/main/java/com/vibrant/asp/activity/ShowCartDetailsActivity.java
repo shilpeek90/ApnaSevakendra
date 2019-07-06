@@ -1,6 +1,4 @@
 package com.vibrant.asp.activity;
-
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,14 +21,11 @@ import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.model.ShowDetailCartModel;
 import com.vibrant.asp.myInterface.OnRefreshViewListner;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
@@ -123,6 +117,7 @@ public class ShowCartDetailsActivity extends AppCompatActivity implements OnRefr
                                     jsonArray.getJSONObject(i).getInt("CartId"),
                                     jsonArray.getJSONObject(i).getString("Seller"),
                                     jsonArray.getJSONObject(i).getInt("Quantity"),
+                                    jsonArray.getJSONObject(i).getInt("Rate"),
                                     jsonArray.getJSONObject(i).getInt("Amount"),
                                     jsonArray.getJSONObject(i).getDouble("CGST"),
                                     jsonArray.getJSONObject(i).getDouble("SGST"),

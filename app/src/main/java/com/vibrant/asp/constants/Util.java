@@ -5,14 +5,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Base64;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,23 +18,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.vibrant.asp.R;
-
-import java.io.ByteArrayOutputStream;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import static android.content.Context.MODE_PRIVATE;
 
 public class Util {
-
-
     private static final String MY_PREFS_NAME = "EPICKDROP";
     private final static int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
-    private final static int REQUEST_ID_MULTIPLE_PERMISSIONS1 = 2;
 
     public static boolean isInternetConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -102,24 +91,6 @@ public class Util {
         return Double.valueOf(df.format(d));
     }
 
-   /* public static boolean checkAndRequestPermissions(Context mContext, Activity mActivity) {
-        int cameraPermission = ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA);
-        int writepPermission = ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        List<String> permissionList = new ArrayList<>();
-        if (cameraPermission != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.CAMERA);
-        }
-        if (writepPermission != PackageManager.PERMISSION_GRANTED) {
-            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-        if (!permissionList.isEmpty()) {
-            ActivityCompat.requestPermissions(mActivity, permissionList.toArray(new String[permissionList.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
-            return false;
-        }
-        return true;
-    }*/
-
     public static boolean checkRequestPermiss(Context mContext, Activity mActivity) {
         int locAccessFine = ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION);
         int locAccCoarse = ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -147,55 +118,14 @@ public class Util {
     }
 
 
-    public static boolean checkRequestPermiss2(Context mContext, Activity mActivity) {
-        int locAccessFine = ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION);
-        int locAccCoarse = ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION);
-        int cameraPer = ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA);
-        int writePer = ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        List<String> listPermissionsNeeded = new ArrayList<>();
-        if (locAccessFine != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-        if (locAccCoarse != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-        }
-        if (cameraPer != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.CAMERA);
-        }
-        if (writePer != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-        if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(mActivity, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),REQUEST_ID_MULTIPLE_PERMISSIONS1);
-            return false;
-        }
-        return true;
-    }
-
-
-    public static int getAmountIncre(int amount,int quantity) {
+    public static int getAmountTotal(int amount, int quantity) {
         return amount*quantity;
     }
 
-    public static double getCommissionIncr(int amount) {
-        int commit = (amount * 18);
-        double total = Double.valueOf((double) commit / 100);
+    public static double getCommission(double amount) {
+        double total = (amount * 18)/100;
         return total;
     }
 
-
-
-    public static int getAmountDecr(int amount,int quantity) {
-        int total =(amount/quantity);
-        Log.d(">>>", "getAmountDecr: "+total);
-        return amount*total;
-    }
-
-    public static double getCommissionDecr(int amount) {
-        int commit = (amount * 18);
-        double total = Double.valueOf((double) commit / 100);
-        return total;
-    }
 }
 

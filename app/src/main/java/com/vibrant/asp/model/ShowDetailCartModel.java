@@ -4,16 +4,18 @@ public class ShowDetailCartModel {
     private int CartId;
     private String seller;
     private int Quantity;
+    private int Rate;
     private int Amount;
     private double CGST;
     private double SGST;
     private String ProductName;
     private String CartDate;
 
-    public ShowDetailCartModel(int cartId, String seller, int quantity, int amount, double CGST, double SGST, String productName, String cartDate) {
+    public ShowDetailCartModel(int cartId, String seller, int quantity, int rate, int amount, double CGST, double SGST, String productName, String cartDate) {
         CartId = cartId;
         this.seller = seller;
         Quantity = quantity;
+        Rate = rate;
         Amount = amount;
         this.CGST = CGST;
         this.SGST = SGST;
@@ -31,6 +33,10 @@ public class ShowDetailCartModel {
 
     public int getQuantity() {
         return Quantity;
+    }
+
+    public int getRate() {
+        return Rate;
     }
 
     public int getAmount() {

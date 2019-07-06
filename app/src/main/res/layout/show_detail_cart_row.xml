@@ -77,6 +77,41 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:text="Product Rate"
+                    android:textColor="@color/gray_text_dark"
+                    android:textSize="@dimen/_12sdp" />
+
+                <com.vibrant.asp.customtext.MyTextLight
+                    android:id="@+id/tvAmt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/tvProductRate"
+                    android:text="\u20b9"
+                    android:textColor="@color/gray_text_dark"
+                    android:textSize="@dimen/_12sdp" />
+
+                <com.vibrant.asp.customtext.MyTextLight
+                    android:id="@+id/tvProductRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="@dimen/_3sdp"
+                    android:text=""
+                    android:textColor="@color/gray_text_dark"
+                    android:textSize="@dimen/_12sdp" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <com.vibrant.asp.customtext.MyTextLight
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
                     android:text="Cart Date"
                     android:textColor="@color/gray_text_dark"
                     android:textSize="@dimen/_12sdp" />
@@ -91,13 +126,10 @@
                     android:textSize="@dimen/_12sdp" />
             </RelativeLayout>
 
-
-
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -120,9 +152,29 @@
                     android:textSize="@dimen/_12sdp" />
 
                 <FrameLayout
+                    android:id="@+id/frameLayout"
+                    android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/round_red">
+                    android:background="@drawable/round_green">
+
+                    <RelativeLayout
+                        android:id="@+id/lLQuanty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_ripple_white_button"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <Spinner
+                            android:id="@+id/spinnerQuantity"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_25sdp"
+                            android:dropDownWidth="fill_parent"
+                            android:spinnerMode="dropdown" />
+
+                    </RelativeLayout>
+
 
                     <LinearLayout
                         android:id="@+id/switch_layout"
@@ -145,7 +197,7 @@
                                 android:layout_height="15dp"
                                 android:gravity="center"
                                 android:src="@drawable/plus_symbol"
-                                android:textColor="#a5a5a5"
+                                android:textColor="@color/colorPrimaryDark"
                                 android:textSize="17sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -178,8 +230,21 @@
                     </LinearLayout>
 
                 </FrameLayout>
+                <com.vibrant.asp.customtext.MyTextLight
+                    android:id="@+id/tvRemove"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_8sdp"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="@dimen/_3sdp"
+                    android:text=""
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/ic_delete"
+                    android:textColor="@color/green"
+                    android:textSize="@dimen/_12sdp" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -303,13 +368,13 @@
                     android:id="@+id/tvSGSTot"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/tvToatal"
+                    android:layout_toLeftOf="@+id/tvGrandTotal"
                     android:text="\u20b9"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp" />
 
                 <com.vibrant.asp.customtext.MyTextLight
-                    android:id="@+id/tvToatal"
+                    android:id="@+id/tvGrandTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -319,6 +384,7 @@
                     android:textSize="@dimen/_14sdp" />
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -329,15 +395,14 @@
                     android:id="@+id/btnRemove"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30sdp"
-                    android:padding="@dimen/_5sdp"
                     android:background="@drawable/custom_ripple_white_button"
                     android:gravity="center"
+                    android:padding="@dimen/_5sdp"
                     android:text="Remove Item"
-                    android:textSize="@dimen/_10sdp"
                     android:textAllCaps="false"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_10sdp" />
             </RelativeLayout>
-
 
         </LinearLayout>
 
