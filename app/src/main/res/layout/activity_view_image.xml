@@ -52,6 +52,7 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="vertical"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_weight=".5">
 
                 <com.vibrant.asp.customtext.MyTextLight
@@ -69,11 +70,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="fitXY"
                     android:src="@drawable/file_error" />
-
-
             </LinearLayout>
         </LinearLayout>
-
-
     </RelativeLayout>
 </RelativeLayout>

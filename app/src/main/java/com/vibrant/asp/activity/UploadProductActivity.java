@@ -60,8 +60,8 @@ import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
 
-public class CameraActivity extends AppCompatActivity {
-    private static final String TAG = "CameraActivity";
+public class UploadProductActivity extends AppCompatActivity {
+    private static final String TAG = "UploadProductActivity";
     // private boolean doubleBackToExitPressedOnce = false;
     ProgressDialog pd;
     TextView tvHeader;
@@ -199,8 +199,8 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera);
-        hideKeyboard(CameraActivity.this);
+        setContentView(R.layout.activity_product_updated);
+        hideKeyboard(UploadProductActivity.this);
         init();
     }
 
@@ -229,7 +229,7 @@ public class CameraActivity extends AppCompatActivity {
         lLayRentCatgry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast(CameraActivity.this, "Category Clicked");
+                showToast(UploadProductActivity.this, "Category Clicked");
             }
         });
 
@@ -269,7 +269,7 @@ public class CameraActivity extends AppCompatActivity {
                 if (isInternetConnected(getApplicationContext())) {
                     if (Validation()) {
                         try {
-                            GPSTracker1 gpsTracker = new GPSTracker1(CameraActivity.this);
+                            GPSTracker1 gpsTracker = new GPSTracker1(UploadProductActivity.this);
                             // check if GPS enabled
                             if (gpsTracker.canGetLocation()) {
                                 latitude = gpsTracker.getLatitude();
@@ -278,10 +278,10 @@ public class CameraActivity extends AppCompatActivity {
                                     if (mConvertedImg2 != null &&!mConvertedImg2.isEmpty()) {
                                         getUploadProduct();
                                     } else {
-                                        showToast(CameraActivity.this, "Please select image2");
+                                        showToast(UploadProductActivity.this, "Please select image2");
                                     }
                                 } else {
-                                    showToast(CameraActivity.this, "Please select image1");
+                                    showToast(UploadProductActivity.this, "Please select image1");
                                 }
                             } else {
                                 // can't get location
@@ -293,10 +293,10 @@ public class CameraActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     } else {
-                        showToast(CameraActivity.this, error_message);
+                        showToast(UploadProductActivity.this, error_message);
                     }
                 } else {
-                    showToast(CameraActivity.this, getResources().getString(R.string.check_network));
+                    showToast(UploadProductActivity.this, getResources().getString(R.string.check_network));
                 }
             }
         });
@@ -338,7 +338,7 @@ public class CameraActivity extends AppCompatActivity {
                     // rangeAdapter.notifyDataSetChanged();
                 }
             } else {
-                showToast(CameraActivity.this, "Data not found");
+                showToast(UploadProductActivity.this, "Data not found");
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -366,10 +366,10 @@ public class CameraActivity extends AppCompatActivity {
 
     private void getUploadProduct() {
         String url = Cons.GET_UPLOAD_PRODUCT;
-        pd = ProgressDialog.show(CameraActivity.this, "Please Wait...");
+        pd = ProgressDialog.show(UploadProductActivity.this, "Please Wait...");
         JSONObject jsonObject = new JSONObject();
         try {
-            String mRenteerId = getPreference(CameraActivity.this, "renterId");
+            String mRenteerId = getPreference(UploadProductActivity.this, "renterId");
             if (mRenteerId != null) {
                 jsonObject.put("UserId", mRenteerId);
             }
@@ -400,11 +400,11 @@ public class CameraActivity extends AppCompatActivity {
                         editResName.setText("");
                         editRent.setText("");
                         editDiscription.setText("");
-                        showToast(CameraActivity.this, "Successfully Product Uploaded");
-                        startActivity(new Intent(CameraActivity.this, DashboardActivity.class));
+                        showToast(UploadProductActivity.this, "Successfully Product Uploaded");
+                        startActivity(new Intent(UploadProductActivity.this, DashboardActivity.class));
                         finish();
                     } else {
-                        showToast(CameraActivity.this, "Something went wrong");
+                        showToast(UploadProductActivity.this, "Something went wrong");
                     }
 
                 } catch (JSONException e) {
@@ -416,7 +416,7 @@ public class CameraActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Error: " + error.getMessage());
                 pd.dismiss();
-                showToast(CameraActivity.this, "Something went wrong");
+                showToast(UploadProductActivity.this, "Something went wrong");
             }
         }) {
             @Override
@@ -458,7 +458,7 @@ public class CameraActivity extends AppCompatActivity {
                             spinnerSub.setAdapter(subAdapter);
                         }
                     } else {
-                        showToast(CameraActivity.this, "Data not found");
+                        showToast(UploadProductActivity.this, "Data not found");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -468,7 +468,7 @@ public class CameraActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d(TAG, "Error: " + error.getMessage());
-                showToast(CameraActivity.this, "Something went wrong");
+                showToast(UploadProductActivity.this, "Something went wrong");
             }
         }) {
             @Override
@@ -500,7 +500,7 @@ public class CameraActivity extends AppCompatActivity {
         lLayCamera2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Util.checkRequestPermiss(getApplicationContext(), CameraActivity.this)) {
+                if (Util.checkRequestPermiss(getApplicationContext(), UploadProductActivity.this)) {
                     isClicked = "camera2";
                     doPermissionGranted();
                 }
@@ -512,7 +512,7 @@ public class CameraActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ivImage2.setImageDrawable(getResources().getDrawable(R.drawable.file));
                 mConvertedImg2 ="";
-                showToast(CameraActivity.this, "Successfully Removed photo");
+                showToast(UploadProductActivity.this, "Successfully Removed photo");
                 dialog2.dismiss();
             }
         });
@@ -544,7 +544,7 @@ public class CameraActivity extends AppCompatActivity {
         lLayCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Util.checkRequestPermiss(getApplicationContext(), CameraActivity.this)) {
+                if (Util.checkRequestPermiss(getApplicationContext(), UploadProductActivity.this)) {
                     Log.d(TAG, "onClick: " + "permission already granted");
                     isClicked = "camera1";
                     doPermissionGranted();
@@ -557,7 +557,7 @@ public class CameraActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ivImage1.setImageDrawable(getResources().getDrawable(R.drawable.file));
                 mConvertedImg1="";
-                showToast(CameraActivity.this, "Successfully Removed photo");
+                showToast(UploadProductActivity.this, "Successfully Removed photo");
                 dialog.dismiss();
             }
         });
@@ -608,7 +608,7 @@ public class CameraActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_GALLERY_1 && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
                 final Uri imageUri = data.getData();
-                String path = ImageFilePath.getPath(CameraActivity.this, imageUri);
+                String path = ImageFilePath.getPath(UploadProductActivity.this, imageUri);
                 Log.d(TAG, "onActivityResult: " + path);
                 imgExtension = path.substring(path.lastIndexOf("."));
                 if (imgExtension.equalsIgnoreCase(".jpg")) {
@@ -617,11 +617,11 @@ public class CameraActivity extends AppCompatActivity {
                     mConvertedImg1 = convertToBase64(resizedBitmap);
                     ivImage1.setImageBitmap(bitmap);
                 } else {
-                    showToast(CameraActivity.this, "Please select jpg image only");
+                    showToast(UploadProductActivity.this, "Please select jpg image only");
                 }
                 dialog.dismiss();
             } else {
-                showToast(CameraActivity.this, "You haven't picked Image");
+                showToast(UploadProductActivity.this, "You haven't picked Image");
             }
         } else if (requestCode == PERMISSION_REQUEST_CODE_1 && resultCode == RESULT_OK) {
             //for camera Image 1
@@ -649,7 +649,7 @@ public class CameraActivity extends AppCompatActivity {
             //For Gallery Image 2
             if (data != null && data.getData() != null) {
                 final Uri imageUri1 = data.getData();
-                String imagePath = ImageFilePath.getPath(CameraActivity.this, imageUri1);
+                String imagePath = ImageFilePath.getPath(UploadProductActivity.this, imageUri1);
                 imgExtension = imagePath.substring(imagePath.lastIndexOf("."));
                 if (imgExtension.equalsIgnoreCase(".jpg")) {
                     Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
@@ -657,11 +657,11 @@ public class CameraActivity extends AppCompatActivity {
                     mConvertedImg2 = convertToBase64(resizedBitmap);
                     ivImage2.setImageBitmap(bitmap);
                 } else {
-                    showToast(CameraActivity.this, "Please select jpg image only");
+                    showToast(UploadProductActivity.this, "Please select jpg image only");
                 }
                 dialog2.dismiss();
             } else {
-                showToast(CameraActivity.this, "You haven't picked Image");
+                showToast(UploadProductActivity.this, "You haven't picked Image");
             }
         } else if (requestCode == PERMISSION_REQUEST_CODE_2 && resultCode == RESULT_OK) {
             //For Camera Image 2
@@ -771,7 +771,7 @@ public class CameraActivity extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             switch (which) {
                                                 case DialogInterface.BUTTON_POSITIVE:
-                                                    Util.checkRequestPermiss(getApplicationContext(), CameraActivity.this);
+                                                    Util.checkRequestPermiss(getApplicationContext(), UploadProductActivity.this);
                                                     break;
                                                 case DialogInterface.BUTTON_NEGATIVE:
                                                     // proceed with logic by disabling the related features or quit the app.

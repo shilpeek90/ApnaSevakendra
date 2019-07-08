@@ -62,7 +62,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".activity.CameraActivity"
+            android:name=".activity.UploadProductActivity"
             android:configChanges="keyboardHidden" />
         <activity
             android:name=".activity.RegistrationActivity"

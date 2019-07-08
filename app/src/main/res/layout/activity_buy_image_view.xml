@@ -51,6 +51,7 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="vertical"
+                android:layout_marginBottom="@dimen/_20sdp"
                 android:layout_weight=".5">
 
                 <com.vibrant.asp.customtext.MyTextLight

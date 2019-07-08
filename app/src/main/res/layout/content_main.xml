@@ -39,7 +39,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/tvWallte"
-                android:src="@drawable/rupee_white" />
+                android:src="@drawable/rupee_green" />
 
             <com.vibrant.asp.customtext.MyTextBold
                 android:id="@+id/tvWallet"

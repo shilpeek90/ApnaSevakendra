@@ -21,8 +21,9 @@
     <color name="maroon">#890A0A</color>
     <color name="purple">#3D1849</color>
     <color name="green">#25940a</color>
-    <color name="transparent">#CC064F00</color>
-    <!--  <color name="transparent">#D4000000</color>-->
+
+   <!-- <color name="transparent">#CC064F00</color>-->
+      <color name="transparent">#D4000000</color>
     <!--<color name="transparent">#80000000</color>-->
     <!--#B1BCBE-->
     <color name="not_in_view_sat">#11000000</color>

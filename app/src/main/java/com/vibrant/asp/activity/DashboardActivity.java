@@ -123,7 +123,7 @@ public class DashboardActivity extends AppCompatActivity
         rlayLend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DashboardActivity.this, CameraActivity.class));
+                startActivity(new Intent(DashboardActivity.this, UploadProductActivity.class));
             }
         });
 

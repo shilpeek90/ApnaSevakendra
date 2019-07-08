@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".activity.CameraActivity">
+    tools:context=".activity.UploadProductActivity">
 
     <include
         android:id="@+id/header"
@@ -152,7 +152,6 @@
                         android:textColor="@color/black_txt"
                         android:textSize="@dimen/_14sdp" />
 
-
                     <Spinner
                         android:id="@+id/spinnerSub"
                         android:layout_width="match_parent"
@@ -161,7 +160,6 @@
                         android:spinnerMode="dropdown"
                         android:dropDownWidth="fill_parent"
                         android:background="@android:drawable/btn_dropdown"/>
-
 
                     <RelativeLayout
                         android:id="@+id/lLQuanty"
