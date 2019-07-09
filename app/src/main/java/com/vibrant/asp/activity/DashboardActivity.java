@@ -1,4 +1,5 @@
 package com.vibrant.asp.activity;
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -50,7 +51,8 @@ public class DashboardActivity extends AppCompatActivity
     private double longitude;
     TextView tvName, tvWallet;
     ProgressDialog pd;
-    LinearLayout rlayLend, rlRent, llrow1, llrow2, llrow3, llrow4, llaySale, llConfirmedOrder, llayBuyOrder, llayPendingOrder, rlWalletRecharge, rlHelp;
+    LinearLayout rlayLend, rlRent, llrow1, llrow2, llrow3, llrow4, llaySale, llConfirmedOrder, llayBuyOrder,
+            llayPendingOrder, rlWalletRecharge, rlHelp;
     Animation leftSide, rightSide;
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
 
@@ -107,16 +109,13 @@ public class DashboardActivity extends AppCompatActivity
         llrow3.startAnimation(rightSide);
         llrow4.startAnimation(leftSide);
 
-        //For Click Listener
         rlRent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (Util.checkRequestPermiss(getApplicationContext(), DashboardActivity.this)) {
                     // carry on the normal flow, as the case of  permissions  granted.
-                    Log.d(TAG, "onClick: " + "permission already granted");
                     doPermissionGranted();
                 }
-                // getPermissionGPS();
             }
         });
 
@@ -141,13 +140,13 @@ public class DashboardActivity extends AppCompatActivity
                 // startActivity(new Intent(DashboardActivity.this, SaleActivity.class));
             }
         });
-
         rlWalletRecharge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showToast(DashboardActivity.this, "Coming Soon");
             }
         });
+
         rlHelp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,7 +158,6 @@ public class DashboardActivity extends AppCompatActivity
     private void doPermissionGranted() {
         try {
             GPSTracker1 gpsTracker = new GPSTracker1(DashboardActivity.this);
-            // check if GPS enabled
             if (gpsTracker.canGetLocation()) {
                 latitude = gpsTracker.getLatitude();
                 longitude = gpsTracker.getLongitude();
@@ -170,9 +168,6 @@ public class DashboardActivity extends AppCompatActivity
                 intent.putExtra("bundle", bundle);
                 startActivity(intent);
             } else {
-                // can't get location
-                // GPS or Network is not enabled
-                // Ask user to enable GPS/network in settings
                 gpsTracker.showSettingsAlert();
             }
         } catch (Exception e) {
@@ -182,20 +177,16 @@ public class DashboardActivity extends AppCompatActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        Log.d(TAG, "Permission callback called-------");
         switch (requestCode) {
             case REQUEST_ID_MULTIPLE_PERMISSIONS: {
                 Map<String, Integer> perms = new HashMap<>();
-                // Initialize the map with both permissions
                 perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
                 perms.put(Manifest.permission.ACCESS_COARSE_LOCATION, PackageManager.PERMISSION_GRANTED);
                 perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
                 perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
-                // Fill with actual results from user
                 if (grantResults.length > 0) {
                     for (int i = 0; i < permissions.length; i++)
                         perms.put(permissions[i], grantResults[i]);
-                    // Check for all permissions
                     if (perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                             && perms.get(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
                             && perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
@@ -203,12 +194,8 @@ public class DashboardActivity extends AppCompatActivity
 
                         Log.d(TAG, "CAMERA & location services permission granted");
                         doPermissionGranted();
-                        // process the normal flow
-                        //else any one or both the permissions are not granted
                     } else {
                         Log.d(TAG, "Camera and Location Services Permission are not granted ask again ");
-                        //permission is denied (this is the first time, when "never ask again" is not checked) so ask again explaining the usage of permission
-                        // shouldShowRequestPermissionRationale will return true
                         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                             showDialogOK("Camera and Location Services Permission required for this app",
                                     new DialogInterface.OnClickListener() {
@@ -219,18 +206,12 @@ public class DashboardActivity extends AppCompatActivity
                                                     Util.checkRequestPermiss(getApplicationContext(), DashboardActivity.this);
                                                     break;
                                                 case DialogInterface.BUTTON_NEGATIVE:
-                                                    // proceed with logic by disabling the related features or quit the app.
                                                     break;
                                             }
                                         }
                                     });
-                        }
-                        //permission is denied (and never ask again is checked)
-                        //shouldShowRequestPermissionRationale will return false
-                        else {
+                        } else {
                             explain("Go to settings and enable permissions");
-                            //  Toast.makeText(this, "Go to settings and enable permissions", Toast.LENGTH_LONG).show();
-                            //                            //proceed with logic by disabling the related features or quit the app.
                         }
                     }
                 }
@@ -284,7 +265,6 @@ public class DashboardActivity extends AppCompatActivity
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
                 pd.dismiss();
-
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     String mWalletBalance = jsonObject.getString("d");
@@ -331,41 +311,29 @@ public class DashboardActivity extends AppCompatActivity
                     doubleBackToExitPressedOnce = false;
                 }
             }, 2000);
-            // super.onBackPressed();
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_add_to_cart) {
             startActivity(new Intent(DashboardActivity.this, ShowCartDetailsActivity.class));
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
-
+    
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_OrdersForRenter) {
             startActivity(new Intent(DashboardActivity.this, OrdersForRenterActivity.class));
         } else if (id == R.id.nav_GetOrdersForRentee) {

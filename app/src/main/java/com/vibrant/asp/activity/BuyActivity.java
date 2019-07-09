@@ -1,5 +1,4 @@
 package com.vibrant.asp.activity;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -107,7 +106,6 @@ public class BuyActivity extends AppCompatActivity {
         tvNoRecord = findViewById(R.id.tvNoRecord);
         recyclerView = findViewById(R.id.recyclerView);
         spinnerRange = findViewById(R.id.spinnerRange);
-
         getRange();
         spinnerRange.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -123,10 +121,8 @@ public class BuyActivity extends AppCompatActivity {
                     doPermissionGranted();
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
@@ -136,7 +132,6 @@ public class BuyActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(mResponse);
             JSONArray jsonArray = jsonObject.getJSONArray("d");
             rangeArray.clear();
-
             if (jsonArray.length() > 0) {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     BuyRangeModel rangeModel = new BuyRangeModel();
@@ -293,7 +288,6 @@ public class BuyActivity extends AppCompatActivity {
                                                     Util.checkRequestPermiss(getApplicationContext(), BuyActivity.this);
                                                     break;
                                                 case DialogInterface.BUTTON_NEGATIVE:
-                                                    // proceed with logic by disabling the related features or quit the app.
                                                     break;
                                             }
                                         }
@@ -303,8 +297,6 @@ public class BuyActivity extends AppCompatActivity {
                         //shouldShowRequestPermissionRationale will return false
                         else {
                             explain("Go to settings and enable permissions");
-                            //  Toast.makeText(this, "Go to settings and enable permissions", Toast.LENGTH_LONG).show();
-                            //                            //proceed with logic by disabling the related features or quit the app.
                         }
                     }
                 }
@@ -327,7 +319,6 @@ public class BuyActivity extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                        //  permissionsclass.requestPermission(type,code);
                         startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:com.vibrant.asp")));
                     }
                 })

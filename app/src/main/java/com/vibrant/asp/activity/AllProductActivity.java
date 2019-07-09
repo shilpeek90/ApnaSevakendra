@@ -156,9 +156,6 @@ public class AllProductActivity extends AppCompatActivity {
     public void filter(String text) {
         List<AllProductModel> filteredArray = new ArrayList();
         for (AllProductModel d : allProductArrayList) {
-            //or use .equal(text) with you want equal match
-            //use .toLowerCase() for better matches
-            // if(d.getName().contains(text)){
             if (d.getName().contains(text)) {
                 tvNoRecord.setVisibility(View.GONE);
                 filteredArray.add(d);

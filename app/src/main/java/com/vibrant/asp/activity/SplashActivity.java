@@ -18,9 +18,8 @@ import static com.vibrant.asp.constants.Util.isInternetConnected;
 import static com.vibrant.asp.constants.Util.showToast;
 
 public class SplashActivity extends AppCompatActivity {
-    private static final String TAG = "SplashActivity";
     public final int SPLASH_DISPLAY_LENGTH = 1500;
-    TextView tvVersion, tvMess;
+    TextView tvVersion;
     String newVersion = "";
     String versionName = "";
 
@@ -28,24 +27,18 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        tvMess = findViewById(R.id.tvMess);
         tvVersion = findViewById(R.id.tvVersion);
         checkForNetwork();
     }
-
     private void checkForNetwork() {
         try {
             if (isInternetConnected(getApplicationContext())) {
                 versionName = BuildConfig.VERSION_NAME;
                 int versionCode = BuildConfig.VERSION_CODE;
                 tvVersion.setText(getResources().getString(R.string.version) + " " + versionCode + " ( " + versionName + " )");
-                //for new version code
                 versionChecker VersionChecker = new versionChecker();
                 newVersion = VersionChecker.execute().get().toString();
-                Log.d("version code is===", "new version---" + newVersion + " old version----" + versionName);
-                //if (versionName != newVersion) {
                 if (!versionName.equals(newVersion)) {
-                    String packageName = getApplicationContext().getPackageName();//
                     getUpdateApp();
                 } else if (versionName.equals(newVersion)) {
                     if (isInternetConnected(getApplicationContext())) {
@@ -75,7 +68,6 @@ public class SplashActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
     class versionChecker extends AsyncTask<String, String, String> {
         String newVersion;
         @Override
@@ -95,7 +87,6 @@ public class SplashActivity extends AppCompatActivity {
             return newVersion;
         }
     }
-
     private void getUpdateApp() {
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Please Update Your App")
@@ -118,5 +109,4 @@ public class SplashActivity extends AppCompatActivity {
                         }).create();
         dialog.show();
     }
-
 }

@@ -1,4 +1,5 @@
 package com.vibrant.asp.activity;
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -134,7 +135,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 return false;
             }
         });
-
         //For  District
         autoSuggestDistrictAdapter = new AutoSuggestDistrictAdapter(this, android.R.layout.simple_dropdown_item_1line);
         autoCompletDistrict.setThreshold(1);
@@ -175,11 +175,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 return false;
             }
         });
-
         editGrowerName = findViewById(R.id.editGrowerName);
         editMobile = findViewById(R.id.editMobile);
         editAddress = findViewById(R.id.editAddress);
-
         btnSubmit = findViewById(R.id.btnSubmit);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,14 +196,11 @@ public class RegistrationActivity extends AppCompatActivity {
                 try {
                     GPSTracker1 gpsTracker = new GPSTracker1(RegistrationActivity.this);
                     // check if GPS enabled
-                    if(gpsTracker.canGetLocation()){
+                    if (gpsTracker.canGetLocation()) {
                         latitude = gpsTracker.getLatitude();
                         longitude = gpsTracker.getLongitude();
                         getRegister();
-                    }else{
-                        // can't get location
-                        // GPS or Network is not enabled
-                        // Ask user to enable GPS/network in settings
+                    } else {
                         gpsTracker.showSettingsAlert();
                     }
                 } catch (Exception e) {
@@ -221,20 +216,16 @@ public class RegistrationActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        Log.d(TAG, "Permission callback called-------");
         switch (requestCode) {
             case REQUEST_ID_MULTIPLE_PERMISSIONS: {
                 Map<String, Integer> perms = new HashMap<>();
-                // Initialize the map with both permissions
                 perms.put(Manifest.permission.ACCESS_FINE_LOCATION, PackageManager.PERMISSION_GRANTED);
                 perms.put(Manifest.permission.ACCESS_COARSE_LOCATION, PackageManager.PERMISSION_GRANTED);
                 perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
                 perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
-                // Fill with actual results from user
                 if (grantResults.length > 0) {
                     for (int i = 0; i < permissions.length; i++)
                         perms.put(permissions[i], grantResults[i]);
-                    // Check for all permissions
                     if (perms.get(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                             && perms.get(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
                             && perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
@@ -242,12 +233,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
                         Log.d(TAG, "CAMERA & location services permission granted");
                         doPermissionGranted();
-                        // process the normal flow
-                        //else any one or both the permissions are not granted
                     } else {
                         Log.d(TAG, "Camera and Location Services Permission are not granted ask again ");
-                        //permission is denied (this is the first time, when "never ask again" is not checked) so ask again explaining the usage of permission
-                        // shouldShowRequestPermissionRationale will return true
                         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                             showDialogOK("Camera and Location Services Permission required for this app",
                                     new DialogInterface.OnClickListener() {
@@ -263,13 +250,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                             }
                                         }
                                     });
-                        }
-                        //permission is denied (and never ask again is checked)
-                        //shouldShowRequestPermissionRationale will return false
-                        else {
+                        } else {
                             explain("Go to settings and enable permissions");
-                            //  Toast.makeText(this, "Go to settings and enable permissions", Toast.LENGTH_LONG).show();
-                            //                            //proceed with logic by disabling the related features or quit the app.
                         }
                     }
                 }
@@ -292,7 +274,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                        //  permissionsclass.requestPermission(type,code);
                         startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:com.vibrant.asp")));
                     }
                 })
@@ -371,9 +352,7 @@ public class RegistrationActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
@@ -381,7 +360,6 @@ public class RegistrationActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     JSONArray jsonArray = jsonObject.getJSONArray("d");
                     if (jsonArray.length() > 0) {
-
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jobj = jsonArray.getJSONObject(0);
                             String renterId = jobj.getString("Id");
@@ -448,7 +426,6 @@ public class RegistrationActivity extends AppCompatActivity {
                     }
                 });
         AlertDialog alert = builder.create();
-        //alert.setIcon(R.drawable.logodlg);
         alert.setTitle(getResources().getString(R.string.app_name));
         alert.show();
     }
@@ -462,18 +439,14 @@ public class RegistrationActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
                 stateArray.clear();
-
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     JSONArray jsonArray = jsonObject.getJSONArray("d");
-                    // if (jsonArray.length() > 0) {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jObj = jsonArray.getJSONObject(i);
                         StateModel stateModel = new StateModel();
@@ -499,14 +472,11 @@ public class RegistrationActivity extends AppCompatActivity {
                     try {
                         String res = new String(response.data,
                                 HttpHeaderParser.parseCharset(response.headers, "utf-8"));
-                        // Now you can use any deserializer to make sense of data
                         JSONObject obj = new JSONObject(res);
                     } catch (UnsupportedEncodingException e1) {
                         showToast(RegistrationActivity.this, "Something went wrong");
-                        // Couldn't properly decode data to string
                         e1.printStackTrace();
                     } catch (JSONException e2) {
-                        // returned data is not JSONObject?
                         e2.printStackTrace();
                     }
                 }
@@ -532,14 +502,11 @@ public class RegistrationActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, response.toString());
                 districtArrayList.clear();
-
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     JSONArray jsonArray = jsonObject.getJSONArray("d");

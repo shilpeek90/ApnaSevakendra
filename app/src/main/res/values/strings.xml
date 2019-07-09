@@ -1,18 +1,14 @@
 <resources>
     <string name="app_name">Agri Resources</string>
 
+    <!---->
+    <string name="check_network">Please check your Network</string>
+
+
+
+    <!---->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-
-    <!-- <string name="menu_home">Home</string>
-
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
--->
-
     <string name="version">Version</string>
     <string name="registration">Registration</string>
     <string name="state">State</string>
@@ -21,24 +17,18 @@
     <string name="grower_name">Grower name</string>
     <string name="mobile_number">Mobile number</string>
     <string name="submit">Submit</string>
-    <string name="check_network">Please check your Network</string>
+
+
+
     <string name="wallet">Wallet Balance :</string>
-
     <string name="camera">Upload Product</string>
-
     <string name="resource_name">Resource name</string>
-
-
     <string name="rent_category">Rent Category</string>
     <string name="upload_document">Upload document</string>
-
-
-    <!-- <string name="permission_read_phone_state_rationale">Permission previously Denied</string>
-    -->
-
     <string name="permission_need_allowed">You need to allow access to the permissions</string>
     <string name="permissions_not_granted">Camera Permission Denied, You cannot access camera.</string>
     <string name="permissions_granted">Camera Permission Granted, Now you can access camera.</string>
+    <!---->
     <string name="please_enter_name">Please Enter Grower Name</string>
     <string name="please_enter_re_name">Please Select Resource Name</string>
     <string name="please_enter_mobile_number">Please Enter Mobile Number</string>
@@ -48,12 +38,15 @@
     <string name="please_enter_dis">Please Enter Description</string>
     <string name="please_enter_num">Please Enter Number Only</string>
 
+     <!---->
 
-    <string name="permission_read_phone_state_rationale1">Permission previously Denied</string>
+   <!-- <string name="permission_read_phone_state_rationale1">Permission previously Denied</string>
     <string name="permissions_not_granted_read_phone_state1">Permission denied</string>
     <string name="permision_available_read_phone_state1">Permission granted</string>
     <string name="permision_granted">Permission granted</string>
     <string name="permissions_denied">Permission denied</string>
+    -->
+
     <string name="rate">Rate</string>
     <string name="password">Password</string>
     <string name="description">Description</string>
@@ -70,19 +63,14 @@
     <string name="dashboard">Dashboard</string>
     <string name="confirm">Confirm</string>
 
-
     <string name="dialog_message_cancel">Are you sure want to cancel ?</string>
     <string name="dialog_message_confirm">Are you sure want to confirm ?</string>
     <string name="dialog_message_update">Are you sure want to update ?</string>
     <string name="dialog_message_delete">Are you sure want to delete ?</string>
-
     <string name="dialog_title">Are you sure want to confirm</string>
-
     <string name="ordersforrenter">Orders For Renter</string>
     <string name="getordersforrentee">Orders For Rentee</string>
     <string name="log_out">Log out</string>
-
-
     <string name="confirmed_orders">Confirmed Orders</string>
     <string name="pending_orders">Pending Orders</string>
     <string name="cancel_orders">Cancelled Orders</string>
@@ -96,6 +84,5 @@
     <string name="buy">Buy</string>
     <string name="add_to_cart">Add to cart</string>
     <string name="show_cart_details">Show Cart Details</string>
-
 
 </resources>

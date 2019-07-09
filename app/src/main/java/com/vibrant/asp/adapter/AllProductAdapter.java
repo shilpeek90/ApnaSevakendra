@@ -1,33 +1,26 @@
 package com.vibrant.asp.adapter;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.vibrant.asp.R;
 import com.vibrant.asp.activity.BookNowActivity;
 import com.vibrant.asp.activity.MapActivity;
 import com.vibrant.asp.activity.ViewImageActivity;
 import com.vibrant.asp.model.AllProductModel;
-
 import java.util.List;
-
 import static com.vibrant.asp.constants.Util.roundTwoDecimals;
 
 public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.MyHolder> {
     private List<AllProductModel> arrayList;
-    private List<AllProductModel> listFiltered;
     Context mContext;
     private double latitude;
     private double longitude;
@@ -49,11 +42,6 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
         holder.tvName.setText(arrayList.get(position).getName().toUpperCase());
-        // holder.tvMobileNumber.setText(arrayList.get(position).getMobile());
-        //holder.tvStateName.setText(arrayList.get(position).getStateName());
-        // holder.tvDistrict.setText(arrayList.get(position).getDistrictName());
-        // holder.tvAddress.setText(arrayList.get(position).getAddress());
-        //  holder.tvSubscription.setText(arrayList.get(position).getSubName());
         holder.tvBookedTill.setText(arrayList.get(position).getBookedTill());
 
         if (arrayList.get(position).getBalanceQuantity() > 0) {
@@ -137,11 +125,6 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvName);
-            // tvMobileNumber = itemView.findViewById(R.id.tvMobileNumber);
-            // tvStateName = itemView.findViewById(R.id.tvStateName);
-            // tvDistrict = itemView.findViewById(R.id.tvDistrict);
-            //tvAddress = itemView.findViewById(R.id.tvAddress);
-            //tvSubscription = itemView.findViewById(R.id.tvSubscription);
             tvRate = itemView.findViewById(R.id.tvRate);
             tvDistance = itemView.findViewById(R.id.tvDistance);
             llViewMap = itemView.findViewById(R.id.llViewMap);
@@ -158,5 +141,4 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.My
         arrayList = list;
         notifyDataSetChanged();
     }
-
 }

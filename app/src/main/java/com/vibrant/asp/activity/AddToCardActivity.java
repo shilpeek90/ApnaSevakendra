@@ -1,5 +1,4 @@
 package com.vibrant.asp.activity;
-
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -231,7 +230,6 @@ public class AddToCardActivity extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(mResponse);
             JSONArray jsonArray = jsonObject.getJSONArray("d");
             quantityArray.clear();
-
             if (jsonArray.length() > 0) {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     AddToCardQuantityModel quantityModel = new AddToCardQuantityModel();
