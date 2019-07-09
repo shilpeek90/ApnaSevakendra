@@ -85,6 +85,7 @@ public class BuyActivity extends AppCompatActivity {
 
     private double latitude;
     private double longitude;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -13,7 +12,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.vibrant.asp.R;
 
 public class ConfirmedImageViewActivity extends AppCompatActivity {
-    private static final String TAG = "ConfirmedImageViewActiv";
     String mImg1 = "";
     String mImg2 = "";
     TextView tvHeader;
