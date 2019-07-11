@@ -15,6 +15,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <application
         android:allowBackup="true"
@@ -24,33 +26,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.ShowCartDetailsActivity"></activity>
+        <activity android:name=".activity.PayTMActivity"></activity>
+        <activity android:name=".activity.WalletRechargeActivity" />
+        <activity android:name=".activity.ShowCartDetailsActivity" />
         <activity android:name=".activity.AddToCardActivity" />
-        <activity android:name=".activity.BuyImageViewActivity" />
+
         <activity android:name=".activity.BuyActivity" />
         <activity android:name=".activity.SaleActivity" />
         <activity android:name=".activity.ConfirmedImageViewActivity" />
-        <activity android:name=".activity.PendingImageActivity" />
+
         <activity android:name=".activity.HelpActivity" />
         <activity android:name=".activity.PendingOrdersActivity" />
         <activity android:name=".activity.ConfirmedOrdersActivity" />
         <activity android:name=".activity.CancelOrderActivity" />
-        <activity android:name=".activity.PermissionActivity">
+        <activity android:name=".activity.PermissionActivity"></activity>
 
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-        </activity>
-        <activity android:name=".activity.AllProductImagViewActivity" />
         <activity android:name=".activity.AllProductsForRenterActivity" />
         <activity android:name=".activity.OrdersForRenteeActivity" />
         <activity android:name=".activity.OrdersForRenterActivity" />
         <activity android:name=".activity.BookNowActivity" />
-        <activity android:name=".activity.ViewImageActivity" />
+
         <activity android:name=".activity.MapActivity" />
         <activity android:name=".activity.AllProductActivity" />
 

@@ -132,7 +132,6 @@ public class ConfirmedOrdersActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
         requestQueue.add(jsonObjReq);
     }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();

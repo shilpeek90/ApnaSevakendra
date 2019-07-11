@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.content.DialogInterface;
 import android.widget.Toast;
+
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,9 +28,12 @@ import com.vibrant.asp.activity.DashboardActivity;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.model.GetOrdersForRenter;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.List;
+
 import static com.vibrant.asp.constants.Util.getPreference;
 
 public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersForRenterAdapter.MyHolder> {
@@ -71,7 +76,7 @@ public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersFor
             holder.tvStatus.setTextColor(Color.parseColor("#000000"));
         }
 
-        holder.btnConfirm.setOnClickListener(new View.OnClickListener() {
+        holder.llConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mOrderId = String.valueOf(arrayList.get(position).getOrderId());
@@ -94,7 +99,7 @@ public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersFor
             }
         });
 
-        holder.btnCancelOrder.setOnClickListener(new View.OnClickListener() {
+        holder.llCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mOrderIdCancel = String.valueOf(arrayList.get(position).getOrderId());
@@ -124,8 +129,8 @@ public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersFor
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvMobileNumber, tvAmount, tvStateName, tvDistrictName, tvBookingDate, tvBookedTill, tvStatus;
-        Button btnConfirm, btnCancelOrder;
+        TextView tvName, tvMobileNumber, tvAmount, tvStateName, tvDistrictName, tvBookingDate, tvBookedTill, tvStatus, btnConfirm, btnCancelOrder;
+        LinearLayout llConfirm, llCancel;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -140,6 +145,11 @@ public class GetOrdersForRenterAdapter extends RecyclerView.Adapter<GetOrdersFor
             tvStatus = itemView.findViewById(R.id.tvStatus);
             btnConfirm = itemView.findViewById(R.id.btnConfirm);
             btnCancelOrder = itemView.findViewById(R.id.btnCancelOrder);
+
+            llConfirm = itemView.findViewById(R.id.llConfirm);
+            llCancel = itemView.findViewById(R.id.llCancel);
+
+
         }
     }
 

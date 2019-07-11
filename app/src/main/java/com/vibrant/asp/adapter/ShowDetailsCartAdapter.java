@@ -1,4 +1,5 @@
 package com.vibrant.asp.adapter;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
@@ -9,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.DefaultRetryPolicy;
@@ -59,6 +60,7 @@ public class ShowDetailsCartAdapter extends RecyclerView.Adapter<ShowDetailsCart
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.show_detail_cart_row, parent, false);
         return new ShowDetailsCartAdapter.MyHolder(itemView);
     }
+
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
         holder.tvSeller.setText(arrayList.get(position).getSeller().toUpperCase());
@@ -73,7 +75,7 @@ public class ShowDetailsCartAdapter extends RecyclerView.Adapter<ShowDetailsCart
         holder.tvGrandTotal.setText(String.valueOf((roundTwoDecimals(arrayList.get(position).getAmount() +
                 arrayList.get(position).getCGST() + arrayList.get(position).getSGST()))));
 
-        holder.pro_plus.setOnClickListener(new View.OnClickListener() {
+        holder.ic_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -101,14 +103,14 @@ public class ShowDetailsCartAdapter extends RecyclerView.Adapter<ShowDetailsCart
             }
         });
 
-        holder.pro_minus.setOnClickListener(new View.OnClickListener() {
+        holder.ic_remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
                     if (holder.text_number.getText().toString() != "" && holder.text_number.getText().length() > 0) {
                         mQuantity = Integer.parseInt(holder.text_number.getText().toString());
                         mQuantity = mQuantity - 1;
-                        if (mQuantity>=1) {
+                        if (mQuantity >= 1) {
                             mAmount = Integer.parseInt(holder.tvProductRate.getText().toString());
                             totalAmount = getAmountTotal(mAmount, mQuantity);
                             mCommission = getCommission(totalAmount);
@@ -162,8 +164,8 @@ public class ShowDetailsCartAdapter extends RecyclerView.Adapter<ShowDetailsCart
 
     public class MyHolder extends RecyclerView.ViewHolder {
         TextView tvSeller, tvQuantity, tvAmount, tvCGST, tvSGST, tvProductName, tvCartDate, text_number, tvGrandTotal, tvProductRate;
-        LinearLayout pro_plus, pro_minus,switch_layout;
         Button btnRemove;
+        ImageView ic_remove, ic_add;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -175,11 +177,10 @@ public class ShowDetailsCartAdapter extends RecyclerView.Adapter<ShowDetailsCart
             tvSGST = itemView.findViewById(R.id.tvSGST);
             tvProductName = itemView.findViewById(R.id.tvProductName);
             tvCartDate = itemView.findViewById(R.id.tvCartDate);
-            pro_plus = itemView.findViewById(R.id.pro_plus);
-            pro_minus = itemView.findViewById(R.id.pro_minus);
+            ic_remove = itemView.findViewById(R.id.ic_remove);
+            ic_add = itemView.findViewById(R.id.ic_add);
             btnRemove = itemView.findViewById(R.id.btnRemove);
             tvGrandTotal = itemView.findViewById(R.id.tvGrandTotal);
-            switch_layout = itemView.findViewById(R.id.switch_layout);
             tvProductRate = itemView.findViewById(R.id.tvProductRate);
         }
     }

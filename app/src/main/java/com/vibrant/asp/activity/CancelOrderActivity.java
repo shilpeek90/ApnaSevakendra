@@ -37,7 +37,6 @@ public class CancelOrderActivity extends AppCompatActivity {
     List<CancelOrderModel> cancelOrderArray = new ArrayList<>();
     RecyclerView recyclerView;
     CancelOrderAdapter mAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

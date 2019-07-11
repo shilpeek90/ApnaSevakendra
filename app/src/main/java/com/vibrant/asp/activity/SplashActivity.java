@@ -29,6 +29,7 @@ public class SplashActivity extends AppCompatActivity {
         tvVersion = findViewById(R.id.tvVersion);
         checkForNetwork();
     }
+
     private void checkForNetwork() {
         try {
             if (isInternetConnected(getApplicationContext())) {
@@ -67,6 +68,7 @@ public class SplashActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     class versionChecker extends AsyncTask<String, String, String> {
         String newVersion;
         @Override
@@ -86,6 +88,7 @@ public class SplashActivity extends AppCompatActivity {
             return newVersion;
         }
     }
+
     private void getUpdateApp() {
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Please Update Your App")

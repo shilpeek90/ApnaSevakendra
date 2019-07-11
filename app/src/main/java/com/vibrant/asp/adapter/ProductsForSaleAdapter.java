@@ -14,15 +14,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.vibrant.asp.R;
-import com.vibrant.asp.activity.BookNowActivity;
-import com.vibrant.asp.activity.MapActivity;
-import com.vibrant.asp.activity.ViewImageActivity;
-import com.vibrant.asp.model.AllProductModel;
 import com.vibrant.asp.model.ProductsForSale;
 
 import java.util.List;
 
-import static com.vibrant.asp.constants.Util.roundTwoDecimals;
 
 public class ProductsForSaleAdapter extends RecyclerView.Adapter<ProductsForSaleAdapter.MyHolder> {
     private List<ProductsForSale> arrayList;

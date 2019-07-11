@@ -5,7 +5,6 @@
     <string name="check_network">Please check your Network</string>
 
 
-
     <!---->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -17,7 +16,6 @@
     <string name="grower_name">Grower name</string>
     <string name="mobile_number">Mobile number</string>
     <string name="submit">Submit</string>
-
 
 
     <string name="wallet">Wallet Balance :</string>
@@ -38,9 +36,9 @@
     <string name="please_enter_dis">Please Enter Description</string>
     <string name="please_enter_num">Please Enter Number Only</string>
 
-     <!---->
+    <!---->
 
-   <!-- <string name="permission_read_phone_state_rationale1">Permission previously Denied</string>
+    <!-- <string name="permission_read_phone_state_rationale1">Permission previously Denied</string>
     <string name="permissions_not_granted_read_phone_state1">Permission denied</string>
     <string name="permision_available_read_phone_state1">Permission granted</string>
     <string name="permision_granted">Permission granted</string>
@@ -84,5 +82,14 @@
     <string name="buy">Buy</string>
     <string name="add_to_cart">Add to cart</string>
     <string name="show_cart_details">Show Cart Details</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!--For Paytm-->
+    <string name="msg_preparing_order">Preparing your order</string>
+    <string name="thank_you">THANK YOU</string>
+    <string name="btn_check_order">CHECK ORDERS</string>
 
 </resources>

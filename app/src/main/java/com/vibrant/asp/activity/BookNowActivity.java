@@ -24,15 +24,11 @@ import com.vibrant.asp.adapter.QuantityAdapter;
 import com.vibrant.asp.constants.Cons;
 import com.vibrant.asp.constants.ProgressDialog;
 import com.vibrant.asp.model.QuantityModel;
-import com.vibrant.asp.model.RangeModel;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.vibrant.asp.constants.Util.getPreference;
 import static com.vibrant.asp.constants.Util.hideKeyboard;
 import static com.vibrant.asp.constants.Util.isInternetConnected;
@@ -177,7 +173,6 @@ public class BookNowActivity extends AppCompatActivity {
         }
         init();
     }
-
     private void init() {
         tvHeader = findViewById(R.id.tvHeader);
         tvHeader.setText(getString(R.string.book_now));
@@ -233,6 +228,7 @@ public class BookNowActivity extends AppCompatActivity {
                 }
             }
         });
+
         getQuantity();
         spinnerQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

@@ -1,5 +1,4 @@
 package com.vibrant.asp.activity;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -80,7 +79,7 @@ public class DashboardActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        if (isInternetConnected(getApplicationContext())) {
+        if(isInternetConnected(getApplicationContext())) {
             GetRenterWalletBalance();
         } else {
             showToast(DashboardActivity.this, getResources().getString(R.string.check_network));
@@ -102,7 +101,6 @@ public class DashboardActivity extends AppCompatActivity
         rlWalletRecharge = findViewById(R.id.rlWalletRecharge);
         llaySale = findViewById(R.id.llaySale);
         rlHelp = findViewById(R.id.rlHelp);
-
         //for animation
         llrow1.startAnimation(rightSide);
         llrow2.startAnimation(leftSide);
@@ -140,10 +138,12 @@ public class DashboardActivity extends AppCompatActivity
                 // startActivity(new Intent(DashboardActivity.this, SaleActivity.class));
             }
         });
+
         rlWalletRecharge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast(DashboardActivity.this, "Coming Soon");
+                startActivity(new Intent(DashboardActivity.this,WalletRechargeActivity.class));
+              //  showToast(DashboardActivity.this, "Coming Soon");
             }
         });
 
