@@ -1,5 +1,4 @@
 package com.vibrant.asp.adapter;
-
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.vibrant.asp.R;
 import com.vibrant.asp.model.CancelOrderModel;
-
-
 import java.util.List;
 
 public class CancelOrderAdapter extends RecyclerView.Adapter<CancelOrderAdapter.MyHolder> {
@@ -31,7 +28,6 @@ public class CancelOrderAdapter extends RecyclerView.Adapter<CancelOrderAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-
         holder.tvName.setText(arrayList.get(position).getRenteeName().toUpperCase());
         holder.tvCancelledBy.setText(arrayList.get(position).getCancelledBy());
         holder.tvProductName.setText(arrayList.get(position).getProductName());
